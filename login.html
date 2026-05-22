@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Agri-Direct</title>
+
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Sora',sans-serif;
+        }
+
+        body{
+
+            background:
+            linear-gradient(rgba(0,0,0,0.35),
+            rgba(0,0,0,0.35)),
+
+            url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
+
+            background-size:cover;
+
+            background-position:center;
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:20px;
+        }
+
+        /* LOGIN CONTAINER */
+
+        .login-container{
+
+            width:100%;
+
+            max-width:430px;
+
+            background:rgba(255,255,255,0.95);
+
+            padding:24px;
+
+            border-radius:20px;
+
+            box-shadow:0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        /* LOGO */
+
+        .logo{
+
+            text-align:center;
+
+            font-size:28px;
+
+            font-weight:800;
+
+            color:#06a635;
+
+            margin-bottom:18px;
+        }
+
+        .logo i{
+
+            margin-right:8px;
+        }
+
+        /* TITLE */
+
+        .login-container h1{
+
+            text-align:center;
+
+            font-size:32px;
+
+            color:#081224;
+
+            margin-bottom:8px;
+
+            font-weight:800;
+        }
+
+        .subtitle{
+
+            text-align:center;
+
+            color:#64748b;
+
+            font-size:15px;
+
+            margin-bottom:25px;
+        }
+
+        /* DEMO BOX */
+
+        .demo-box{
+
+            background:#eef4ff;
+
+            border:1px solid #bfd3ff;
+
+            border-radius:16px;
+
+            padding:18px;
+
+            margin-bottom:24px;
+        }
+
+        .demo-box h3{
+
+            color:#1840d8;
+
+            font-size:16px;
+
+            margin-bottom:14px;
+        }
+
+        .demo-item{
+
+            background:white;
+
+            padding:12px 14px;
+
+            border-radius:8px;
+
+            margin-bottom:10px;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            color:#081224;
+        }
+
+        /* LABEL */
+
+        label{
+
+            display:block;
+
+            margin-bottom:8px;
+
+            font-size:15px;
+
+            font-weight:600;
+
+            color:#081224;
+        }
+
+        /* INPUT GROUP */
+
+        .input-group{
+
+            position:relative;
+
+            margin-bottom:22px;
+        }
+
+        .input-group i{
+
+            position:absolute;
+
+            left:16px;
+
+            top:18px;
+
+            color:#64748b;
+
+            font-size:14px;
+        }
+
+        .input-box{
+
+            width:100%;
+
+            padding:14px 14px 14px 44px;
+
+            border:1px solid #dbe4ee;
+
+            border-radius:12px;
+
+            font-size:15px;
+
+            outline:none;
+
+            transition:0.3s;
+        }
+
+        .input-box:focus{
+
+            border-color:#06a635;
+        }
+
+        /* BUTTON */
+
+        .login-btn{
+
+            width:100%;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:12px;
+
+            background:#06b63a;
+
+            color:white;
+
+            font-size:18px;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .login-btn:hover{
+
+            background:#04962f;
+        }
+
+        .login-btn i{
+
+            margin-right:6px;
+        }
+
+        /* REGISTER */
+
+        .register-text{
+
+            text-align:center;
+
+            margin-top:18px;
+
+            font-size:14px;
+
+            color:#64748b;
+        }
+
+        .register-text a{
+
+            color:#06a635;
+
+            text-decoration:none;
+
+            font-weight:700;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:500px){
+
+            .login-container{
+
+                padding:20px;
+            }
+
+            .login-container h1{
+
+                font-size:28px;
+            }
+
+            .logo{
+
+                font-size:24px;
+            }
+        }
+footer{
+
+    background:
+    linear-gradient(rgba(7,21,45,0.95),
+    rgba(7,21,45,0.95)),
+    url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-attachment:fixed;
+
+    color:white;
+
+    padding:70px 8% 25px;
+}
+
+.footer-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:50px;
+
+    margin-bottom:45px;
+}
+
+.footer-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#00e05a;
+
+    margin-bottom:20px;
+}
+
+.footer-column p{
+
+    color:#cbd5e1;
+
+    line-height:34px;
+
+    font-size:17px;
+}
+
+.footer-column h2{
+
+    margin-bottom:24px;
+
+    font-size:28px;
+
+    font-weight:700;
+}
+
+.footer-column ul{
+
+    list-style:none;
+}
+
+.footer-column ul li{
+
+    margin-bottom:18px;
+
+    color:#dbe4ee;
+
+    font-size:17px;
+
+    transition:0.3s;
+
+    cursor:pointer;
+}
+
+.footer-column ul li:hover{
+
+    color:#00e05a;
+
+    transform:translateX(5px);
+}
+
+.social-icons{
+
+    margin-top:25px;
+
+    display:flex;
+
+    gap:16px;
+}
+
+.social-icons i{
+
+    width:50px;
+
+    height:50px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#132544;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:0.3s;
+}
+
+.social-icons i:hover{
+
+    background:#00e05a;
+
+    color:#07152d;
+}
+
+.contact-item{
+
+    display:flex;
+
+    gap:14px;
+
+    align-items:flex-start;
+
+    margin-bottom:20px;
+}
+
+.contact-item i{
+
+    color:#00e05a;
+
+    font-size:22px;
+
+    margin-top:4px;
+}
+
+.contact-item span{
+
+    color:#dbe4ee;
+
+    font-size:17px;
+
+    line-height:30px;
+}
+
+.copyright{
+
+    border-top:1px solid rgba(255,255,255,0.08);
+
+    padding-top:28px;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    line-height:34px;
+
+    font-size:16px;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <i class="fa-solid fa-seedling"></i>
+
+            Agri-Direct
+
+        </div>
+
+        <!-- TITLE -->
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+
+            Sign in to your account
+
+        </p>
+
+        <!-- DEMO BOX -->
+
+        <div class="demo-box">
+
+            <h3>Demo Accounts:</h3>
+
+            <div class="demo-item">
+
+                Farmer: rajesh@farm.com
+
+            </div>
+
+            <div class="demo-item">
+
+                Buyer: priya@buyer.com
+
+            </div>
+
+            <div class="demo-item">
+
+                Admin: admin@agridirect.com
+
+            </div>
+
+        </div>
+
+        <!-- LOGIN FORM -->
+
+        <form>
+
+            <!-- EMAIL -->
+
+            <label>Email Address</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <input type="email"
+                placeholder="your@email.com"
+                class="input-box">
+
+            </div>
+
+            <!-- PASSWORD -->
+
+            <label>Password</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <input type="password"
+                placeholder="••••••••"
+                class="input-box">
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button class="login-btn">
+
+                <i class="fa-solid fa-right-to-bracket"></i>
+
+                Sign In
+
+            </button>
+
+        </form>
+
+        <!-- REGISTER -->
+
+        <div class="register-text">
+
+            Don't have an account?
+
+            <a href="#">
+
+                Register here
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html><footer>
+
+    <div class="footer-grid">
+
+        <!-- LEFT -->
+
+        <div class="footer-column">
+
+            <div class="footer-logo">
+
+                <i class="fa-solid fa-seedling"></i>
+
+                <span>Agri-Direct</span>
+
+            </div>
+
+            <p>
+                Connecting farmers directly with buyers.<br>
+                Fresh produce, fair prices, no intermediaries.
+            </p>
+
+            <div class="social-icons">
+
+                <i class="fa-brands fa-facebook-f"></i>
+
+                <i class="fa-brands fa-twitter"></i>
+
+                <i class="fa-brands fa-instagram"></i>
+
+                <i class="fa-brands fa-linkedin-in"></i>
+
+            </div>
+
+        </div>
+
+        <!-- QUICK LINKS -->
+
+        <div class="footer-column">
+
+            <h2>Quick Links</h2>
+
+            <ul>
+
+                <li>Home</li>
+
+                <li>Products</li>
+
+                <li>About Us</li>
+
+                <li>Contact</li>
+
+            </ul>
+
+        </div>
+
+        <!-- FOR FARMERS -->
+
+        <div class="footer-column">
+
+            <h2>For Farmers</h2>
+
+            <ul>
+
+                <li>Register as Farmer</li>
+
+                <li>Farmer Login</li>
+
+                <li>Sell Your Products</li>
+
+                <li>Guidelines</li>
+
+            </ul>
+
+        </div>
+
+        <!-- CONTACT -->
+
+        <div class="footer-column">
+
+            <h2>Contact Us</h2>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span>
+                    Hyderabad, Telangana, India
+                </span>
+
+            </div>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <span>
+                    support@agridirect.com
+                </span>
+
+            </div>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <span>
+                    +91 123 456 7890
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- COPYRIGHT -->
+
+    <div class="copyright">
+
+        <p>
+            © 2026 Agri-Direct. All rights reserved. |
+            Developed by Kushitha Aragondaa & Pradeep
+        </p>
+
+        <p>
+            Summer Internship Project under IIT Mentor
+            Dr. Abhishek Srivastava |
+            Guided by Himanshu Mishra Sir
+        </p>
+
+    </div>
+
+</footer>

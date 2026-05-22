@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <title>Agri-Direct</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            background:
+            linear-gradient(rgba(0,0,0,0.5),
+            rgba(0,0,0,0.5)),
+            url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6');
+
+            background-size:cover;
+            background-position:center;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+        }
+
+        .container{
+            background:rgba(255,255,255,0.1);
+            padding:50px;
+            border-radius:20px;
+            backdrop-filter:blur(10px);
+            box-shadow:0px 0px 20px rgba(0,0,0,0.5);
+        }
+
+        h1{
+            color:white;
+            font-size:60px;
+            margin-bottom:20px;
+            text-shadow:3px 3px 10px black;
+        }
+
+        p{
+            color:white;
+            font-size:24px;
+            margin-bottom:30px;
+        }
+
+        button{
+            padding:15px 35px;
+            font-size:18px;
+            border:none;
+            border-radius:30px;
+            background:#00ff88;
+            color:black;
+            cursor:pointer;
+            transition:0.4s;
+            font-weight:bold;
+        }
+
+        button:hover{
+            background:white;
+            transform:scale(1.1);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Welcome to Agri-Direct</h1>
-    <p>Connecting Farmers and Customers</p>
+
+    <div class="container">
+
+        <h1>🌾 Agri-Direct</h1>
+
+        <p>
+            Smart Digital Marketplace Connecting Farmers Directly With Customers
+        </p>
+
+        <button>Explore Market</button>
+
+    </div>
+
 </body>
 </html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | Agri-Direct</title>
+
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Sora',sans-serif;
+        }
+
+        body{
+
+            background:
+            linear-gradient(rgba(0,0,0,0.45),
+            rgba(0,0,0,0.45)),
+
+            url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
+
+            background-size:cover;
+
+            background-position:center;
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:20px;
+        }
+
+        /* REGISTER BOX */
+
+        .register-container{
+
+            width:100%;
+
+            max-width:470px;
+
+            background:rgba(255,255,255,0.96);
+
+            padding:28px;
+
+            border-radius:22px;
+
+            box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        /* LOGO */
+
+        .logo{
+
+            text-align:center;
+
+            font-size:30px;
+
+            font-weight:800;
+
+            color:#06a635;
+
+            margin-bottom:18px;
+        }
+
+        .logo i{
+
+            margin-right:8px;
+        }
+
+        /* TITLE */
+
+        h1{
+
+            text-align:center;
+
+            font-size:34px;
+
+            color:#081224;
+
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+
+            text-align:center;
+
+            color:#64748b;
+
+            font-size:15px;
+
+            margin-bottom:28px;
+        }
+
+        /* LABEL */
+
+        label{
+
+            display:block;
+
+            margin-bottom:8px;
+
+            font-size:15px;
+
+            font-weight:600;
+
+            color:#081224;
+        }
+
+        /* INPUT GROUP */
+
+        .input-group{
+
+            position:relative;
+
+            margin-bottom:20px;
+        }
+
+        .input-group i{
+
+            position:absolute;
+
+            left:16px;
+
+            top:17px;
+
+            color:#64748b;
+
+            font-size:14px;
+        }
+
+        .input-box{
+
+            width:100%;
+
+            padding:14px 14px 14px 45px;
+
+            border:1px solid #dbe4ee;
+
+            border-radius:12px;
+
+            font-size:15px;
+
+            outline:none;
+
+            transition:0.3s;
+        }
+
+        .input-box:focus{
+
+            border-color:#06a635;
+        }
+
+        /* SELECT */
+
+        select{
+
+            appearance:none;
+        }
+
+        /* BUTTON */
+
+        .register-btn{
+
+            width:100%;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:12px;
+
+            background:#06b63a;
+
+            color:white;
+
+            font-size:18px;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            transition:0.3s;
+
+            margin-top:8px;
+        }
+
+        .register-btn:hover{
+
+            background:#04962f;
+        }
+
+        .register-btn i{
+
+            margin-right:8px;
+        }
+
+        /* LOGIN TEXT */
+
+        .login-text{
+
+            text-align:center;
+
+            margin-top:20px;
+
+            font-size:14px;
+
+            color:#64748b;
+        }
+
+        .login-text a{
+
+            color:#06a635;
+
+            text-decoration:none;
+
+            font-weight:700;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:500px){
+
+            .register-container{
+
+                padding:22px;
+            }
+
+            h1{
+
+                font-size:28px;
+            }
+
+            .logo{
+
+                font-size:25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="register-container">
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <i class="fa-solid fa-seedling"></i>
+
+            Agri-Direct
+
+        </div>
+
+        <!-- TITLE -->
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+
+            Join farmers and buyers across India
+
+        </p>
+
+        <!-- FORM -->
+
+        <form>
+
+            <!-- FULL NAME -->
+
+            <label>Full Name</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-user"></i>
+
+                <input type="text"
+                placeholder="Enter your full name"
+                class="input-box">
+
+            </div>
+
+            <!-- EMAIL -->
+
+            <label>Email Address</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <input type="email"
+                placeholder="Enter your email"
+                class="input-box">
+
+            </div>
+
+            <!-- PHONE -->
+
+            <label>Phone Number</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <input type="tel"
+                placeholder="Enter phone number"
+                class="input-box">
+
+            </div>
+
+            <!-- PASSWORD -->
+
+            <label>Password</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <input type="password"
+                placeholder="Create password"
+                class="input-box">
+
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+
+            <label>Confirm Password</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <input type="password"
+                placeholder="Confirm password"
+                class="input-box">
+
+            </div>
+
+            <!-- USER TYPE -->
+
+            <label>Select User Type</label>
+
+            <div class="input-group">
+
+                <i class="fa-solid fa-users"></i>
+
+                <select class="input-box">
+
+                    <option>Buyer</option>
+
+                    <option>Farmer</option>
+
+                </select>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button class="register-btn">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Register
+
+            </button>
+
+        </form>
+
+        <!-- LOGIN -->
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <a href="login.html">
+
+                Login here
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -770,3 +770,78 @@ td{
         padding:10px 18px;
     }
 }
+/* DARK MODE BUTTON */
+
+.dark-btn{
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#052e16;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.dark-btn:hover{
+
+    transform:translateY(-3px);
+}
+
+/* DARK MODE */
+
+.dark-mode{
+
+    background:#052e16;
+
+    color:white;
+}
+
+.dark-mode .navbar,
+.dark-mode .product-card,
+.dark-mode .stat-card,
+.dark-mode .table-box,
+.dark-mode .activity-box,
+.dark-mode .action-card,
+.dark-mode .form-box,
+.dark-mode .topbar{
+
+    background:#14532d;
+
+    color:white;
+
+    border-color:#166534;
+}
+
+.dark-mode th{
+
+    background:#166534;
+}
+
+.dark-mode td{
+
+    border-color:#166534;
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select{
+
+    background:#166534;
+
+    color:white;
+}
+
+.dark-mode p,
+.dark-mode small{
+
+    color:#d1fae5;
+}

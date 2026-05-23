@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Agri-Direct</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Sora',sans-serif;
+        }
+
+        body{
+            background:#f5f7fb;
+            color:#081224;
+        }
+
+        nav{
+
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:14px 8%;
+            background:white;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo{
+
+            font-size:22px;
+            font-weight:800;
+            color:#05a834;
+        }
+
+        .dashboard{
+
+            width:85%;
+            margin:40px auto;
+        }
+
+        .dashboard h1{
+
+            font-size:40px;
+            margin-bottom:10px;
+        }
+
+        .dashboard p{
+
+            color:#64748b;
+            margin-bottom:30px;
+        }
+
+        /* STATS */
+
+        .stats{
+
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:20px;
+            margin-bottom:40px;
+        }
+
+        .stat-card{
+
+            background:white;
+            padding:25px;
+            border-radius:18px;
+            box-shadow:0 5px 14px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h2{
+
+            font-size:18px;
+            margin-bottom:12px;
+        }
+
+        .stat-card .number{
+
+            font-size:34px;
+            font-weight:800;
+            color:#05a834;
+        }
+
+        /* FARMERS TABLE */
+
+        .farmers{
+
+            background:white;
+            padding:25px;
+            border-radius:18px;
+            box-shadow:0 5px 14px rgba(0,0,0,0.05);
+        }
+
+        .farmers h2{
+
+            margin-bottom:20px;
+        }
+
+        table{
+
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        table th,
+        table td{
+
+            padding:16px;
+            text-align:left;
+            border-bottom:1px solid #e2e8f0;
+        }
+
+        table th{
+
+            background:#f8fafc;
+        }
+
+        .approve-btn{
+
+            padding:8px 14px;
+            border:none;
+            border-radius:10px;
+            background:#05a834;
+            color:white;
+            cursor:pointer;
+            margin-right:10px;
+        }
+
+        .reject-btn{
+
+            padding:8px 14px;
+            border:none;
+            border-radius:10px;
+            background:#ef4444;
+            color:white;
+            cursor:pointer;
+        }
+
+        footer{
+
+            background:#07152d;
+            color:white;
+            padding:45px 8% 20px;
+            margin-top:60px;
+        }
+
+        .copyright{
+
+            text-align:center;
+            color:#94a3b8;
+            font-size:12px;
+        }
+
+        @media(max-width:900px){
+
+            table{
+                font-size:12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+
+            <i class="fa-solid fa-seedling"></i>
+
+            Agri-Direct
+
+        </div>
+
+    </nav>
+
+    <section class="dashboard">
+
+        <h1>
+            Admin Dashboard
+        </h1>
+
+        <p>
+            Manage farmers, buyers and marketplace activities
+        </p>
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h2>Total Farmers</h2>
+
+                <div class="number">48</div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>Total Buyers</h2>
+
+                <div class="number">120</div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>Pending Approvals</h2>
+
+                <div class="number">6</div>
+
+            </div>
+
+        </div>
+
+        <!-- FARMER APPROVALS -->
+
+        <div class="farmers">
+
+            <h2>
+                Farmer Approval Requests
+            </h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Farmer Name</th>
+
+                    <th>Location</th>
+
+                    <th>Products</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>Ramesh Kumar</td>
+
+                    <td>Hyderabad</td>
+
+                    <td>Vegetables</td>
+
+                    <td>
+
+                        <button class="approve-btn">
+
+                            Approve
+
+                        </button>
+
+                        <button class="reject-btn">
+
+                            Reject
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Suresh Patel</td>
+
+                    <td>Vijayawada</td>
+
+                    <td>Fruits</td>
+
+                    <td>
+
+                        <button class="approve-btn">
+
+                            Approve
+
+                        </button>
+
+                        <button class="reject-btn">
+
+                            Reject
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        <div class="copyright">
+
+            © 2026 Agri-Direct | Developed by Kushitha & Pradeep
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

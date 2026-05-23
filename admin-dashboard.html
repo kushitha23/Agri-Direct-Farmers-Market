@@ -3,324 +3,868 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Dashboard | Agri-Direct</title>
+<title>Admin Dashboard | Agri-Direct</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    <style>
+<style>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Sora',sans-serif;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-        body{
-            background:#f5f7fb;
-            color:#081224;
-        }
+body{
+    background:#f1f5ff;
+    padding:30px 7%;
+    color:#0f172a;
+}
 
-        nav{
+a{
+    text-decoration:none;
+}
 
-            width:100%;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:14px 8%;
-            background:white;
-            box-shadow:0 4px 10px rgba(0,0,0,0.05);
-        }
+/* TOPBAR */
 
-        .logo{
+.topbar{
 
-            font-size:22px;
-            font-weight:800;
-            color:#05a834;
-        }
+    background:white;
 
-        .dashboard{
+    padding:22px 30px;
 
-            width:85%;
-            margin:40px auto;
-        }
+    border-radius:24px;
 
-        .dashboard h1{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
-            font-size:40px;
-            margin-bottom:10px;
-        }
+    margin-bottom:30px;
 
-        .dashboard p{
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
 
-            color:#64748b;
-            margin-bottom:30px;
-        }
+.topbar h1{
 
-        /* STATS */
+    font-size:34px;
+}
 
-        .stats{
+.admin-actions{
 
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:20px;
-            margin-bottom:40px;
-        }
+    display:flex;
+    gap:15px;
+}
 
-        .stat-card{
+.top-btn{
 
-            background:white;
-            padding:25px;
-            border-radius:18px;
-            box-shadow:0 5px 14px rgba(0,0,0,0.05);
-        }
+    border:none;
 
-        .stat-card h2{
+    padding:12px 22px;
 
-            font-size:18px;
-            margin-bottom:12px;
-        }
+    border-radius:12px;
 
-        .stat-card .number{
+    color:white;
 
-            font-size:34px;
-            font-weight:800;
-            color:#05a834;
-        }
+    font-weight:600;
 
-        /* FARMERS TABLE */
+    cursor:pointer;
+}
 
-        .farmers{
+.notify-btn{
+    background:#22c55e;
+}
 
-            background:white;
-            padding:25px;
-            border-radius:18px;
-            box-shadow:0 5px 14px rgba(0,0,0,0.05);
-        }
+.logout-btn{
+    background:#ef4444;
+}
 
-        .farmers h2{
+/* STATS */
 
-            margin-bottom:20px;
-        }
+.stats{
 
-        table{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
 
-            width:100%;
-            border-collapse:collapse;
-        }
+    gap:20px;
 
-        table th,
-        table td{
+    margin-bottom:30px;
+}
 
-            padding:16px;
-            text-align:left;
-            border-bottom:1px solid #e2e8f0;
-        }
+.stat-card{
 
-        table th{
+    background:white;
 
-            background:#f8fafc;
-        }
+    padding:25px;
 
-        .approve-btn{
+    border-radius:20px;
 
-            padding:8px 14px;
-            border:none;
-            border-radius:10px;
-            background:#05a834;
-            color:white;
-            cursor:pointer;
-            margin-right:10px;
-        }
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
 
-        .reject-btn{
+    transition:0.3s;
+}
 
-            padding:8px 14px;
-            border:none;
-            border-radius:10px;
-            background:#ef4444;
-            color:white;
-            cursor:pointer;
-        }
+.stat-card:hover{
+    transform:translateY(-5px);
+}
 
-        footer{
+.stat-card i{
 
-            background:#07152d;
-            color:white;
-            padding:45px 8% 20px;
-            margin-top:60px;
-        }
+    font-size:32px;
 
-        .copyright{
+    color:#22c55e;
 
-            text-align:center;
-            color:#94a3b8;
-            font-size:12px;
-        }
+    margin-bottom:15px;
+}
 
-        @media(max-width:900px){
+.stat-card h2{
 
-            table{
-                font-size:12px;
-            }
-        }
+    font-size:30px;
 
-    </style>
+    margin-bottom:8px;
+}
+
+.stat-card p{
+    color:#64748b;
+}
+
+/* QUICK ACTIONS */
+
+.actions{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:30px;
+}
+
+.action-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+
+.action-card:hover{
+    transform:translateY(-5px);
+}
+
+.action-card i{
+
+    font-size:40px;
+
+    color:#22c55e;
+
+    margin-bottom:15px;
+}
+
+.action-card h3{
+
+    margin-bottom:10px;
+}
+
+.action-card p{
+
+    color:#64748b;
+
+    font-size:14px;
+}
+
+/* GRID */
+
+.dashboard-grid{
+
+    display:grid;
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:30px;
+}
+
+/* TABLE BOX */
+
+.table-box{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+
+.table-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.table-header input{
+
+    padding:12px 16px;
+
+    border:none;
+
+    background:#f1f5f9;
+
+    border-radius:12px;
+
+    outline:none;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+th{
+
+    background:#f8fafc;
+
+    padding:16px;
+
+    text-align:left;
+}
+
+td{
+
+    padding:16px;
+
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* STATUS */
+
+.status{
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.pending{
+
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.approved{
+
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.rejected{
+
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* BUTTONS */
+
+.approve-btn,
+.reject-btn,
+.delete-btn{
+
+    border:none;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    color:white;
+
+    cursor:pointer;
+
+    margin:3px;
+}
+
+.approve-btn{
+    background:#22c55e;
+}
+
+.reject-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#ef4444;
+}
+
+/* ACTIVITY */
+
+.activity-box{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+
+.activity-box h2{
+
+    margin-bottom:20px;
+}
+
+.activity{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.activity i{
+
+    width:45px;
+    height:45px;
+
+    background:#dcfce7;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:#15803d;
+}
+
+.activity p{
+
+    color:#64748b;
+    font-size:14px;
+}
+
+/* MOBILE */
+
+@media(max-width:1200px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+
+        flex-direction:column;
+        align-items:flex-start;
+
+        gap:20px;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+}
+
+</style>
 
 </head>
 
 <body>
 
-    <nav>
+<!-- TOPBAR -->
 
-        <div class="logo">
+<div class="topbar">
 
-            <i class="fa-solid fa-seedling"></i>
+    <h1>Admin Dashboard</h1>
 
-            Agri-Direct
+    <div class="admin-actions">
+
+        <button class="top-btn notify-btn"
+        onclick="showNotifications()">
+
+            Notifications
+
+        </button>
+
+        <button class="top-btn logout-btn"
+        onclick="logoutAdmin()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-tractor"></i>
+
+        <h2 id="totalFarmers">0</h2>
+
+        <p>Total Farmers</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-users"></i>
+
+        <h2 id="totalCustomers">540</h2>
+
+        <p>Total Customers</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <h2 id="totalOrders">860</h2>
+
+        <p>Total Orders</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-box"></i>
+
+        <h2 id="totalProducts">420</h2>
+
+        <p>Total Products</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-indian-rupee-sign"></i>
+
+        <h2 id="totalRevenue">₹2.5L</h2>
+
+        <p>Total Revenue</p>
+
+    </div>
+
+</div>
+
+<!-- ACTIONS -->
+
+<div class="actions">
+
+    <div class="action-card"
+    onclick="window.location.href='manage-farmers.html'">
+
+        <i class="fa-solid fa-tractor"></i>
+
+        <h3>Manage Farmers</h3>
+
+        <p>Approve and manage farmers</p>
+
+    </div>
+
+    <div class="action-card"
+    onclick="window.location.href='manage-customers.html'">
+
+        <i class="fa-solid fa-users"></i>
+
+        <h3>Manage Customers</h3>
+
+        <p>View customer activity</p>
+
+    </div>
+
+    <div class="action-card"
+    onclick="window.location.href='farmer-orders.html'">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <h3>Manage Orders</h3>
+
+        <p>Track all marketplace orders</p>
+
+    </div>
+
+    <div class="action-card"
+    onclick="window.location.href='manage-products.html'">
+
+        <i class="fa-solid fa-box"></i>
+
+        <h3>Manage Products</h3>
+
+        <p>Edit and manage products</p>
+
+    </div>
+    <div class="action-card"
+onclick="window.location.href='reports.html'">
+
+    <i class="fa-solid fa-chart-line"></i>
+
+    <h3>Reports</h3>
+
+    <p>View reports and analytics</p>
+
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="dashboard-grid">
+
+    <!-- APPROVALS -->
+
+    <div class="table-box">
+
+        <div class="table-header">
+
+            <h2>🌾 Farmer Approvals</h2>
+
+            <input type="text"
+            id="searchInput"
+            placeholder="Search farmer..."
+            onkeyup="searchFarmers()">
 
         </div>
 
-    </nav>
+        <table>
 
-    <section class="dashboard">
-
-        <h1>
-            Admin Dashboard
-        </h1>
-
-        <p>
-            Manage farmers, buyers and marketplace activities
-        </p>
-
-        <!-- STATS -->
-
-        <div class="stats">
-
-            <div class="stat-card">
-
-                <h2>Total Farmers</h2>
-
-                <div class="number">48</div>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h2>Total Buyers</h2>
-
-                <div class="number">120</div>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h2>Pending Approvals</h2>
-
-                <div class="number">6</div>
-
-            </div>
-
-        </div>
-
-        <!-- FARMER APPROVALS -->
-
-        <div class="farmers">
-
-            <h2>
-                Farmer Approval Requests
-            </h2>
-
-            <table>
+            <thead>
 
                 <tr>
 
-                    <th>Farmer Name</th>
-
-                    <th>Location</th>
-
-                    <th>Products</th>
-
+                    <th>Name</th>
+                    <th>Farm Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
                     <th>Actions</th>
 
                 </tr>
 
-                <tr>
+            </thead>
 
-                    <td>Ramesh Kumar</td>
+            <tbody id="farmerTable">
 
-                    <td>Hyderabad</td>
+            </tbody>
 
-                    <td>Vegetables</td>
+        </table>
 
-                    <td>
+    </div>
 
-                        <button class="approve-btn">
+    <!-- ACTIVITY -->
 
-                            Approve
+    <div class="activity-box">
 
-                        </button>
+        <h2>📢 Recent Activity</h2>
 
-                        <button class="reject-btn">
+        <div class="activity">
 
-                            Reject
+            <i class="fa-solid fa-user-plus"></i>
 
-                        </button>
+            <div>
 
-                    </td>
+                <h4>New Farmer Registered</h4>
 
-                </tr>
+                <p>Ramesh joined Agri-Direct</p>
 
-                <tr>
-
-                    <td>Suresh Patel</td>
-
-                    <td>Vijayawada</td>
-
-                    <td>Fruits</td>
-
-                    <td>
-
-                        <button class="approve-btn">
-
-                            Approve
-
-                        </button>
-
-                        <button class="reject-btn">
-
-                            Reject
-
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            </table>
+            </div>
 
         </div>
 
-    </section>
+        <div class="activity">
 
-    <footer>
+            <i class="fa-solid fa-cart-plus"></i>
 
-        <div class="copyright">
+            <div>
 
-            © 2026 Agri-Direct | Developed by Kushitha & Pradeep
+                <h4>New Order Received</h4>
+
+                <p>Order #AGR1025 placed</p>
+
+            </div>
 
         </div>
 
-    </footer>
+        <div class="activity">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <div>
+
+                <h4>Farmer Approved</h4>
+
+                <p>Organic Farm approved</p>
+
+            </div>
+
+        </div>
+
+        <div class="activity">
+
+            <i class="fa-solid fa-truck"></i>
+
+            <div>
+
+                <h4>Order Delivered</h4>
+
+                <p>Order #AGR1018 completed</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SCRIPT -->
+
+<script>
+
+let farmers = [
+
+{
+    name:"Ramesh",
+    farm:"Green Valley Farm",
+    email:"ramesh@gmail.com",
+    status:"Pending"
+},
+
+{
+    name:"Suresh",
+    farm:"Organic Fresh Farm",
+    email:"suresh@gmail.com",
+    status:"Approved"
+},
+
+{
+    name:"Mahesh",
+    farm:"Nature Farm",
+    email:"mahesh@gmail.com",
+    status:"Pending"
+}
+
+];
+
+let farmerTable =
+document.getElementById(
+"farmerTable"
+);
+
+function loadFarmers(){
+
+    farmerTable.innerHTML = "";
+
+    let total =
+    farmers.length;
+
+    document.getElementById(
+    "totalFarmers"
+    ).innerText = total;
+
+    farmers.forEach((farmer,index)=>{
+
+        let statusClass =
+        farmer.status.toLowerCase();
+
+        farmerTable.innerHTML += `
+
+        <tr>
+
+            <td>${farmer.name}</td>
+
+            <td>${farmer.farm}</td>
+
+            <td>${farmer.email}</td>
+
+            <td>
+
+                <span class="status ${statusClass}">
+
+                    ${farmer.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button class="approve-btn"
+                onclick="approveFarmer(${index})">
+
+                    Approve
+
+                </button>
+
+                <button class="reject-btn"
+                onclick="rejectFarmer(${index})">
+
+                    Reject
+
+                </button>
+
+                <button class="delete-btn"
+                onclick="deleteFarmer(${index})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+    });
+}
+
+function approveFarmer(index){
+
+    farmers[index].status =
+    "Approved";
+
+    loadFarmers();
+
+    alert(
+    "✅ Farmer Approved"
+    );
+}
+
+function rejectFarmer(index){
+
+    farmers[index].status =
+    "Rejected";
+
+    loadFarmers();
+
+    alert(
+    "❌ Farmer Rejected"
+    );
+}
+
+function deleteFarmer(index){
+
+    let confirmDelete =
+    confirm(
+    "Delete this farmer?"
+    );
+
+    if(confirmDelete){
+
+        farmers.splice(index,1);
+
+        loadFarmers();
+    }
+}
+
+function searchFarmers(){
+
+    let input =
+    document.getElementById(
+    "searchInput"
+    ).value.toLowerCase();
+
+    let rows =
+    document.querySelectorAll(
+    "#farmerTable tr"
+    );
+
+    rows.forEach(row=>{
+
+        let farmer =
+        row.children[0]
+        .innerText
+        .toLowerCase();
+
+        if(farmer.includes(input)){
+
+            row.style.display = "";
+        }
+
+        else{
+
+            row.style.display = "none";
+        }
+    });
+}
+
+function showNotifications(){
+
+    alert(
+    "📢 3 New Farmer Requests\n📦 12 New Orders"
+    );
+}
+
+function logoutAdmin(){
+
+    let confirmLogout =
+    confirm(
+    "Logout Admin?"
+    );
+
+    if(confirmLogout){
+
+        window.location.href =
+        "login.html";
+    }
+}
+
+loadFarmers();
+
+</script>
 
 </body>
 

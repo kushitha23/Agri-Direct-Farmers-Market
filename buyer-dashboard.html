@@ -10,8 +10,12 @@
 
     <title>Buyer Dashboard | Agri-Direct</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
+
+    <!-- FONT AWESOME -->
 
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -22,90 +26,364 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Sora',sans-serif;
+            font-family:'Poppins',sans-serif;
         }
 
         body{
-            background:#f5f7fb;
-            color:#081224;
+            background:#f4f7fb;
+            display:flex;
         }
 
-        nav{
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
 
-            width:100%;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:14px 8%;
-            background:white;
-            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+        /* SIDEBAR */
+
+        .sidebar{
+
+            width:270px;
+            height:100vh;
+            background:#0f172a;
+            position:fixed;
+            left:0;
+            top:0;
+            padding:30px 20px;
+            color:white;
         }
 
         .logo{
 
-            font-size:22px;
+            font-size:30px;
             font-weight:800;
-            color:#05a834;
+            color:#22c55e;
+            margin-bottom:50px;
         }
 
-        .dashboard{
-
-            width:85%;
-            margin:40px auto;
+        .logo i{
+            margin-right:10px;
         }
 
-        .dashboard h1{
-
-            font-size:40px;
-            margin-bottom:10px;
+        .menu{
+            list-style:none;
         }
 
-        .dashboard p{
+        .menu li{
+            margin-bottom:16px;
+        }
 
+        .menu li a{
+
+            display:flex;
+            align-items:center;
+            gap:15px;
+            padding:15px 18px;
+            border-radius:16px;
+            transition:0.3s;
+            font-size:15px;
+            font-weight:500;
+        }
+
+        .menu li a:hover{
+            background:#22c55e;
+        }
+
+        /* MAIN */
+
+        .main{
+
+            margin-left:270px;
+            width:calc(100% - 270px);
+            padding:30px;
+        }
+
+        /* TOPBAR */
+
+        .topbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:35px;
+        }
+
+        .welcome h1{
+
+            font-size:36px;
+            margin-bottom:8px;
+            color:#0f172a;
+        }
+
+        .welcome p{
             color:#64748b;
-            margin-bottom:30px;
         }
+
+        .top-actions{
+
+            display:flex;
+            align-items:center;
+            gap:18px;
+        }
+
+        /* SEARCH */
+
+        .search-box{
+            position:relative;
+        }
+
+        .search-box input{
+
+            width:320px;
+            padding:15px 18px 15px 50px;
+            border:none;
+            border-radius:16px;
+            outline:none;
+            background:white;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+            font-size:15px;
+        }
+
+        .search-box i{
+
+            position:absolute;
+            left:18px;
+            top:17px;
+            color:#94a3b8;
+        }
+
+        .icon-box{
+
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+            cursor:pointer;
+            position:relative;
+        }
+
+        /* DROPDOWNS */
+
+        .notification-dropdown,
+        .profile-dropdown{
+
+            position:absolute;
+            top:65px;
+            right:0;
+            width:280px;
+            background:white;
+            border-radius:20px;
+            padding:20px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.08);
+            display:none;
+            z-index:1000;
+        }
+
+        .notification-dropdown h4{
+
+            margin-bottom:16px;
+            color:#0f172a;
+        }
+
+        .notification-item{
+
+            padding:12px 0;
+            border-bottom:1px solid #eef2f7;
+            font-size:14px;
+            color:#475569;
+        }
+
+        .profile-dropdown{
+
+            width:220px;
+        }
+
+        .profile-dropdown a{
+
+            display:block;
+            padding:14px;
+            border-radius:12px;
+            transition:0.3s;
+            color:#334155;
+            font-size:14px;
+            margin-bottom:8px;
+        }
+
+        .profile-dropdown a:hover{
+
+            background:#f1f5f9;
+        }
+
+        /* BANNER */
+
+        .banner{
+
+            background:linear-gradient(135deg,#22c55e,#16a34a);
+            padding:40px;
+            border-radius:30px;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:35px;
+        }
+
+        .banner h2{
+
+            font-size:42px;
+            margin-bottom:14px;
+        }
+
+        .banner p{
+
+            font-size:17px;
+            line-height:30px;
+        }
+
+        .banner button{
+
+            padding:16px 32px;
+            border:none;
+            border-radius:16px;
+            background:white;
+            color:#16a34a;
+            font-size:16px;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        /* STATS */
 
         .stats{
 
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:20px;
+            gap:24px;
             margin-bottom:40px;
         }
 
         .stat-card{
 
             background:white;
-            padding:25px;
+            padding:28px;
+            border-radius:24px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon{
+
+            width:60px;
+            height:60px;
             border-radius:18px;
-            box-shadow:0 5px 14px rgba(0,0,0,0.05);
+            background:#22c55e;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            margin-bottom:18px;
         }
 
         .stat-card h2{
 
-            font-size:18px;
-            margin-bottom:12px;
+            font-size:38px;
+            margin-bottom:8px;
         }
 
-        .stat-card .number{
-
-            font-size:34px;
-            font-weight:800;
-            color:#05a834;
+        .stat-card p{
+            color:#64748b;
         }
+
+        /* PRODUCTS */
+
+        .section-title{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
+
+        .section-title h2{
+            font-size:30px;
+        }
+
+        .products{
+
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:25px;
+            margin-bottom:40px;
+        }
+
+        .product-card{
+
+            background:white;
+            border-radius:24px;
+            overflow:hidden;
+            box-shadow:0 6px 18px rgba(0,0,0,0.05);
+            transition:0.3s;
+        }
+
+        .product-card:hover{
+            transform:translateY(-8px);
+        }
+
+        .product-card img{
+
+            width:100%;
+            height:220px;
+            object-fit:cover;
+        }
+
+        .product-content{
+            padding:22px;
+        }
+
+        .product-content h3{
+            margin-bottom:10px;
+        }
+
+        .product-content p{
+
+            color:#64748b;
+            font-size:14px;
+            margin-bottom:18px;
+        }
+
+        .price{
+
+            font-size:22px;
+            font-weight:700;
+            color:#16a34a;
+            margin-bottom:18px;
+        }
+
+        .buy-btn{
+
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:14px;
+            background:#22c55e;
+            color:white;
+            font-size:15px;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        /* ORDERS */
 
         .orders{
 
             background:white;
-            padding:25px;
-            border-radius:18px;
-            box-shadow:0 5px 14px rgba(0,0,0,0.05);
-        }
-
-        .orders h2{
-
-            margin-bottom:20px;
+            border-radius:28px;
+            padding:30px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.05);
         }
 
         table{
@@ -114,58 +392,80 @@
             border-collapse:collapse;
         }
 
-        table th,
-        table td{
-
-            padding:16px;
-            text-align:left;
-            border-bottom:1px solid #e2e8f0;
-        }
-
         table th{
 
+            text-align:left;
+            padding:16px;
             background:#f8fafc;
+            color:#334155;
+            font-size:14px;
+        }
+
+        table td{
+
+            padding:18px 16px;
+            border-bottom:1px solid #eef2f7;
+            font-size:14px;
         }
 
         .status{
 
-            padding:8px 14px;
-            border-radius:20px;
-            font-size:13px;
-            font-weight:600;
+            padding:8px 16px;
+            border-radius:30px;
+            font-size:12px;
+            font-weight:700;
         }
 
         .delivered{
 
             background:#dcfce7;
-            color:#166534;
+            color:#15803d;
         }
 
         .pending{
 
             background:#fef3c7;
-            color:#92400e;
+            color:#b45309;
         }
 
-        footer{
+        .shipped{
 
-            background:#07152d;
-            color:white;
-            padding:45px 8% 20px;
-            margin-top:60px;
+            background:#dbeafe;
+            color:#1d4ed8;
         }
 
-        .copyright{
-
-            text-align:center;
-            color:#94a3b8;
-            font-size:12px;
-        }
+        /* MOBILE */
 
         @media(max-width:900px){
 
-            table{
-                font-size:12px;
+            .sidebar{
+                width:90px;
+            }
+
+            .sidebar .logo span,
+            .menu li a span{
+                display:none;
+            }
+
+            .main{
+                margin-left:90px;
+                width:calc(100% - 90px);
+            }
+
+            .topbar{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+
+            .search-box input{
+                width:100%;
+            }
+
+            .banner{
+                flex-direction:column;
+                text-align:center;
+                gap:25px;
             }
         }
 
@@ -175,27 +475,186 @@
 
 <body>
 
-    <nav>
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
 
         <div class="logo">
 
             <i class="fa-solid fa-seedling"></i>
 
-            Agri-Direct
+            <span>Agri-Direct</span>
 
         </div>
 
-    </nav>
+        <ul class="menu">
 
-    <section class="dashboard">
+            <li>
+                <a href="buyer-dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-        <h1>
-            Buyer Dashboard
-        </h1>
+            <li>
+                <a href="products.html">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Products</span>
+                </a>
+            </li>
 
-        <p>
-            Track your purchases and order history
-        </p>
+            <li>
+                <a href="cart.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="order-history.html">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="order-tracking.html">
+                    <i class="fa-solid fa-truck"></i>
+                    <span>Tracking</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="welcome">
+
+                <h1>Hello Rahul 👋</h1>
+
+                <p>
+                    Welcome back to your buyer dashboard.
+                </p>
+
+            </div>
+
+            <div class="top-actions">
+
+                <!-- SEARCH -->
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text"
+                    id="searchInput"
+                    placeholder="Search products..."
+                    onkeyup="searchProducts()">
+
+                </div>
+
+                <!-- NOTIFICATION -->
+
+                <div class="icon-box"
+                onclick="toggleNotifications()">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <div class="notification-dropdown"
+                    id="notificationDropdown">
+
+                        <h4>Notifications</h4>
+
+                        <div class="notification-item">
+                            🛒 Tomato order shipped.
+                        </div>
+
+                        <div class="notification-item">
+                            ✅ Mango order delivered.
+                        </div>
+
+                        <div class="notification-item">
+                            🎉 Fresh vegetables available.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PROFILE -->
+
+                <div class="icon-box"
+                onclick="toggleProfile()">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <div class="profile-dropdown"
+                    id="profileDropdown">
+
+                        <a href="buyer-dashboard.html">
+                            Dashboard
+                        </a>
+
+                        <a href="order-history.html">
+                            My Orders
+                        </a>
+
+                        <a href="cart.html">
+                            Cart
+                        </a>
+
+                        <a href="login.html">
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BANNER -->
+
+        <div class="banner">
+
+            <div>
+
+                <h2>Fresh Farm Products 🌾</h2>
+
+                <p>
+                    Buy directly from farmers with best prices and fast delivery.
+                </p>
+
+            </div>
+
+            <a href="products.html">
+
+                <button>
+
+                    Shop Now
+
+                </button>
+
+            </a>
+
+        </div>
 
         <!-- STATS -->
 
@@ -203,25 +662,147 @@
 
             <div class="stat-card">
 
-                <h2>Total Orders</h2>
+                <div class="stat-icon">
 
-                <div class="number">12</div>
+                    <i class="fa-solid fa-cart-shopping"></i>
 
-            </div>
+                </div>
 
-            <div class="stat-card">
+                <h2>18</h2>
 
-                <h2>Delivered</h2>
-
-                <div class="number">9</div>
+                <p>Total Orders</p>
 
             </div>
 
             <div class="stat-card">
 
-                <h2>Pending</h2>
+                <div class="stat-icon">
 
-                <div class="number">3</div>
+                    <i class="fa-solid fa-clock"></i>
+
+                </div>
+
+                <h2>4</h2>
+
+                <p>Pending Orders</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-truck"></i>
+
+                </div>
+
+                <h2>10</h2>
+
+                <p>Delivered Orders</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-basket-shopping"></i>
+
+                </div>
+
+                <h2>6</h2>
+
+                <p>Cart Items</p>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCTS -->
+
+        <div class="section-title">
+
+            <h2>Popular Products</h2>
+
+        </div>
+
+        <div class="products">
+
+            <!-- PRODUCT 1 -->
+
+            <div class="product-card"
+            data-name="tomato organic vegetables">
+
+                <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
+
+                <div class="product-content">
+
+                    <h3>Organic Tomatoes</h3>
+
+                    <p>Fresh organic tomatoes directly from farms.</p>
+
+                    <div class="price">₹40/kg</div>
+
+                    <button class="buy-btn"
+                    onclick="window.location.href='cart.html'">
+
+                        Buy Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- PRODUCT 2 -->
+
+            <div class="product-card"
+            data-name="mango fruits sweet mangoes">
+
+                <img src="https://images.unsplash.com/photo-1553279768-865429fa0078">
+
+                <div class="product-content">
+
+                    <h3>Sweet Mangoes</h3>
+
+                    <p>Fresh juicy mangoes from local farmers.</p>
+
+                    <div class="price">₹120/dozen</div>
+
+                    <button class="buy-btn"
+                    onclick="window.location.href='cart.html'">
+
+                        Buy Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- PRODUCT 3 -->
+
+            <div class="product-card"
+            data-name="apple fruits fresh apples">
+
+                <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
+
+                <div class="product-content">
+
+                    <h3>Fresh Apples</h3>
+
+                    <p>Premium quality apples with freshness.</p>
+
+                    <div class="price">₹140/kg</div>
+
+                    <button class="buy-btn"
+                    onclick="window.location.href='cart.html'">
+
+                        Buy Now
+
+                    </button>
+
+                </div>
 
             </div>
 
@@ -229,22 +810,21 @@
 
         <!-- ORDERS -->
 
-        <div class="orders">
+        <div class="section-title">
 
-            <h2>
-                Recent Orders
-            </h2>
+            <h2>Recent Orders</h2>
+
+        </div>
+
+        <div class="orders">
 
             <table>
 
                 <tr>
 
                     <th>Product</th>
-
-                    <th>Quantity</th>
-
+                    <th>Date</th>
                     <th>Price</th>
-
                     <th>Status</th>
 
                 </tr>
@@ -252,10 +832,8 @@
                 <tr>
 
                     <td>Organic Tomatoes</td>
-
-                    <td>2kg</td>
-
-                    <td>₹80</td>
+                    <td>22 May 2026</td>
+                    <td>₹400</td>
 
                     <td>
 
@@ -272,10 +850,8 @@
                 <tr>
 
                     <td>Sweet Mangoes</td>
-
-                    <td>1 Dozen</td>
-
-                    <td>₹120</td>
+                    <td>21 May 2026</td>
+                    <td>₹850</td>
 
                     <td>
 
@@ -289,21 +865,102 @@
 
                 </tr>
 
+                <tr>
+
+                    <td>Basmati Rice</td>
+                    <td>20 May 2026</td>
+                    <td>₹1200</td>
+
+                    <td>
+
+                        <span class="status shipped">
+
+                            Shipped
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
             </table>
 
         </div>
 
-    </section>
+    </div>
 
-    <footer>
+    <!-- SCRIPT -->
 
-        <div class="copyright">
+    <script>
 
-            © 2026 Agri-Direct | Developed by Kushitha & Pradeep
+        /* SEARCH */
 
-        </div>
+        function searchProducts(){
 
-    </footer>
+            let input =
+            document.getElementById("searchInput")
+            .value.toLowerCase();
+
+            let products =
+            document.querySelectorAll(".product-card");
+
+            products.forEach(function(product){
+
+                let name =
+                product.getAttribute("data-name")
+                .toLowerCase();
+
+                if(name.includes(input)){
+
+                    product.style.display = "block";
+                }
+
+                else{
+
+                    product.style.display = "none";
+                }
+
+            });
+
+        }
+
+        /* NOTIFICATIONS */
+
+        function toggleNotifications(){
+
+            let dropdown =
+            document.getElementById("notificationDropdown");
+
+            if(dropdown.style.display === "block"){
+
+                dropdown.style.display = "none";
+            }
+
+            else{
+
+                dropdown.style.display = "block";
+            }
+        }
+
+        /* PROFILE */
+
+        function toggleProfile(){
+
+            let dropdown =
+            document.getElementById("profileDropdown");
+
+            if(dropdown.style.display === "block"){
+
+                dropdown.style.display = "none";
+            }
+
+            else{
+
+                dropdown.style.display = "block";
+            }
+        }
+
+    </script>
 
 </body>
 

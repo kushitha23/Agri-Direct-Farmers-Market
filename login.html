@@ -5,13 +5,15 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
     <title>Login | Agri-Direct</title>
 
     <!-- GOOGLE FONT -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
     <!-- FONT AWESOME -->
 
@@ -29,15 +31,7 @@
 
         body{
 
-            background:
-            linear-gradient(rgba(0,0,0,0.35),
-            rgba(0,0,0,0.35)),
-
-            url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
-
-            background-size:cover;
-
-            background-position:center;
+            background:#f5f7fb;
 
             min-height:100vh;
 
@@ -47,189 +41,204 @@
 
             align-items:center;
 
-            padding:20px;
+            padding:40px 20px;
         }
-
-        /* LOGIN CONTAINER */
 
         .login-container{
 
             width:100%;
 
-            max-width:430px;
+            max-width:1100px;
 
-            background:rgba(255,255,255,0.95);
+            display:grid;
 
-            padding:24px;
+            grid-template-columns:1fr 1fr;
 
-            border-radius:20px;
+            background:white;
 
-            box-shadow:0 6px 20px rgba(0,0,0,0.08);
+            border-radius:30px;
+
+            overflow:hidden;
+
+            box-shadow:0 8px 30px rgba(0,0,0,0.08);
         }
 
-        /* LOGO */
+        /* LEFT */
 
-        .logo{
+        .login-left{
 
-            text-align:center;
+            background:linear-gradient(rgba(5,168,52,0.88),
+            rgba(5,168,52,0.88)),
 
-            font-size:28px;
+            url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
+
+            background-size:cover;
+
+            background-position:center;
+
+            color:white;
+
+            padding:70px 50px;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+        }
+
+        .login-left h1{
+
+            font-size:52px;
 
             font-weight:800;
 
-            color:#06a635;
+            margin-bottom:20px;
+        }
+
+        .login-left p{
+
+            font-size:17px;
+
+            line-height:30px;
+
+            margin-bottom:30px;
+        }
+
+        .feature{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
 
             margin-bottom:18px;
+
+            font-size:16px;
         }
 
-        .logo i{
+        .feature i{
 
-            margin-right:8px;
+            font-size:20px;
         }
 
-        /* TITLE */
+        /* RIGHT */
 
-        .login-container h1{
+        .login-right{
 
-            text-align:center;
-
-            font-size:32px;
-
-            color:#081224;
-
-            margin-bottom:8px;
-
-            font-weight:800;
+            padding:60px 50px;
         }
 
-        .subtitle{
+        .form-title{
 
-            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .form-title h2{
+
+            font-size:38px;
+
+            margin-bottom:10px;
+        }
+
+        .form-title p{
 
             color:#64748b;
 
             font-size:15px;
-
-            margin-bottom:25px;
         }
 
-        /* DEMO BOX */
+        .input-group{
 
-        .demo-box{
+            margin-bottom:20px;
 
-            background:#eef4ff;
-
-            border:1px solid #bfd3ff;
-
-            border-radius:16px;
-
-            padding:18px;
-
-            margin-bottom:24px;
+            position:relative;
         }
 
-        .demo-box h3{
-
-            color:#1840d8;
-
-            font-size:16px;
-
-            margin-bottom:14px;
-        }
-
-        .demo-item{
-
-            background:white;
-
-            padding:12px 14px;
-
-            border-radius:8px;
-
-            margin-bottom:10px;
-
-            font-size:14px;
-
-            font-weight:600;
-
-            color:#081224;
-        }
-
-        /* LABEL */
-
-        label{
+        .input-group label{
 
             display:block;
 
             margin-bottom:8px;
 
-            font-size:15px;
+            font-size:14px;
 
             font-weight:600;
-
-            color:#081224;
         }
 
-        /* INPUT GROUP */
-
-        .input-group{
-
-            position:relative;
-
-            margin-bottom:22px;
-        }
-
-        .input-group i{
-
-            position:absolute;
-
-            left:16px;
-
-            top:18px;
-
-            color:#64748b;
-
-            font-size:14px;
-        }
-
-        .input-box{
+        .input-group input{
 
             width:100%;
 
-            padding:14px 14px 14px 44px;
+            padding:16px;
 
             border:1px solid #dbe4ee;
 
-            border-radius:12px;
-
-            font-size:15px;
+            border-radius:14px;
 
             outline:none;
+
+            font-size:15px;
 
             transition:0.3s;
         }
 
-        .input-box:focus{
+        .input-group input:focus{
 
-            border-color:#06a635;
+            border-color:#05a834;
         }
 
-        /* BUTTON */
+        .password-toggle{
+
+            position:absolute;
+
+            right:18px;
+
+            top:48px;
+
+            cursor:pointer;
+
+            color:#64748b;
+        }
+
+        .options{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            margin-bottom:24px;
+
+            font-size:14px;
+        }
+
+        .options a{
+
+            text-decoration:none;
+
+            color:#05a834;
+
+            font-weight:600;
+        }
 
         .login-btn{
 
             width:100%;
 
-            padding:14px;
+            padding:16px;
 
             border:none;
 
-            border-radius:12px;
+            border-radius:14px;
 
-            background:#06b63a;
+            background:#05a834;
 
             color:white;
 
-            font-size:18px;
+            font-size:16px;
 
             font-weight:700;
 
@@ -240,226 +249,69 @@
 
         .login-btn:hover{
 
-            background:#04962f;
+            background:#04842a;
         }
 
-        .login-btn i{
-
-            margin-right:6px;
-        }
-
-        /* REGISTER */
-
-        .register-text{
+        .register-link{
 
             text-align:center;
 
-            margin-top:18px;
+            margin-top:22px;
 
             font-size:14px;
 
             color:#64748b;
         }
 
-        .register-text a{
+        .register-link a{
 
-            color:#06a635;
+            color:#05a834;
+
+            font-weight:700;
+
+            text-decoration:none;
+        }
+
+        .home-link{
+
+            text-align:center;
+
+            margin-top:14px;
+        }
+
+        .home-link a{
+
+            color:#334155;
 
             text-decoration:none;
 
-            font-weight:700;
+            font-size:14px;
         }
 
         /* MOBILE */
 
-        @media(max-width:500px){
+        @media(max-width:900px){
 
             .login-container{
 
-                padding:20px;
+                grid-template-columns:1fr;
             }
 
-            .login-container h1{
+            .login-left{
 
-                font-size:28px;
+                padding:50px 30px;
             }
 
-            .logo{
+            .login-left h1{
 
-                font-size:24px;
+                font-size:38px;
+            }
+
+            .login-right{
+
+                padding:40px 30px;
             }
         }
-footer{
-
-    background:
-    linear-gradient(rgba(7,21,45,0.95),
-    rgba(7,21,45,0.95)),
-    url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854');
-
-    background-size:cover;
-
-    background-position:center;
-
-    background-attachment:fixed;
-
-    color:white;
-
-    padding:70px 8% 25px;
-}
-
-.footer-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-    gap:50px;
-
-    margin-bottom:45px;
-}
-
-.footer-logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    font-size:34px;
-
-    font-weight:800;
-
-    color:#00e05a;
-
-    margin-bottom:20px;
-}
-
-.footer-column p{
-
-    color:#cbd5e1;
-
-    line-height:34px;
-
-    font-size:17px;
-}
-
-.footer-column h2{
-
-    margin-bottom:24px;
-
-    font-size:28px;
-
-    font-weight:700;
-}
-
-.footer-column ul{
-
-    list-style:none;
-}
-
-.footer-column ul li{
-
-    margin-bottom:18px;
-
-    color:#dbe4ee;
-
-    font-size:17px;
-
-    transition:0.3s;
-
-    cursor:pointer;
-}
-
-.footer-column ul li:hover{
-
-    color:#00e05a;
-
-    transform:translateX(5px);
-}
-
-.social-icons{
-
-    margin-top:25px;
-
-    display:flex;
-
-    gap:16px;
-}
-
-.social-icons i{
-
-    width:50px;
-
-    height:50px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#132544;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    font-size:20px;
-
-    transition:0.3s;
-}
-
-.social-icons i:hover{
-
-    background:#00e05a;
-
-    color:#07152d;
-}
-
-.contact-item{
-
-    display:flex;
-
-    gap:14px;
-
-    align-items:flex-start;
-
-    margin-bottom:20px;
-}
-
-.contact-item i{
-
-    color:#00e05a;
-
-    font-size:22px;
-
-    margin-top:4px;
-}
-
-.contact-item span{
-
-    color:#dbe4ee;
-
-    font-size:17px;
-
-    line-height:30px;
-}
-
-.copyright{
-
-    border-top:1px solid rgba(255,255,255,0.08);
-
-    padding-top:28px;
-
-    text-align:center;
-
-    color:#94a3b8;
-
-    line-height:34px;
-
-    font-size:16px;
-}
 
     </style>
 
@@ -469,244 +321,217 @@ footer{
 
     <div class="login-container">
 
-        <!-- LOGO -->
+        <!-- LEFT -->
 
-        <div class="logo">
+        <div class="login-left">
 
-            <i class="fa-solid fa-seedling"></i>
+            <h1>Welcome Back</h1>
 
-            Agri-Direct
+            <p>
+                Login to continue buying and selling
+                fresh farm products across India.
+            </p>
+
+            <div class="feature">
+
+                <i class="fa-solid fa-leaf"></i>
+
+                Fresh Products
+
+            </div>
+
+            <div class="feature">
+
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+
+                Fair Pricing
+
+            </div>
+
+            <div class="feature">
+
+                <i class="fa-solid fa-truck"></i>
+
+                Fast Delivery
+
+            </div>
+
+            <div class="feature">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Secure Platform
+
+            </div>
 
         </div>
 
-        <!-- TITLE -->
+        <!-- RIGHT -->
 
-        <h1>Welcome Back</h1>
+        <div class="login-right">
 
-        <p class="subtitle">
+            <div class="form-title">
 
-            Sign in to your account
+                <h2>Login Account</h2>
 
-        </p>
-
-        <!-- DEMO BOX -->
-
-        <div class="demo-box">
-
-            <h3>Demo Accounts:</h3>
-
-            <div class="demo-item">
-
-                Farmer: rajesh@farm.com
+                <p>
+                    Login to access your dashboard.
+                </p>
 
             </div>
 
-            <div class="demo-item">
+            <form onsubmit="loginUser(event)">
 
-                Buyer: priya@buyer.com
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label>Email Address</label>
+
+                    <input type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required>
+
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <input type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    required>
+
+                    <i class="fa-solid fa-eye password-toggle"
+                    onclick="togglePassword()"></i>
+
+                </div>
+
+                <!-- OPTIONS -->
+
+                <div class="options">
+
+                    <label>
+
+                        <input type="checkbox">
+
+                        Remember Me
+
+                    </label>
+
+                    <a href="#">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button class="login-btn">
+
+                    Login Now
+
+                </button>
+
+            </form>
+
+            <!-- REGISTER -->
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="register.html">
+
+                    Register
+
+                </a>
 
             </div>
 
-            <div class="demo-item">
+            <!-- HOME -->
 
-                Admin: admin@agridirect.com
+            <div class="home-link">
 
-            </div>
+                <a href="index.html">
 
-        </div>
+                    ← Back to Home
 
-        <!-- LOGIN FORM -->
-
-        <form>
-
-            <!-- EMAIL -->
-
-            <label>Email Address</label>
-
-            <div class="input-group">
-
-                <i class="fa-solid fa-envelope"></i>
-
-                <input type="email"
-                placeholder="your@email.com"
-                class="input-box">
+                </a>
 
             </div>
-
-            <!-- PASSWORD -->
-
-            <label>Password</label>
-
-            <div class="input-group">
-
-                <i class="fa-solid fa-lock"></i>
-
-                <input type="password"
-                placeholder="••••••••"
-                class="input-box">
-
-            </div>
-
-            <!-- BUTTON -->
-
-            <button class="login-btn">
-
-                <i class="fa-solid fa-right-to-bracket"></i>
-
-                Sign In
-
-            </button>
-
-        </form>
-
-        <!-- REGISTER -->
-
-        <div class="register-text">
-
-            Don't have an account?
-
-            <a href="#">
-
-                Register here
-
-            </a>
 
         </div>
 
     </div>
+
+    <script>
+
+        function togglePassword(){
+
+            let password =
+            document.getElementById("password");
+
+            if(password.type === "password"){
+
+                password.type = "text";
+            }
+
+            else{
+
+                password.type = "password";
+            }
+        }
+
+        function loginUser(event){
+
+            event.preventDefault();
+
+            let email =
+            document.getElementById("email").value;
+
+            /* BUYER */
+
+            if(email.includes("buyer")){
+
+                window.location.href =
+                "buyer-dashboard.html";
+            }
+
+            /* FARMER */
+
+            else if(email.includes("farmer")){
+
+                window.location.href =
+                "farmer-dashboard.html";
+            }
+
+            /* ADMIN */
+
+            else if(email.includes("admin")){
+
+                window.location.href =
+                "admin-dashboard.html";
+            }
+
+            /* DEFAULT */
+
+            else{
+
+                alert(
+                "Use buyer, farmer, or admin in email to test login."
+                );
+            }
+        }
+
+    </script>
 
 </body>
 
-</html><footer>
-
-    <div class="footer-grid">
-
-        <!-- LEFT -->
-
-        <div class="footer-column">
-
-            <div class="footer-logo">
-
-                <i class="fa-solid fa-seedling"></i>
-
-                <span>Agri-Direct</span>
-
-            </div>
-
-            <p>
-                Connecting farmers directly with buyers.<br>
-                Fresh produce, fair prices, no intermediaries.
-            </p>
-
-            <div class="social-icons">
-
-                <i class="fa-brands fa-facebook-f"></i>
-
-                <i class="fa-brands fa-twitter"></i>
-
-                <i class="fa-brands fa-instagram"></i>
-
-                <i class="fa-brands fa-linkedin-in"></i>
-
-            </div>
-
-        </div>
-
-        <!-- QUICK LINKS -->
-
-        <div class="footer-column">
-
-            <h2>Quick Links</h2>
-
-            <ul>
-
-                <li>Home</li>
-
-                <li>Products</li>
-
-                <li>About Us</li>
-
-                <li>Contact</li>
-
-            </ul>
-
-        </div>
-
-        <!-- FOR FARMERS -->
-
-        <div class="footer-column">
-
-            <h2>For Farmers</h2>
-
-            <ul>
-
-                <li>Register as Farmer</li>
-
-                <li>Farmer Login</li>
-
-                <li>Sell Your Products</li>
-
-                <li>Guidelines</li>
-
-            </ul>
-
-        </div>
-
-        <!-- CONTACT -->
-
-        <div class="footer-column">
-
-            <h2>Contact Us</h2>
-
-            <div class="contact-item">
-
-                <i class="fa-solid fa-location-dot"></i>
-
-                <span>
-                    Hyderabad, Telangana, India
-                </span>
-
-            </div>
-
-            <div class="contact-item">
-
-                <i class="fa-solid fa-envelope"></i>
-
-                <span>
-                    support@agridirect.com
-                </span>
-
-            </div>
-
-            <div class="contact-item">
-
-                <i class="fa-solid fa-phone"></i>
-
-                <span>
-                    +91 123 456 7890
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- COPYRIGHT -->
-
-    <div class="copyright">
-
-        <p>
-            © 2026 Agri-Direct. All rights reserved. |
-            Developed by Kushitha Aragondaa & Pradeep
-        </p>
-
-        <p>
-            Summer Internship Project under IIT Mentor
-            Dr. Abhishek Srivastava |
-            Guided by Himanshu Mishra Sir
-        </p>
-
-    </div>
-
-</footer>
+</html>

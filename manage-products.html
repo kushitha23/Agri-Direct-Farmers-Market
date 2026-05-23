@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Products | Agri-Direct</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#eef4ff;
+            padding:30px 7%;
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* TOPBAR */
+
+        .topbar{
+
+            background:white;
+            padding:22px 30px;
+            border-radius:24px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:35px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+            flex-wrap:wrap;
+            gap:20px;
+        }
+
+        .topbar h1{
+
+            font-size:38px;
+            color:#0f172a;
+        }
+
+        .back-btn{
+
+            border:none;
+            padding:14px 22px;
+            border-radius:14px;
+            background:#22c55e;
+            color:white;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        /* FILTERS */
+
+        .filter-box{
+
+            background:white;
+            padding:25px;
+            border-radius:24px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+            margin-bottom:30px;
+
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+        }
+
+        .filter-box input,
+        .filter-box select{
+
+            padding:14px 18px;
+            border:none;
+            background:#f1f5f9;
+            border-radius:14px;
+            outline:none;
+            font-size:15px;
+        }
+
+        .filter-box input{
+
+            flex:1;
+            min-width:250px;
+        }
+
+        /* PRODUCTS */
+
+        .products-box{
+
+            background:white;
+            padding:30px;
+            border-radius:28px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+            overflow-x:auto;
+        }
+
+        table{
+
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+
+            background:#f8fafc;
+            padding:18px;
+            text-align:left;
+            color:#0f172a;
+        }
+
+        td{
+
+            padding:18px;
+            border-bottom:1px solid #eef2f7;
+            color:#475569;
+        }
+
+        td img{
+
+            width:75px;
+            height:75px;
+            border-radius:16px;
+            object-fit:cover;
+        }
+
+        /* STATUS */
+
+        .status{
+
+            padding:8px 14px;
+            border-radius:30px;
+            font-size:13px;
+            font-weight:700;
+            display:inline-block;
+        }
+
+        .in-stock{
+
+            background:#dcfce7;
+            color:#15803d;
+        }
+
+        .low-stock{
+
+            background:#fef3c7;
+            color:#b45309;
+        }
+
+        .out-stock{
+
+            background:#fee2e2;
+            color:#dc2626;
+        }
+
+        /* BUTTONS */
+
+        .table-btn{
+
+            border:none;
+            padding:10px 18px;
+            border-radius:12px;
+            color:white;
+            cursor:pointer;
+            font-weight:600;
+        }
+
+        .edit{
+
+            background:#3b82f6;
+        }
+
+        .delete{
+
+            background:#ef4444;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:700px){
+
+            .topbar{
+
+                flex-direction:column;
+                align-items:flex-start;
+            }
+
+            .filter-box{
+
+                flex-direction:column;
+            }
+
+            table{
+
+                display:block;
+                overflow-x:auto;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <h1>🛠️ Manage Products</h1>
+
+        <a href="farmer-dashboard.html">
+
+            <button class="back-btn">
+
+                Back Dashboard
+
+            </button>
+
+        </a>
+
+    </div>
+
+    <!-- FILTERS -->
+
+    <div class="filter-box">
+
+        <input type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        onkeyup="searchProducts()">
+
+        <select id="categoryFilter"
+        onchange="filterCategory()">
+
+            <option value="All">All Categories</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Organic">Organic</option>
+            <option value="Grains">Grains</option>
+
+        </select>
+
+    </div>
+
+    <!-- PRODUCTS -->
+
+    <div class="products-box">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="productTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- SCRIPT -->
+
+    <script>
+
+    let products =
+    JSON.parse(
+    localStorage.getItem("farmerProducts")
+    ) || [];
+
+    let tableBody =
+    document.getElementById("productTableBody");
+
+    function loadProducts(filteredProducts = products){
+
+        tableBody.innerHTML = "";
+
+        filteredProducts.forEach((product,index) => {
+
+            let statusClass = "in-stock";
+            let statusText = "In Stock";
+
+            let stockValue =
+            parseInt(product.stock);
+
+            if(stockValue <= 20){
+
+                statusClass = "low-stock";
+                statusText = "Low Stock";
+            }
+
+            if(stockValue <= 0){
+
+                statusClass = "out-stock";
+                statusText = "Out of Stock";
+            }
+
+            tableBody.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <img src="${product.image}">
+
+                </td>
+
+                <td>${product.name}</td>
+
+                <td>${product.category}</td>
+
+                <td>₹${product.price}</td>
+
+                <td>${product.stock}</td>
+
+                <td>
+
+                    <span class="status ${statusClass}">
+
+                        ${statusText}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button class="table-btn edit"
+                    onclick="editProduct(${index})">
+
+                        Edit
+
+                    </button>
+
+                </td>
+
+                <td>
+
+                    <button class="table-btn delete"
+                    onclick="deleteProduct(${index})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+        });
+    }
+
+    function deleteProduct(index){
+
+        let confirmDelete =
+        confirm(
+        "Delete this product?"
+        );
+
+        if(confirmDelete){
+
+            products.splice(index,1);
+
+            localStorage.setItem(
+            "farmerProducts",
+            JSON.stringify(products)
+            );
+
+            loadProducts();
+        }
+    }
+
+    function editProduct(index){
+
+        let newName =
+        prompt(
+        "Edit Product Name",
+        products[index].name
+        );
+
+        if(newName){
+
+            products[index].name =
+            newName;
+
+            localStorage.setItem(
+            "farmerProducts",
+            JSON.stringify(products)
+            );
+
+            loadProducts();
+        }
+    }
+
+    function searchProducts(){
+
+        let input =
+        document.getElementById("searchInput")
+        .value.toLowerCase();
+
+        let filtered =
+        products.filter(product =>
+
+            product.name
+            .toLowerCase()
+            .includes(input)
+        );
+
+        loadProducts(filtered);
+    }
+
+    function filterCategory(){
+
+        let category =
+        document.getElementById("categoryFilter")
+        .value;
+
+        if(category === "All"){
+
+            loadProducts();
+
+            return;
+        }
+
+        let filtered =
+        products.filter(product =>
+
+            product.category === category
+        );
+
+        loadProducts(filtered);
+    }
+
+    loadProducts();
+
+    </script>
+
+</body>
+
+</html>

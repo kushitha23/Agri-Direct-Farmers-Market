@@ -229,144 +229,83 @@
 
         /* PRODUCTS */
 
-        .products{
+     .products{
 
-            padding:10px 8% 70px;
-        }
+    padding:40px 8% 70px;
+}
 
-        .products-grid{
+.products-grid{
 
-            display:grid;
+    display:grid;
 
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(4,minmax(250px,1fr));
 
-            gap:20px;
-        }
+    gap:30px;
+}
 
-        .product-link{
+.product-link{
 
-            text-decoration:none;
+    text-decoration:none;
 
-            color:inherit;
+    color:inherit;
+}
 
-            display:block;
-        }
+.product-card{
 
-        .product-card{
+    background:white;
 
-            background:white;
+    border-radius:20px;
 
-            border-radius:16px;
+    overflow:hidden;
 
-            overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
 
-            box-shadow:0 5px 14px rgba(0,0,0,0.05);
+    transition:0.3s;
 
-            transition:0.3s;
-        }
+    width:100%;
+}
 
-        .product-card:hover{
+.product-card:hover{
 
-            transform:translateY(-6px);
+    transform:translateY(-6px);
+}
 
-            box-shadow:0 10px 22px rgba(0,0,0,0.08);
-        }
+.product-card img{
 
-        .product-card img{
+    width:100%;
 
-            width:100%;
+    height:220px;
 
-            height:150px;
+    object-fit:cover;
+}
 
-            object-fit:cover;
-        }
+.product-content{
 
-        .product-content{
+    padding:18px;
+}
 
-            padding:14px;
-        }
+.buy-btn{
 
-        .category{
+    width:100%;
 
-            color:#05a834;
+    padding:14px;
 
-            font-size:11px;
+    margin-top:18px;
 
-            font-weight:700;
-        }
+    border:none;
 
-        .product-content h2{
+    border-radius:12px;
 
-            font-size:17px;
+    background:#08b12c;
 
-            margin:8px 0;
-        }
+    color:white;
 
-        .product-content p{
+    font-size:18px;
 
-            color:#64748b;
+    font-weight:600;
 
-            font-size:12px;
-
-            line-height:20px;
-
-            margin-bottom:14px;
-        }
-
-        .product-bottom{
-
-            display:flex;
-
-            justify-content:space-between;
-
-            align-items:center;
-
-            margin-bottom:14px;
-        }
-
-        .price{
-
-            color:#05a834;
-
-            font-size:16px;
-
-            font-weight:800;
-        }
-
-        .rating{
-
-            font-size:13px;
-
-            font-weight:700;
-        }
-
-        .buy-btn{
-
-            width:100%;
-
-            padding:10px;
-
-            border:none;
-
-            border-radius:10px;
-
-            background:#05a834;
-
-            color:white;
-
-            font-size:13px;
-
-            font-weight:600;
-
-            cursor:pointer;
-
-            transition:0.3s;
-        }
-
-        .buy-btn:hover{
-
-            background:#04842a;
-        }
+    cursor:pointer;
+}
 
         /* FOOTER */
 
@@ -399,7 +338,45 @@
             color:#00e05a;
 
             margin-bottom:14px;
-        }
+        }.footer-column ul li a{
+
+    text-decoration:none;
+
+    color:#dbe4ee;
+
+    transition:0.3s;
+}
+
+.footer-column ul li a:hover{
+
+    color:#00e05a;
+
+}
+
+/* SOCIAL ICON LINKS */
+
+.social-icons a{
+
+    text-decoration:none;
+
+    color:white;
+}
+
+/* CONTACT LINKS */
+
+.contact-item a{
+
+    text-decoration:none;
+
+    color:#dbe4ee;
+
+    transition:0.3s;
+}
+
+.contact-item a:hover{
+
+    color:#00e05a;
+}
 
         .footer-column h2{
 
@@ -504,11 +481,15 @@
 
         </ul>
 
-        <button class="nav-btn">
+        <a href="register.html">
 
-            Become Seller
+    <button class="nav-btn">
 
-        </button>
+        Become Seller
+
+    </button>
+
+</a>
 
     </nav>
 
@@ -539,8 +520,9 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
 
                 <input type="text"
-                placeholder="Search products...">
-
+id="searchInput"
+placeholder="Search products..."
+onkeyup="searchProducts()">
             </div>
 
             <div class="filter-box">
@@ -567,339 +549,615 @@
 
     </section>
 
-    <!-- PRODUCTS -->
+   <!-- PRODUCTS -->
 
-    <section class="products">
+<section class="products">
 
-        <div class="products-grid">
+    <div class="products-grid">
 
-            <!-- PRODUCT 1 -->
+       <!-- PRODUCT 1 -->
 
-            <a href="tomato-details.html" class="product-link">
+<div class="product-card"
+data-name="tomato vegetables organic tomatoes">
 
-                <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
 
-                    <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
+    <div class="product-content">
 
-                    <div class="product-content">
+        <span class="category">Vegetables</span>
 
-                        <span class="category">Vegetables</span>
+        <h2>Organic Tomatoes</h2>
 
-                        <h2>Organic Tomatoes</h2>
+        <p>Fresh farm tomatoes directly from farmers.</p>
 
-                        <p>Fresh farm tomatoes directly from farmers.</p>
+        <div class="product-bottom">
 
-                        <div class="product-bottom">
+            <div class="price">₹40/kg</div>
 
-                            <div class="price">₹40/kg</div>
-
-                            <div class="rating">⭐ 4.8</div>
-
-                        </div>
-
-                        <button class="buy-btn">Buy Now</button>
-
-                    </div>
-
-                </div>
-
-            </a>
-
-            <!-- PRODUCT 2 -->
-
-          <a href="mango-details.html" class="product-link">
-
-    <div class="product-card">
-
-        <img src="https://images.unsplash.com/photo-1553279768-865429fa0078">
-
-        <div class="product-content">
-
-            <span class="category">Fruits</span>
-
-            <h2>Sweet Mangoes</h2>
-
-            <p>Juicy Alphonso mangoes from orchards.</p>
-
-            <div class="product-bottom">
-
-                <div class="price">₹120/dozen</div>
-
-                <div class="rating">⭐ 4.9</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 4.8</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Organic Tomatoes',
+        40,
+        'https://images.unsplash.com/photo-1546094096-0df4bcaaa337'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
+</div>
 
-            <!-- PRODUCT 3 -->
+<!-- PRODUCT 2 -->
 
-            <!-- PRODUCT 3 -->
+<div class="product-card"
+data-name="mango fruits sweet mangoes">
 
-<a href="rice-details.html" class="product-link">
+    <img src="https://images.unsplash.com/photo-1553279768-865429fa0078">
 
-    <div class="product-card">
+    <div class="product-content">
 
-        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c">
+        <span class="category">Fruits</span>
 
-        <div class="product-content">
+        <h2>Sweet Mangoes</h2>
 
-            <span class="category">Grains</span>
+        <p>Juicy Alphonso mangoes from orchards.</p>
 
-            <h2>Basmati Rice</h2>
+        <div class="product-bottom">
 
-            <p>Premium aromatic basmati rice.</p>
+            <div class="price">₹120/dozen</div>
 
-            <div class="product-bottom">
-
-                <div class="price">₹90/kg</div>
-
-                <div class="rating">⭐ 5.0</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 4.9</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Sweet Mangoes',
+        120,
+        'https://images.unsplash.com/photo-1553279768-865429fa0078'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
-            <!-- PRODUCT 4 -->
+</div>
 
-<a href="vegetables-details.html" class="product-link">
+<!-- PRODUCT 3 -->
 
-    <div class="product-card">
+<div class="product-card"
+data-name="rice grains basmati rice">
 
-        <img src="https://images.unsplash.com/photo-1518843875459-f738682238a6">
+    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c">
 
-        <div class="product-content">
+    <div class="product-content">
 
-            <span class="category">Vegetables</span>
+        <span class="category">Grains</span>
 
-            <h2>Fresh Vegetables</h2>
+        <h2>Basmati Rice</h2>
 
-            <p>Natural farm vegetables with freshness.</p>
+        <p>Premium aromatic basmati rice.</p>
 
-            <div class="product-bottom">
+        <div class="product-bottom">
 
-                <div class="price">₹35/kg</div>
+            <div class="price">₹90/kg</div>
 
-                <div class="rating">⭐ 4.6</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 5.0</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Basmati Rice',
+        90,
+        'https://images.unsplash.com/photo-1586201375761-83865001e31c'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
+</div>
+
+<!-- PRODUCT 4 -->
+
+<div class="product-card"
+data-name="vegetables fresh vegetables">
+
+    <img src="https://images.unsplash.com/photo-1518843875459-f738682238a6">
+
+    <div class="product-content">
+
+        <span class="category">Vegetables</span>
+
+        <h2>Fresh Vegetables</h2>
+
+        <p>Natural farm vegetables with freshness.</p>
+
+        <div class="product-bottom">
+
+            <div class="price">₹35/kg</div>
+
+            <div class="rating">⭐ 4.6</div>
+
+        </div>
+
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Fresh Vegetables',
+        35,
+        'https://images.unsplash.com/photo-1518843875459-f738682238a6'
+        )">
+
+            Add To Cart
+
+        </button>
+
+    </div>
+
+</div>
 
 <!-- PRODUCT 5 -->
 
-<a href="milk-details.html" class="product-link">
+<div class="product-card"
+data-name="milk dairy fresh milk">
 
-    <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800">
 
-        <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800">
+    <div class="product-content">
 
-        <div class="product-content">
+        <span class="category">Dairy</span>
 
-            <span class="category">Dairy</span>
+        <h2>Fresh Milk</h2>
 
-            <h2>Fresh Milk</h2>
+        <p>Pure organic milk from farms.</p>
 
-            <p>Pure organic milk from farms.</p>
+        <div class="product-bottom">
 
-            <div class="product-bottom">
+            <div class="price">₹60/litre</div>
 
-                <div class="price">₹60/litre</div>
-
-                <div class="rating">⭐ 4.7</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 4.7</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Fresh Milk',
+        60,
+        'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
+</div>
 
 <!-- PRODUCT 6 -->
 
-<a href="carrot-details.html" class="product-link">
+<div class="product-card"
+data-name="carrot vegetables organic carrots">
 
-    <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a">
 
-        <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a">
+    <div class="product-content">
 
-        <div class="product-content">
+        <span class="category">Vegetables</span>
 
-            <span class="category">Vegetables</span>
+        <h2>Organic Carrots</h2>
 
-            <h2>Organic Carrots</h2>
+        <p>Healthy carrots full of nutrients.</p>
 
-            <p>Healthy carrots full of nutrients.</p>
+        <div class="product-bottom">
 
-            <div class="product-bottom">
+            <div class="price">₹50/kg</div>
 
-                <div class="price">₹50/kg</div>
-
-                <div class="rating">⭐ 4.8</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 4.8</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Organic Carrots',
+        50,
+        'https://images.unsplash.com/photo-1445282768818-728615cc910a'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
+</div>
 
 <!-- PRODUCT 7 -->
 
-<a href="apple-details.html" class="product-link">
+<div class="product-card"
+data-name="apple fruits fresh apples">
 
-    <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
 
-        <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
+    <div class="product-content">
 
-        <div class="product-content">
+        <span class="category">Fruits</span>
 
-            <span class="category">Fruits</span>
+        <h2>Fresh Apples</h2>
 
-            <h2>Fresh Apples</h2>
+        <p>Crispy red apples directly from farms.</p>
 
-            <p>Crispy red apples from farms.</p>
+        <div class="product-bottom">
 
-            <div class="product-bottom">
+            <div class="price">₹140/kg</div>
 
-                <div class="price">₹140/kg</div>
-
-                <div class="rating">⭐ 4.9</div>
-
-            </div>
-
-            <button class="buy-btn">Buy Now</button>
+            <div class="rating">⭐ 4.9</div>
 
         </div>
 
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Fresh Apples',
+        140,
+        'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce'
+        )">
+
+            Add To Cart
+
+        </button>
+
     </div>
 
-</a>
+</div>
 
 <!-- PRODUCT 8 -->
 
-<a href="fruits-details.html" class="product-link">
+<div class="product-card"
+data-name="fruits fresh fruits">
 
-    <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf">
 
-        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf">
+    <div class="product-content">
 
-        <div class="product-content">
+        <span class="category">Fruits</span>
 
-            <span class="category">Fruits</span>
+        <h2>Fresh Fruits</h2>
 
-            <h2>Fresh Fruits</h2>
+        <p>Farm fresh fruits with premium quality.</p>
 
-            <p>Farm fresh fruits with premium quality.</p>
+        <div class="product-bottom">
 
-            <div class="product-bottom">
+            <div class="price">₹30/kg</div>
 
-                <div class="price">₹30/kg</div>
+            <div class="rating">⭐ 4.5</div>
 
-                <div class="rating">⭐ 4.5</div>
+        </div>
+
+        <button class="buy-btn"
+        type="button"
+        onclick="addToCart(
+        event,
+        'Fresh Fruits',
+        30,
+        'https://images.unsplash.com/photo-1610832958506-aa56368176cf'
+        )">
+
+            Add To Cart
+
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+<!-- FOOTER -->
+
+
+
+<!-- SCRIPT -->
+
+<script>
+
+function addToCart(event, name, price, image){
+
+    let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    let existingProduct =
+    cart.find(item => item.name === name);
+
+    if(existingProduct){
+
+        existingProduct.quantity += 1;
+
+    }
+
+    else{
+
+        cart.push({
+
+            name:name,
+            price:price,
+            image:image,
+            quantity:1
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    alert(name + " added to cart!");
+
+    window.location.href = "cart.html";
+}
+
+function searchProducts(){
+
+    let input =
+    document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    let products =
+    document.querySelectorAll(".product-card");
+
+    products.forEach(function(product){
+
+        let productName =
+        product.getAttribute("data-name")
+        .toLowerCase();
+
+        if(productName.includes(input)){
+
+            product.style.display = "block";
+
+        }
+
+        else{
+
+            product.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
+    <!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <!-- LEFT -->
+
+        <div class="footer-column">
+
+            <div class="footer-logo">
+
+                <i class="fa-solid fa-seedling"></i>
+
+                <span>Agri-Direct</span>
 
             </div>
 
-            <button class="buy-btn">Buy Now</button>
+            <p>
+                Connecting farmers directly with buyers.<br>
+                Fresh produce, fair prices, no intermediaries.
+            </p>
+
+            <!-- SOCIAL ICONS -->
+
+            <div class="social-icons">
+
+                <a href="https://facebook.com" target="_blank">
+
+                    <i class="fa-brands fa-facebook-f"></i>
+
+                </a>
+
+                <a href="https://twitter.com" target="_blank">
+
+                    <i class="fa-brands fa-twitter"></i>
+
+                </a>
+
+                <a href="https://instagram.com" target="_blank">
+
+                    <i class="fa-brands fa-instagram"></i>
+
+                </a>
+
+                <a href="https://linkedin.com" target="_blank">
+
+                    <i class="fa-brands fa-linkedin-in"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- QUICK LINKS -->
+
+        <div class="footer-column">
+
+            <h2>Quick Links</h2>
+
+            <ul>
+
+                <li>
+
+                    <a href="index.html">Home</a>
+
+                </li>
+
+                <li>
+
+                    <a href="products.html">Products</a>
+
+                </li>
+
+                <li>
+
+                    <a href="about.html">About Us</a>
+
+                </li>
+
+                <li>
+
+                    <a href="contact.html">Contact</a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- FOR FARMERS -->
+
+        <div class="footer-column">
+
+            <h2>For Farmers</h2>
+
+            <ul>
+
+                <li>
+
+                    <a href="register.html">
+
+                        Register as Farmer
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="login.html">
+
+                        Farmer Login
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="add-product.html">
+
+                        Sell Your Products
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="contact.html">
+
+                        Guidelines
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- CONTACT -->
+
+        <div class="footer-column">
+
+            <h2>Contact Us</h2>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span>
+                    Hyderabad, Telangana, India
+                </span>
+
+            </div>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <a href="mailto:support@agridirect.com">
+
+                    support@agridirect.com
+
+                </a>
+
+            </div>
+
+            <div class="contact-item">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <a href="tel:+911234567890">
+
+                    +91 123 456 7890
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
 
-</a>
+    <!-- COPYRIGHT -->
 
-        </div>
+    <div class="copyright">
 
-    </section>
+        <p>
+            © 2026 Agri-Direct. All rights reserved. |
+            Developed by Kushitha Aragondaa & Pradeep
+        </p>
 
-    <!-- FOOTER -->
+        <p>
+            Summer Internship Project under IIT Mentor
+            Dr. Abhishek Srivastava |
+            Guided by Himanshu Mishra Sir
+        </p>
 
-    <footer>
+    </div>
 
-        <div class="footer-grid">
-
-            <div class="footer-column">
-
-                <div class="footer-logo">
-
-                    <i class="fa-solid fa-seedling"></i>
-
-                    Agri-Direct
-
-                </div>
-
-                <p>
-                    Connecting farmers directly with buyers across India.
-                </p>
-
-            </div>
-
-            <div class="footer-column">
-
-                <h2>Quick Links</h2>
-
-                <ul>
-
-                    <li>Home</li>
-
-                    <li>Products</li>
-
-                    <li>About</li>
-
-                    <li>Contact</li>
-
-                </ul>
-
-            </div>
-
-            <div class="footer-column">
-
-                <h2>Contact</h2>
-
-                <ul>
-
-                    <li>📍 Hyderabad, India</li>
-
-                    <li>📞 +91 9876543210</li>
-
-                    <li>✉ support@agridirect.com</li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="copyright">
-
-            © 2026 Agri-Direct | Developed by Kushitha & Pradeep
-
-        </div>
-
-    </footer>
-
-</body>
-
-</html>
+</footer>

@@ -455,18 +455,6 @@
 
             </div>
 
-            <!-- HOME -->
-
-            <div class="home-link">
-
-                <a href="index.html">
-
-                    ← Back to Home
-
-                </a>
-
-            </div>
-
         </div>
 
     </div>
@@ -496,12 +484,12 @@
             let email =
             document.getElementById("email").value;
 
-            /* BUYER */
+            /* CUSTOMER */
 
-            if(email.includes("buyer")){
+            if(email.includes("customer")){
 
                 window.location.href =
-                "buyer-dashboard.html";
+                "index.html";
             }
 
             /* FARMER */
@@ -520,12 +508,12 @@
                 "admin-dashboard.html";
             }
 
-            /* DEFAULT */
+            /* INVALID */
 
             else{
 
                 alert(
-                "Use buyer, farmer, or admin in email to test login."
+                "Use customer, farmer, or admin in email to test login."
                 );
             }
         }

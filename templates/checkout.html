@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Checkout | Agri-Direct</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f7fb;
+padding:40px 8%;
+}
+
+.checkout-container{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:30px;
+}
+
+.checkout-form{
+background:white;
+padding:35px;
+border-radius:24px;
+box-shadow:0 6px 18px rgba(0,0,0,0.05);
+}
+
+.checkout-form h1{
+margin-bottom:25px;
+color:#0f172a;
+}
+
+.input-box{
+margin-bottom:20px;
+}
+
+.input-box label{
+display:block;
+margin-bottom:8px;
+font-weight:600;
+color:#334155;
+}
+
+.input-box input,
+.input-box textarea,
+.input-box select{
+width:100%;
+padding:14px;
+border:1px solid #dbe4ee;
+border-radius:12px;
+outline:none;
+font-size:15px;
+}
+
+.place-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:14px;
+background:#22c55e;
+color:white;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+margin-top:10px;
+}
+
+.summary{
+background:white;
+padding:30px;
+border-radius:24px;
+height:fit-content;
+box-shadow:0 6px 18px rgba(0,0,0,0.05);
+}
+
+.summary h2{
+margin-bottom:25px;
+color:#0f172a;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+color:#475569;
+}
+
+.total{
+margin-top:25px;
+padding-top:20px;
+border-top:2px solid #eef2f7;
+display:flex;
+justify-content:space-between;
+font-size:24px;
+font-weight:700;
+}
+
+#upiBox,
+#cardBox{
+display:none;
+}
+
+.qr-box{
+background:#f8fafc;
+padding:20px;
+border-radius:20px;
+text-align:center;
+margin-top:20px;
+}
+
+.qr-box img{
+width:220px;
+height:220px;
+margin-bottom:15px;
+}
+
+.qr-box p{
+font-size:16px;
+color:#475569;
+}
+
+@media(max-width:900px){
+
+.checkout-container{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="checkout-container">
+
+<!-- LEFT -->
+
+<div class="checkout-form">
+
+<h1>Checkout 🧾</h1>
+
+<form onsubmit="saveOrder(event)">
+
+<div class="input-box">
+
+<label>Full Name</label>
+
+<input type="text"
+id="name"
+placeholder="Enter your name"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Phone Number</label>
+
+<input type="tel"
+id="phone"
+placeholder="Enter phone number"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Delivery Address</label>
+
+<textarea rows="4"
+id="address"
+placeholder="Enter delivery address"
+required></textarea>
+
+</div>
+
+<div class="input-box">
+
+<label>Payment Method</label>
+
+<select id="payment"
+onchange="showPaymentFields()"
+required>
+
+<option value="">
+Select Payment Method
+</option>
+
+<option value="cod">
+Cash On Delivery
+</option>
+
+<option value="upi">
+UPI Payment
+</option>
+
+<option value="card">
+Card Payment
+</option>
+
+</select>
+
+</div>
+
+<!-- UPI -->
+
+<div id="upiBox">
+
+<div class="qr-box">
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=kushitha@paytm&pn=AgriDirect&cu=INR">
+
+<p>
+
+Scan QR using PhonePe / Google Pay / Paytm
+
+</p>
+
+</div>
+
+</div>
+
+<!-- CARD -->
+
+<div id="cardBox">
+
+<div class="input-box">
+
+<label>Card Number</label>
+
+<input type="text"
+placeholder="1234 5678 9012 3456">
+
+</div>
+
+<div class="input-box">
+
+<label>Card Holder Name</label>
+
+<input type="text"
+placeholder="Enter card holder name">
+
+</div>
+
+<div class="input-box">
+
+<label>CVV</label>
+
+<input type="password"
+placeholder="123">
+
+</div>
+
+</div>
+
+<button type="submit"
+class="place-btn">
+
+Place Order
+
+</button>
+
+</form>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="summary">
+
+<h2>Order Summary</h2>
+
+<div class="summary-row">
+
+<span>Subtotal</span>
+
+<span id="subtotal">
+
+₹0
+
+</span>
+
+</div>
+
+<div class="summary-row">
+
+<span>Delivery Fee</span>
+
+<span>
+
+₹50
+
+</span>
+
+</div>
+
+<div class="total">
+
+<span>Total</span>
+
+<span id="total">
+
+₹0
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// GET CART
+
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+// CALCULATE TOTAL
+
+let subtotal = 0;
+
+cart.forEach(item => {
+
+subtotal += item.price * item.quantity;
+
+});
+
+let total = subtotal + 50;
+
+// SHOW TOTAL
+
+document.getElementById("subtotal")
+.innerText = "₹" + subtotal;
+
+document.getElementById("total")
+.innerText = "₹" + total;
+
+// PAYMENT METHOD
+
+function showPaymentFields(){
+
+let payment =
+document.getElementById("payment").value;
+
+document.getElementById("upiBox")
+.style.display = "none";
+
+document.getElementById("cardBox")
+.style.display = "none";
+
+if(payment === "upi"){
+
+document.getElementById("upiBox")
+.style.display = "block";
+
+}
+
+if(payment === "card"){
+
+document.getElementById("cardBox")
+.style.display = "block";
+
+}
+
+}
+
+// SAVE ORDER
+
+function saveOrder(event){
+
+event.preventDefault();
+
+// GET FORM VALUES
+
+let name =
+document.getElementById("name").value;
+
+let phone =
+document.getElementById("phone").value;
+
+let address =
+document.getElementById("address").value;
+
+let payment =
+document.getElementById("payment").value;
+
+// VALIDATION
+
+if(name === "" ||
+phone === "" ||
+address === ""){
+
+alert("Please fill all details");
+
+return;
+
+}
+
+if(payment === ""){
+
+alert("Please select payment method");
+
+return;
+
+}
+
+// SAVE CUSTOMER
+
+let customer = {
+
+name:name,
+phone:phone,
+address:address,
+payment:payment
+
+};
+
+localStorage.setItem(
+"customer",
+JSON.stringify(customer)
+);
+
+// GET OLD ORDERS
+
+let orders =
+JSON.parse(localStorage.getItem("orders")) || [];
+
+// CREATE NEW ORDER
+
+let newOrder = {
+
+id:"AGR" + Math.floor(Math.random()*100000),
+
+name:name,
+phone:phone,
+address:address,
+payment:payment,
+
+products:[...cart],
+
+total:total,
+
+date:new Date().toLocaleDateString(),
+
+status:"Pending"
+
+};
+
+// ADD ORDER
+
+orders.push(newOrder);
+
+// SAVE ORDERS
+
+localStorage.setItem(
+"orders",
+JSON.stringify(orders)
+);
+
+// CLEAR CART
+
+localStorage.removeItem("cart");
+
+// SUCCESS MESSAGE
+
+alert("Order Placed Successfully 🎉");
+
+// REDIRECT
+
+window.location.href =
+"order-success.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

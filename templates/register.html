@@ -232,6 +232,33 @@
             background:#04842a;
         }
 
+        .message{
+
+            margin-bottom:18px;
+
+            padding:14px;
+
+            border-radius:10px;
+
+            font-size:14px;
+
+            font-weight:600;
+        }
+
+        .error{
+
+            background:#ffe5e5;
+
+            color:#d90429;
+        }
+
+        .success{
+
+            background:#e3ffe8;
+
+            color:#04842a;
+        }
+
         .login-link{
 
             text-align:center;
@@ -360,7 +387,21 @@
 
             </div>
 
-            <form onsubmit="registerUser(event)">
+            <!-- FLASH MESSAGE -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+
+                        <div class="message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/register.html" autocomplete="off">
 
                 <!-- NAME -->
 
@@ -369,6 +410,7 @@
                     <label>Full Name</label>
 
                     <input type="text"
+                    name="fullname"
                     placeholder="Enter your full name"
                     required>
 
@@ -381,6 +423,7 @@
                     <label>Email Address</label>
 
                     <input type="email"
+                    name="email"
                     placeholder="Enter your email"
                     required>
 
@@ -393,6 +436,9 @@
                     <label>Phone Number</label>
 
                     <input type="tel"
+                    name="phone"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
                     placeholder="Enter phone number"
                     required>
 
@@ -404,15 +450,15 @@
 
                     <label>Select Role</label>
 
-                    <select required>
+                    <select name="role" required>
 
                         <option value="">Choose Role</option>
 
-                        <option>Buyer</option>
+                        <option value="buyer">Buyer</option>
 
-                        <option>Farmer</option>
+                        <option value="farmer">Farmer</option>
 
-                        <option>Admin</option>
+                        <option value="admin">Admin</option>
 
                     </select>
 
@@ -426,6 +472,8 @@
 
                     <input type="password"
                     id="password"
+                    name="password"
+                    minlength="6"
                     placeholder="Create password"
                     required>
 
@@ -441,6 +489,9 @@
                     <label>Confirm Password</label>
 
                     <input type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    minlength="6"
                     placeholder="Confirm password"
                     required>
 
@@ -448,7 +499,7 @@
 
                 <!-- BUTTON -->
 
-                <button class="register-btn">
+                <button type="submit" class="register-btn">
 
                     Register Now
 
@@ -472,15 +523,7 @@
 
             <!-- HOME -->
 
-            <div class="home-link">
-
-                <a href="index.html">
-
-                    ← Back to Home
-
-                </a>
-
-            </div>
+            
 
         </div>
 
@@ -502,15 +545,6 @@
 
                 password.type = "password";
             }
-        }
-
-        function registerUser(event){
-
-            event.preventDefault();
-
-            alert("Registration Successful!");
-
-            window.location.href = "login.html";
         }
 
     </script>

@@ -217,9 +217,9 @@
 
 </head>
 
-<body>
 
-    <!-- TOPBAR -->
+
+   <body>
 
     <div class="topbar">
 
@@ -237,8 +237,6 @@
 
     </div>
 
-    <!-- FORM -->
-
     <div class="form-box">
 
         <div class="form-title">
@@ -251,214 +249,107 @@
 
         </div>
 
-        <div class="form-grid">
+        <form method="POST">
 
-            <!-- PRODUCT NAME -->
+            <div class="form-grid">
 
-            <div class="form-group">
+                <div class="form-group">
 
-                <label>Product Name</label>
+                    <label>Product Name</label>
 
-                <input type="text"
-                id="productName"
-                placeholder="Enter product name">
+                    <input
+                    type="text"
+                    name="name"
+                    required>
 
-            </div>
+                </div>
 
-            <!-- CATEGORY -->
+                <div class="form-group">
 
-            <div class="form-group">
+                    <label>Category</label>
 
-                <label>Category</label>
+                    <select
+                    name="category">
 
-                <select id="productCategory">
+                        <option>Vegetables</option>
+                        <option>Fruits</option>
+                        <option>Dairy</option>
+                        <option>Organic</option>
+                        <option>Grains</option>
 
-                    <option>Vegetables</option>
-                    <option>Fruits</option>
-                    <option>Dairy</option>
-                    <option>Organic</option>
-                    <option>Grains</option>
+                    </select>
 
-                </select>
+                </div>
 
-            </div>
+                <div class="form-group">
 
-            <!-- PRICE -->
+                    <label>Price</label>
 
-            <div class="form-group">
+                    <input
+                    type="number"
+                    name="price"
+                    required>
 
-                <label>Price</label>
+                </div>
 
-                <input type="text"
-                id="productPrice"
-                placeholder="₹ Price">
+                <div class="form-group">
 
-            </div>
+                    <label>Stock Quantity</label>
 
-            <!-- STOCK -->
+                    <input
+                    type="number"
+                    name="stock"
+                    required>
 
-            <div class="form-group">
+                </div>
 
-                <label>Stock Quantity</label>
+                <div class="form-group full-width">
 
-                <input type="text"
-                id="productStock"
-                placeholder="Available stock">
+                    <label>Image URL</label>
 
-            </div>
+                    <input
+                    type="text"
+                    name="image"
+                    placeholder="Paste image URL"
+                    required>
 
-            <!-- IMAGE -->
+                </div>
 
-            <div class="form-group full-width">
+                <div class="form-group full-width">
 
-                <label>Upload Product Image</label>
+                    <label>Description</label>
 
-                <div class="image-upload"
-                onclick="document.getElementById('imageInput').click()">
-
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-
-                    <p>
-                        Click here to upload product image
-                    </p>
-
-                    <input type="file"
-                    id="imageInput"
-                    hidden
-                    onchange="previewImage(event)">
+                    <textarea
+                    name="description"
+                    placeholder="Write product details..."></textarea>
 
                 </div>
 
             </div>
 
-            <!-- DESCRIPTION -->
+            <div class="button-group">
 
-            <div class="form-group full-width">
+                <button
+                type="submit"
+                class="btn save-btn">
 
-                <label>Description</label>
+                    Save Product
 
-                <textarea
-                id="productDescription"
-                placeholder="Write product details..."></textarea>
+                </button>
+
+                <button
+                type="reset"
+                class="btn reset-btn">
+
+                    Reset
+
+                </button>
 
             </div>
 
-        </div>
-
-        <!-- BUTTONS -->
-
-        <div class="button-group">
-
-            <button class="btn save-btn"
-            onclick="saveProduct()">
-
-                Save Product
-
-            </button>
-
-            <button class="btn reset-btn"
-            onclick="resetForm()">
-
-                Reset
-
-            </button>
-
-        </div>
+        </form>
 
     </div>
-
-    <!-- SCRIPT -->
-
-    <script>
-
-    let uploadedImage = "";
-
-    function previewImage(event){
-
-        let file =
-        event.target.files[0];
-
-        if(file){
-
-            uploadedImage =
-            URL.createObjectURL(file);
-        }
-    }
-
-    function saveProduct(){
-
-        let name =
-        document.getElementById("productName").value;
-
-        let category =
-        document.getElementById("productCategory").value;
-
-        let price =
-        document.getElementById("productPrice").value;
-
-        let stock =
-        document.getElementById("productStock").value;
-
-        let description =
-        document.getElementById("productDescription").value;
-
-        if(
-            name === "" ||
-            price === "" ||
-            stock === ""
-        ){
-
-            alert(
-            "Please fill all required fields!"
-            );
-
-            return;
-        }
-
-        let product = {
-
-            image: uploadedImage,
-
-            name: name,
-
-            category: category,
-
-            price: price,
-
-            stock: stock,
-
-            description: description
-        };
-
-        let products =
-        JSON.parse(
-        localStorage.getItem("farmerProducts")
-        ) || [];
-
-        products.push(product);
-
-        localStorage.setItem(
-            "farmerProducts",
-            JSON.stringify(products)
-        );
-
-        alert(
-        "✅ Product Added Successfully!"
-        );
-
-        window.location.href =
-        "farmer-dashboard.html";
-    }
-
-    function resetForm(){
-
-        document.getElementById("productName").value = "";
-        document.getElementById("productPrice").value = "";
-        document.getElementById("productStock").value = "";
-        document.getElementById("productDescription").value = "";
-    }
-
-    </script>
 
 </body>
 

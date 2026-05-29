@@ -550,382 +550,69 @@ onkeyup="searchProducts()">
     </section>
 
    <!-- PRODUCTS -->
+<!-- PRODUCTS -->
+
 <section class="products">
 
-<div class="products-grid">
+    <div class="products-grid">
 
-<!-- PRODUCT 1 -->
+        {% for product in products %}
 
-<a href="tomato-details.html"
+        <a href="/product/{{ product.id }}"
 style="text-decoration:none;color:inherit;">
 
 <div class="product-card"
-data-name="tomato vegetables organic tomatoes">
+data-name="{{ product.name }} {{ product.category }}">
 
-<img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
+            <img src="{{ product.image }}"
+            alt="{{ product.name }}">
 
-<div class="product-content">
+            <div class="product-content">
 
-<span class="category">Vegetables</span>
+                <span class="category">
 
-<h2>Organic Tomatoes</h2>
+                    {{ product.category }}
 
-<p>Fresh farm tomatoes directly from farmers.</p>
+                </span>
 
-<div class="product-bottom">
+                <h2>
 
-<div class="price">₹40/kg</div>
+                    {{ product.name }}
 
-<div class="rating">⭐ 4.8</div>
+                </h2>
 
-</div>
+                <p>
 
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Organic Tomatoes',
-40,
-'https://images.unsplash.com/photo-1546094096-0df4bcaaa337'
-)">
+                    {{ product.description }}
 
-Add To Cart
+                </p>
 
-</button>
+                <div class="product-bottom">
 
-</div>
+                    <div class="price">
 
-</div>
+                        ₹{{ product.price }}
 
+                    </div>
+
+                    <div class="rating">
+
+                        ⭐ 5.0
+
+                    </div>
+
+                </div>
+
+                
+            </div>
+
+        </div>
 </a>
+        {% endfor %}
 
-<!-- PRODUCT 2 -->
-
-<a href="mango-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="mango fruits sweet mangoes">
-
-<img src="https://images.unsplash.com/photo-1553279768-865429fa0078">
-
-<div class="product-content">
-
-<span class="category">Fruits</span>
-
-<h2>Sweet Mangoes</h2>
-
-<p>Juicy Alphonso mangoes from orchards.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹120/dozen</div>
-
-<div class="rating">⭐ 4.9</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Sweet Mangoes',
-120,
-'https://images.unsplash.com/photo-1553279768-865429fa0078'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 3 -->
-
-<a href="rice-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="rice grains basmati rice">
-
-<img src="https://images.unsplash.com/photo-1586201375761-83865001e31c">
-
-<div class="product-content">
-
-<span class="category">Grains</span>
-
-<h2>Basmati Rice</h2>
-
-<p>Premium aromatic basmati rice.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹90/kg</div>
-
-<div class="rating">⭐ 5.0</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Basmati Rice',
-90,
-'https://images.unsplash.com/photo-1586201375761-83865001e31c'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 4 -->
-
-<a href="vegetables-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="vegetables fresh vegetables">
-
-<img src="https://images.unsplash.com/photo-1518843875459-f738682238a6">
-
-<div class="product-content">
-
-<span class="category">Vegetables</span>
-
-<h2>Fresh Vegetables</h2>
-
-<p>Natural farm vegetables with freshness.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹35/kg</div>
-
-<div class="rating">⭐ 4.6</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Fresh Vegetables',
-35,
-'https://images.unsplash.com/photo-1518843875459-f738682238a6'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 5 -->
-
-<a href="milk-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="milk dairy fresh milk">
-
-<img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800">
-
-<div class="product-content">
-
-<span class="category">Dairy</span>
-
-<h2>Fresh Milk</h2>
-
-<p>Pure organic milk from farms.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹60/litre</div>
-
-<div class="rating">⭐ 4.7</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Fresh Milk',
-60,
-'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 6 -->
-
-<a href="carrot-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="carrot vegetables organic carrots">
-
-<img src="https://images.unsplash.com/photo-1445282768818-728615cc910a">
-
-<div class="product-content">
-
-<span class="category">Vegetables</span>
-
-<h2>Organic Carrots</h2>
-
-<p>Healthy carrots full of nutrients.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹50/kg</div>
-
-<div class="rating">⭐ 4.8</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Organic Carrots',
-50,
-'https://images.unsplash.com/photo-1445282768818-728615cc910a'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 7 -->
-
-<a href="apple-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="apple fruits fresh apples">
-
-<img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
-
-<div class="product-content">
-
-<span class="category">Fruits</span>
-
-<h2>Fresh Apples</h2>
-
-<p>Crispy red apples directly from farms.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹140/kg</div>
-
-<div class="rating">⭐ 4.9</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Fresh Apples',
-140,
-'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-<!-- PRODUCT 8 -->
-
-<a href="fruits-details.html"
-style="text-decoration:none;color:inherit;">
-
-<div class="product-card"
-data-name="fruits fresh fruits">
-
-<img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf">
-
-<div class="product-content">
-
-<span class="category">Fruits</span>
-
-<h2>Fresh Fruits</h2>
-
-<p>Farm fresh fruits with premium quality.</p>
-
-<div class="product-bottom">
-
-<div class="price">₹30/kg</div>
-
-<div class="rating">⭐ 4.5</div>
-
-</div>
-
-<button class="buy-btn"
-onclick="event.preventDefault();
-event.stopPropagation();
-addToCart(
-event,
-'Fresh Fruits',
-30,
-'https://images.unsplash.com/photo-1610832958506-aa56368176cf'
-)">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
-
-</a>
-
-</div>
+    </div>
 
 </section>
-
 <!-- FOOTER -->
 
 

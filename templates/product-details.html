@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Organic Tomatoes | Agri-Direct</title>
+    <title>{{ product.name }} | Agri-Direct</title>
 
     <!-- GOOGLE FONT -->
 
@@ -367,25 +367,43 @@
 
     <nav>
 
-        <div class="logo">
+    <div class="logo">
 
-            <i class="fa-solid fa-seedling"></i>
+        <i class="fa-solid fa-seedling"></i>
 
-            Agri-Direct
+        Agri-Direct
 
-        </div>
+    </div>
 
-        <ul>
+    <ul>
 
-            <li><a href="index.html">Home</a></li>
+        <li>
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+        </li>
 
-            <li><a href="products.html">Products</a></li>
+        <li>
+            <a href="{{ url_for('products') }}">
+                Products
+            </a>
+        </li>
 
-            <li><a href="about.html">About</a></li>
+        <li>
+            <a href="{{ url_for('about') }}">
+                About
+            </a>
+        </li>
 
-            <li><a href="contact.html">Contact</a></li>
+        <li>
+            <a href="{{ url_for('contact') }}">
+                Contact
+            </a>
+        </li>
 
-        </ul>
+    </ul>
+
+    <a href="{{ url_for('register') }}">
 
         <button class="nav-btn">
 
@@ -393,22 +411,23 @@
 
         </button>
 
-    </nav>
+    </a>
 
+</nav>
     <!-- PRODUCT DETAILS -->
 
     <section class="product-details">
 
         <div class="product-image">
 
-            <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
+            <img src="{{ product.image }}">
 
         </div>
 
         <div class="product-info">
 
             <h1>
-                Organic Tomatoes
+                {{ product.name }}
             </h1>
 
             <div class="rating">
@@ -419,21 +438,18 @@
 
             <div class="price">
 
-                ₹40/kg
+                 ₹{{ product.price }}
 
             </div>
 
             <p class="description">
 
-                Fresh organic tomatoes directly from local farms.
-                Naturally grown without harmful chemicals and
-                delivered fresh to your doorstep.
-
+                 {{ product.description }}
             </p>
 
             <div class="stock">
 
-                In Stock : 120kg Available
+                In Stock : {{ product.stock }}
 
             </div>
 
@@ -447,19 +463,21 @@
 
             <div class="buttons">
 
-                <button class="cart-btn">
+    <button class="cart-btn"
+    onclick="addToCart()">
 
-                    Add to Cart
+        Add to Cart
 
-                </button>
+    </button>
 
-                <button class="buy-btn">
+    <button class="buy-btn"
+    onclick="buyNow()">
 
-                    Buy Now
+        Buy Now
 
-                </button>
+    </button>
 
-            </div>
+</div>
 
             <!-- FARMER -->
 
@@ -688,6 +706,91 @@
         </div>
 
     </footer>
+    <script>
+
+function addToCart(){
+
+    let quantity =
+    parseInt(
+        document.querySelector(
+            '.quantity-box input'
+        ).value
+    );
+
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+    let existingProduct =
+    cart.find(
+        item => item.name === "{{ product.name }}"
+    );
+
+    if(existingProduct){
+
+        existingProduct.quantity += quantity;
+
+    } else {
+
+        cart.push({
+
+            name: "{{ product.name }}",
+
+            price: {{ product.price }},
+
+            image: "{{ product.image }}",
+
+            quantity: quantity
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    alert("{{ product.name }} added to cart!");
+
+    window.location.href = "/cart.html";
+}
+
+function buyNow(){
+
+    let quantity =
+    parseInt(
+        document.querySelector(
+            '.quantity-box input'
+        ).value
+    );
+
+    let cart = [
+
+        {
+
+            name: "{{ product.name }}",
+
+            price: {{ product.price }},
+
+            image: "{{ product.image }}",
+
+            quantity: quantity
+
+        }
+
+    ];
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "/checkout.html";
+}
+
+</script>
 
 </body>
 

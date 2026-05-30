@@ -26,7 +26,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 }
 
 body{
-    background:#f3f7ff;
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a,
+        #0f766e
+    );
+
     padding:30px 7%;
 }
 
@@ -38,8 +48,13 @@ a{
 
 .topbar{
 
-    background:white;
+    background:
+    rgba(255,255,255,0.9);
+
+    backdrop-filter:blur(12px);
+
     padding:20px 30px;
+
     border-radius:20px;
 
     display:flex;
@@ -48,7 +63,8 @@ a{
 
     margin-bottom:30px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    box-shadow:
+    0 10px 25px rgba(0,0,0,0.1);
 }
 
 .topbar h1{
@@ -77,6 +93,38 @@ a{
 .logout-btn{
     background:#ef4444;
 }
+.welcome-banner{
+
+    background:
+    linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+    );
+
+    color:white;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    margin-bottom:30px;
+
+    box-shadow:
+    0 15px 35px rgba(34,197,94,.3);
+}
+
+.welcome-banner h2{
+
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.welcome-banner p{
+
+    font-size:16px;
+    opacity:.9;
+}
 
 /* STATS */
 
@@ -95,27 +143,42 @@ a{
     padding:25px;
     border-radius:20px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+    cursor:pointer;
 }
 
-.stat-card i{
+.stat-card:hover{
 
-    font-size:30px;
-    color:#22c55e;
+    transform:
+    translateY(-8px);
 
-    margin-bottom:15px;
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.12);
 }
+   
+.welcome-section{
 
-.stat-card h2{
+    background:
+    linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+    );
 
-    font-size:30px;
-    margin-bottom:8px;
+    color:white;
 
-    color:#0f172a;
-}
+    padding:40px;
 
-.stat-card p{
-    color:#64748b;
+    border-radius:25px;
+
+    margin-bottom:30px;
+
+    box-shadow:
+    0 15px 30px rgba(34,197,94,.25);
 }
 
 /* ACTIONS */
@@ -145,8 +208,30 @@ a{
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
+.action-card{
+
+    background:white;
+    padding:30px;
+    border-radius:20px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+}
+
 .action-card:hover{
-    transform:translateY(-5px);
+
+    transform:
+    translateY(-10px)
+    scale(1.03);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.12);
 }
 
 .action-card i{
@@ -297,7 +382,19 @@ td img{
 
 <div class="topbar">
 
-    <h1>🌾 Farmer Dashboard</h1>
+    <div class="welcome-section">
+
+    <div>
+
+        <h1>🌾 Welcome Farmer</h1>
+
+        <p>
+            Manage products, orders and deliveries
+        </p>
+
+    </div>
+
+</div>
 
     <div class="top-buttons">
 
@@ -337,7 +434,7 @@ td img{
 
         <i class="fa-solid fa-cart-shopping"></i>
 
-        <h2>120</h2>
+        <h2>{{ total_orders }}</h2>
 
         <p>Total Orders</p>
 
@@ -347,7 +444,7 @@ td img{
 
         <i class="fa-solid fa-indian-rupee-sign"></i>
 
-        <h2>₹52K</h2>
+        <h2>₹{{ total_revenue }}</h2>
 
         <p>Total Revenue</p>
 
@@ -357,7 +454,7 @@ td img{
 
         <i class="fa-solid fa-truck"></i>
 
-        <h2>15</h2>
+      <h2>{{ pending_orders }}</h2>
 
         <p>Pending Deliveries</p>
 

@@ -24,11 +24,20 @@
             box-sizing:border-box;
             font-family:'Poppins',sans-serif;
         }
+body{
 
-        body{
-            background:#eef4ff;
-            padding:30px 7%;
-        }
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a,
+        #0f766e
+    );
+
+    padding:30px 7%;
+}
 
         a{
             text-decoration:none;
@@ -211,6 +220,11 @@
 
             background:#0f172a;
         }
+        .completed{
+
+    background:#d1fae5;
+    color:#065f46;
+}
 
         /* MOBILE */
 
@@ -348,35 +362,20 @@
 
     let orders = [
 
-    {
-        id:"#AGR1021",
-        customer:"Kushitha",
-        products:"Tomatoes, Milk",
-        amount:540,
-        payment:"UPI",
-        status:"Pending"
-    },
+{% for order in orders %}
 
-    {
-        id:"#AGR1022",
-        customer:"Rahul",
-        products:"Mangoes, Rice",
-        amount:820,
-        payment:"Card",
-        status:"Delivered"
-    },
+{
+    id:"{{ order.id }}",
+    customer:"Buyer {{ order.buyer_id }}",
+    products:"{{ order.product_name }}",
+    amount:{{ order.total_price }},
+    payment:"{{ order.payment_method }}",
+    status:"{{ order.status }}"
+},
 
-    {
-        id:"#AGR1023",
-        customer:"Anjali",
-        products:"Fresh Fruits",
-        amount:340,
-        payment:"Cash On Delivery",
-        status:"Rejected"
-    }
+{% endfor %}
 
-    ];
-
+];
     let table =
     document.getElementById("ordersTable");
 
@@ -417,28 +416,27 @@
                 <td>
 
                     <button class="action-btn accept"
-                    onclick="updateStatus(${index},'Accepted')">
+                    onclick="window.location.href='/update-order-status/${order.id}/Accepted'")">
 
                         Accept
 
                     </button>
 
                     <button class="action-btn reject"
-                    onclick="updateStatus(${index},'Rejected')">
+                    onclick="window.location.href='/update-order-status/${order.id}/Rejected'")">
 
                         Reject
 
                     </button>
+<button class="action-btn ship"
+onclick="window.location.href='/ship-order/${order.id}'">
 
-                    <button class="action-btn ship"
-                    onclick="updateStatus(${index},'Shipped')">
+    Ship
 
-                        Ship
-
-                    </button>
+</button>
 
                     <button class="action-btn deliver"
-                    onclick="updateStatus(${index},'Delivered')">
+                    onclick="window.location.href='/update-order-status/${order.id}/Delivered'")">
 
                         Deliver
 
@@ -461,49 +459,40 @@
         loadOrders();
     }
 
-    function updateStats(){
+   function updateStats(){
 
-        let total =
-        orders.length;
+    let total = orders.length;
 
-        let pending = 0;
+    let pending = 0;
 
-        let delivered = 0;
+    let delivered = 0;
 
-        let revenue = 0;
+    let revenue = 0;
 
-        orders.forEach(order => {
+    orders.forEach(order => {
 
-            if(order.status === "Pending"){
+        if(
+            order.status === "Accepted" ||
+            order.status === "Shipped"
+        ){
+            pending++;
+        }
 
-                pending++;
-            }
+        if(
+            order.status === "Delivered" ||
+            order.status === "Completed"
+        ){
+            delivered++;
+            revenue += order.amount;
+        }
 
-            if(order.status === "Delivered"){
+    });
 
-                delivered++;
-
-                revenue += order.amount;
-            }
-        });
-
-        document.getElementById(
-        "totalOrders"
-        ).innerText = total;
-
-        document.getElementById(
-        "pendingOrders"
-        ).innerText = pending;
-
-        document.getElementById(
-        "deliveredOrders"
-        ).innerText = delivered;
-
-        document.getElementById(
-        "totalRevenue"
-        ).innerText = "₹" + revenue;
-    }
-
+    document.getElementById("totalOrders").innerText = total;
+    document.getElementById("pendingOrders").innerText = pending;
+    document.getElementById("deliveredOrders").innerText = delivered;
+    document.getElementById("totalRevenue").innerText = "₹" + revenue;
+}
     loadOrders();
 
     </script>

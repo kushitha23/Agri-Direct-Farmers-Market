@@ -156,7 +156,7 @@ grid-template-columns:1fr;
 
 <h1>Checkout 🧾</h1>
 
-<form onsubmit="saveOrder(event)">
+<form id="checkoutForm">
 
 <div class="input-box">
 
@@ -269,6 +269,21 @@ placeholder="123">
 </div>
 
 </div>
+<input type="hidden"
+name="product_name"
+id="product_name">
+
+<input type="hidden"
+name="quantity"
+id="quantity">
+
+<input type="hidden"
+name="total_price"
+id="total_price">
+
+<input type="hidden"
+name="payment_method"
+id="payment_method">
 
 <button type="submit"
 class="place-btn">
@@ -385,111 +400,61 @@ document.getElementById("cardBox")
 
 // SAVE ORDER
 
-function saveOrder(event){
+document
+.getElementById("checkoutForm")
+.addEventListener("submit", function(event){
 
-event.preventDefault();
+    event.preventDefault();
 
-// GET FORM VALUES
+    let payment =
+    document.getElementById("payment").value;
 
-let name =
-document.getElementById("name").value;
+    if(payment === ""){
 
-let phone =
-document.getElementById("phone").value;
+        alert("Please select payment method");
 
-let address =
-document.getElementById("address").value;
+        return;
+    }
 
-let payment =
-document.getElementById("payment").value;
+    document.getElementById("product_name").value =
+    cart[0].name;
 
-// VALIDATION
+    document.getElementById("quantity").value =
+    cart[0].quantity;
 
-if(name === "" ||
-phone === "" ||
-address === ""){
+    document.getElementById("total_price").value =
+    total;
 
-alert("Please fill all details");
+    document.getElementById("payment_method").value =
+    payment;
 
-return;
+    let formData =
+    new FormData(this);
 
-}
+    fetch("/save-order", {
 
-if(payment === ""){
+        method:"POST",
 
-alert("Please select payment method");
+        body:formData
 
-return;
+    })
 
-}
+    .then(response => response.text())
 
-// SAVE CUSTOMER
+    .then(data => {
 
-let customer = {
+        localStorage.removeItem("cart");
 
-name:name,
-phone:phone,
-address:address,
-payment:payment
+        alert("Order Saved Successfully 🎉");
 
-};
+        window.location.href =
+        "/order-success.html";
 
-localStorage.setItem(
-"customer",
-JSON.stringify(customer)
-);
+    });
 
-// GET OLD ORDERS
+});
 
-let orders =
-JSON.parse(localStorage.getItem("orders")) || [];
 
-// CREATE NEW ORDER
-
-let newOrder = {
-
-id:"AGR" + Math.floor(Math.random()*100000),
-
-name:name,
-phone:phone,
-address:address,
-payment:payment,
-
-products:[...cart],
-
-total:total,
-
-date:new Date().toLocaleDateString(),
-
-status:"Pending"
-
-};
-
-// ADD ORDER
-
-orders.push(newOrder);
-
-// SAVE ORDERS
-
-localStorage.setItem(
-"orders",
-JSON.stringify(orders)
-);
-
-// CLEAR CART
-
-localStorage.removeItem("cart");
-
-// SUCCESS MESSAGE
-
-alert("Order Placed Successfully 🎉");
-
-// REDIRECT
-
-window.location.href =
-"order-success.html";
-
-}
 
 </script>
 

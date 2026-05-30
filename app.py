@@ -1,10 +1,33 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from db import get_db_connection
+import razorpay
 
 app = Flask(__name__)
 
 app.secret_key = "secret"
+import razorpay
 
+RAZORPAY_KEY_ID = "rzp_test_SvF91JWczZnF6v"
+RAZORPAY_KEY_SECRET = "v3ey6Vo7k43b7fPAjVwYVwiQ"
+
+client = razorpay.Client(
+    auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)
+)
+@app.route("/create-razorpay-order", methods=["POST"])
+def create_razorpay_order():
+
+    amount = int(float(request.form["amount"]) * 100)
+
+    order = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": 1
+    })
+
+    return {
+        "order_id": order["id"],
+        "key": RAZORPAY_KEY_ID
+    }
 
 # ================= HOME =================
 
@@ -195,10 +218,20 @@ def checkout():
 def orderSuccess():
     return render_template("order-success.html")
 
+@app.route("/reject-order/<int:order_id>")
+def rejectOrder(order_id):
 
-@app.route("/order-tracking.html")
-def orderTracking():
-    return render_template("order-tracking.html")
+    conn = get_db_connection()
+
+    conn.execute(
+        "UPDATE orders SET status=? WHERE id=?",
+        ("Rejected", order_id)
+    )
+
+    conn.commit()
+
+    return redirect("/farmer-orders.html")
+
 
 
 @app.route("/order-history.html")
@@ -278,15 +311,75 @@ def productDetails(product_id):
 @app.route("/farmer-dashboard.html")
 def farmerDashboard():
 
-    if "user_id" not in session:
-        return redirect(url_for("login"))
+    conn = get_db_connection()
 
-    return render_template("farmer-dashboard.html")
+    total_orders = conn.execute(
+        "SELECT COUNT(*) as total FROM orders"
+    ).fetchone()["total"]
+
+    total_revenue = conn.execute(
+        """
+        SELECT COALESCE(SUM(total_price),0) as revenue
+        FROM orders
+        WHERE status IN ('Delivered','Completed')
+        """
+    ).fetchone()["revenue"]
+
+    pending_orders = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM orders
+        WHERE status IN ('Accepted','Shipped')
+        """
+    ).fetchone()["total"]
+
+    conn.close()
+
+    return render_template(
+        "farmer-dashboard.html",
+        total_orders=total_orders,
+        total_revenue=total_revenue,
+        pending_orders=pending_orders
+    )
 
 
 @app.route("/farmer-orders.html")
 def farmerOrders():
-    return render_template("farmer-orders.html")
+
+    conn = get_db_connection()
+
+    orders = conn.execute(
+        """
+        SELECT *
+        FROM orders
+        ORDER BY id DESC
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "farmer-orders.html",
+        orders=orders
+    )
+@app.route("/update-order-status/<int:order_id>/<status>")
+def updateOrderStatus(order_id, status):
+
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        UPDATE orders
+        SET status = ?
+        WHERE id = ?
+        """,
+        (status, order_id)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/farmer-orders.html")
 
 
 @app.route("/add-product.html", methods=["GET", "POST"])
@@ -335,7 +428,166 @@ def addProduct():
     return render_template(
         "add-product.html"
     )
+@app.route("/save-order", methods=["POST"])
+def saveOrder():
 
+    buyer_id = session.get("user_id")
+
+    product_name = request.form["product_name"]
+    quantity = request.form["quantity"]
+    total_price = request.form["total_price"]
+    payment_method = request.form["payment_method"]
+
+    # STATUS LOGIC
+
+    if payment_method == "cod":
+        status = "Pending Payment"
+    else:
+        status = "Paid"
+
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        INSERT INTO orders
+        (
+            buyer_id,
+            product_name,
+            quantity,
+            total_price,
+            payment_method,
+            status
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            buyer_id,
+            product_name,
+            quantity,
+            total_price,
+            payment_method,
+            status
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return "Order Saved Successfully"
+
+    return "Order Saved Successfully"
+@app.route("/my-orders")
+def myOrders():
+
+    buyer_id = session.get("user_id")
+
+    if not buyer_id:
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    orders = conn.execute(
+        """
+        SELECT *
+        FROM orders
+        WHERE buyer_id = ?
+        ORDER BY id DESC
+        """,
+        (buyer_id,)
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "my-orders.html",
+        orders=orders
+    )
+@app.route("/track-order/<int:order_id>")
+def trackOrder(order_id):
+
+    conn = get_db_connection()
+
+    order = conn.execute(
+        """
+        SELECT *
+        FROM orders
+        WHERE id = ?
+        """,
+        (order_id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "order-tracking.html",
+        order=order
+    )
+
+@app.route("/confirm-receipt/<int:order_id>")
+def confirmReceipt(order_id):
+
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        UPDATE orders
+        SET status = 'Completed'
+        WHERE id = ?
+        """,
+        (order_id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/my-orders")
+@app.route("/ship-order/<int:order_id>", methods=["GET", "POST"])
+def shipOrder(order_id):
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+
+        estimated_date = request.form["estimated_date"]
+        estimated_time = request.form["estimated_time"]
+
+        conn.execute(
+            """
+            UPDATE orders
+            SET
+                status='Shipped',
+                estimated_date=?,
+                estimated_time=?
+            WHERE id=?
+            """,
+            (
+                estimated_date,
+                estimated_time,
+                order_id
+            )
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/farmer-orders.html")
+
+    order = conn.execute(
+        """
+        SELECT *
+        FROM orders
+        WHERE id=?
+        """,
+        (order_id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "ship-order.html",
+        order=order
+    )
 # ================= ADMIN =================
 
 @app.route("/admin-dashboard.html")

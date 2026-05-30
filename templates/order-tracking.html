@@ -286,7 +286,7 @@
 
         <h1>Order Tracking 🚚</h1>
 
-        <a href="index.html">
+        <a href="/index.html">
 
             <button class="home-btn">
 
@@ -306,188 +306,168 @@
 
         <div class="tracking-box">
 
-            <h2>Tracking Status</h2>
+            <h2>
+Order ID: {{ order.id }}
+<br>
+Status: {{ order.status }}
+<br>
+Product: {{ order.product_name }}
+</h2>
+            <div style="
+background:#dcfce7;
+padding:15px;
+border-radius:12px;
+margin-bottom:25px;
+font-weight:600;
+">
+{% if order.status == "Rejected" %}
 
-            <div class="track">
+<div style="
+background:#fee2e2;
+color:#dc2626;
+padding:20px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+margin-bottom:20px;
+text-align:center;
+">
 
-                <!-- STEP 1 -->
+❌ Order Rejected By Farmer
 
-                <div class="track-step">
+</div>
 
-                    <div class="circle">
+{% else %}
 
-                        <i class="fa-solid fa-check"></i>
+<div class="track">
 
-                    </div>
-
-                    <h3>Order Confirmed</h3>
-
-                    <p>
-                        Your order has been confirmed successfully.
-                    </p>
-
-                </div>
-
-                <!-- STEP 2 -->
-
-                <div class="track-step">
-
-                    <div class="circle">
-
-                        <i class="fa-solid fa-box"></i>
-
-                    </div>
-
-                    <h3>Packed</h3>
-
-                    <p>
-                        Farmer packed your fresh products carefully.
-                    </p>
-
-                </div>
-
-                <!-- STEP 3 -->
-
-                <div class="track-step">
-
-                    <div class="circle">
-
-                        <i class="fa-solid fa-truck"></i>
-
-                    </div>
-
-                    <h3>Shipped</h3>
-
-                    <p>
-                        Your order has been shipped to your location.
-                    </p>
-
-                </div>
-
-                <!-- STEP 4 -->
-
-                <div class="track-step">
-
-                    <div class="circle pending">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                    </div>
-
-                    <h3>Out For Delivery</h3>
-
-                    <p>
-                        Delivery partner will arrive soon.
-                    </p>
-
-                </div>
-
-                <!-- STEP 5 -->
-
-                <div class="track-step">
-
-                    <div class="circle pending">
-
-                        <i class="fa-solid fa-house"></i>
-
-                    </div>
-
-                    <h3>Delivered</h3>
-
-                    <p>
-                        Order will be delivered to your doorstep.
-                    </p>
-
-                </div>
-
-            </div>
-
+    <!-- STEP 1 -->
+    <div class="track-step">
+        <div class="circle pending">
+            <i class="fa-solid fa-check"></i>
         </div>
+        <h3>Order Confirmed</h3>
+        <p>Your order has been confirmed successfully.</p>
+    </div>
 
-        <!-- RIGHT -->
+    <!-- STEP 2 -->
+    <div class="track-step">
+        <div class="circle pending">
+            <i class="fa-solid fa-box"></i>
+        </div>
+        <h3>Packed</h3>
+        <p>Farmer packed your fresh products carefully.</p>
+    </div>
 
-        <div class="details-box">
+    <!-- STEP 3 -->
+    <div class="track-step">
+        <div class="circle pending">
+            <i class="fa-solid fa-truck"></i>
+        </div>
+        <h3>Shipped</h3>
+        <p>Your order has been shipped to your location.</p>
+    </div>
 
-            <h2>Customer Details</h2>
+    <!-- STEP 4 -->
+    <div class="track-step">
+        <div class="circle pending">
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <h3>Out For Delivery</h3>
+        <p>Delivery partner will arrive soon.</p>
+    </div>
 
-            <div class="detail-row">
+    <!-- STEP 5 -->
+    <div class="track-step">
+        <div class="circle pending">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <h3>Delivered</h3>
+        <p>Order will be delivered to your doorstep.</p>
+    </div>
 
-                <strong>Name</strong>
+</div>
 
-                <span id="customerName"></span>
+{% endif %}
 
-            </div>
 
-            <div class="detail-row">
 
-                <strong>Phone</strong>
+</div>
+</div>
 
-                <span id="customerPhone"></span>
+<div class="details-box">
+            
 
-            </div>
+      <h2>Order Details</h2>
 
-            <div class="detail-row">
+<div class="detail-row">
+    <strong>Order ID</strong>
+    <span>{{ order.id }}</span>
+</div>
 
-                <strong>Email</strong>
+<div class="detail-row">
+    <strong>Product</strong>
+    <span>{{ order.product_name }}</span>
+</div>
 
-                <span id="customerEmail"></span>
+<div class="detail-row">
+    <strong>Quantity</strong>
+    <span>{{ order.quantity }}</span>
+</div>
 
-            </div>
+<div class="detail-row">
+    <strong>Amount</strong>
+    <span>₹{{ order.total_price }}</span>
+</div>
 
-            <div class="detail-row">
+<div class="detail-row">
+    <strong>Payment</strong>
+    <span>{{ order.payment_method }}</span>
+</div>
 
-                <strong>Address</strong>
+<div class="detail-row">
+    <strong>Status</strong>
+    <span>{{ order.status }}</span>
+</div>
+<div class="delivery-box">
 
-                <span id="customerAddress"></span>
+    <h3>🚚 Estimated Delivery</h3>
 
-            </div>
+    <p>
 
-            <div class="detail-row">
+    {% if order.estimated_date %}
 
-                <strong>City</strong>
+        {{ order.estimated_date }}
 
-                <span id="customerCity"></span>
+    {% else %}
 
-            </div>
+        Not Available Yet
 
-            <div class="detail-row">
+    {% endif %}
 
-                <strong>Pincode</strong>
+    </p>
 
-                <span id="customerPincode"></span>
+    <p>
 
-            </div>
+    {% if order.estimated_time %}
 
-            <div class="detail-row">
+        {{ order.estimated_time }}
 
-                <strong>Payment</strong>
+    {% else %}
 
-                <span id="customerPayment"></span>
+        Waiting For Farmer
 
-            </div>
+    {% endif %}
 
-            <!-- DELIVERY -->
+    </p>
 
-            <div class="delivery-box">
-
-                <h3>Estimated Delivery</h3>
-
-                <p>
-
-                    Tomorrow
-                    <br>
-
-                    10:00 AM - 2:00 PM
-
-                </p>
-
-            </div>
+</div>
 
             <!-- BUTTONS -->
 
             <div class="button-group">
 
-                <a href="products.html">
+                <a href="/products.html">
 
                     <button class="btn shop-btn">
 
@@ -497,7 +477,7 @@
 
                 </a>
 
-                <a href="index.html">
+                <a href="/index.html">
 
                     <button class="btn home2-btn">
 
@@ -517,31 +497,37 @@
 
     <script>
 
-    let customer =
-    JSON.parse(localStorage.getItem("customer"));
+let status = "{{ order.status }}";
 
-    document.getElementById("customerName")
-    .innerText = customer.name;
+let circles = document.querySelectorAll(".circle");
 
-    document.getElementById("customerPhone")
-    .innerText = customer.phone;
+circles.forEach(circle => {
+    circle.classList.add("pending");
+});
 
-    document.getElementById("customerEmail")
-    .innerText = customer.email;
+if(status === "Accepted"){
 
-    document.getElementById("customerAddress")
-    .innerText = customer.address;
+    circles[0].classList.remove("pending");
 
-    document.getElementById("customerCity")
-    .innerText = customer.city;
+}
+else if(status === "Shipped"){
 
-    document.getElementById("customerPincode")
-    .innerText = customer.pincode;
+    circles[0].classList.remove("pending");
+    circles[1].classList.remove("pending");
+    circles[2].classList.remove("pending");
 
-    document.getElementById("customerPayment")
-    .innerText = customer.payment;
+}
+else if(status === "Delivered" || status === "Completed"){
 
-    </script>
+    circles[0].classList.remove("pending");
+    circles[1].classList.remove("pending");
+    circles[2].classList.remove("pending");
+    circles[3].classList.remove("pending");
+    circles[4].classList.remove("pending");
+
+}
+
+</script>
 
 </body>
 

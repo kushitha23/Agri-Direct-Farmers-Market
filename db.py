@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def get_db_connection():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
@@ -9,6 +10,7 @@ def get_db_connection():
 def create_tables():
 
     conn = get_db_connection()
+    
 
     # USERS TABLE
 
@@ -48,6 +50,31 @@ def create_tables():
             description TEXT,
 
             image TEXT
+
+        )
+    """)
+
+    # ORDERS TABLE
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS orders (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            buyer_id INTEGER,
+
+            product_name TEXT NOT NULL,
+
+            quantity INTEGER NOT NULL,
+
+            total_price REAL NOT NULL,
+
+            payment_method TEXT NOT NULL,
+
+            status TEXT DEFAULT 'Paid',
+
+            order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                 
 
         )
     """)

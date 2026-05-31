@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Checkout | Agri-Direct</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -77,7 +72,6 @@ color:white;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-margin-top:10px;
 }
 
 .summary{
@@ -90,18 +84,16 @@ box-shadow:0 6px 18px rgba(0,0,0,0.05);
 
 .summary h2{
 margin-bottom:25px;
-color:#0f172a;
 }
 
 .summary-row{
 display:flex;
 justify-content:space-between;
 margin-bottom:18px;
-color:#475569;
 }
 
 .total{
-margin-top:25px;
+margin-top:20px;
 padding-top:20px;
 border-top:2px solid #eef2f7;
 display:flex;
@@ -129,17 +121,10 @@ height:220px;
 margin-bottom:15px;
 }
 
-.qr-box p{
-font-size:16px;
-color:#475569;
-}
-
 @media(max-width:900px){
-
 .checkout-container{
 grid-template-columns:1fr;
 }
-
 }
 
 </style>
@@ -150,8 +135,6 @@ grid-template-columns:1fr;
 
 <div class="checkout-container">
 
-<!-- LEFT -->
-
 <div class="checkout-form">
 
 <h1>Checkout 🧾</h1>
@@ -159,250 +142,105 @@ grid-template-columns:1fr;
 <form id="checkoutForm">
 
 <div class="input-box">
-
 <label>Full Name</label>
-
-<input type="text"
-id="name"
-placeholder="Enter your name"
-required>
-
+<input type="text" id="name" name="name" required>
 </div>
 
 <div class="input-box">
-
 <label>Phone Number</label>
-
-<input type="tel"
-id="phone"
-placeholder="Enter phone number"
-required>
-
+<input type="tel" id="phone" name="phone" required>
 </div>
 
 <div class="input-box">
-
 <label>Delivery Address</label>
-
-<textarea rows="4"
-id="address"
-placeholder="Enter delivery address"
-required></textarea>
-
+<textarea rows="4" id="address" name="address" required></textarea>
 </div>
 
 <div class="input-box">
-
 <label>Payment Method</label>
 
-<select id="payment"
-onchange="showPaymentFields()"
-required>
+<select id="payment" name="payment" onchange="showPaymentFields()" required>
 
-<option value="">
-Select Payment Method
-</option>
+<option value="">Select Payment Method</option>
+<option value="Cash On Delivery">Cash On Delivery</option>
+<option value="ONLINE PAYMENT">ONLINE PAYMENT</option>
 
-<option value="cod">
-Cash On Delivery
-</option>
-
-<option value="upi">
-UPI Payment
-</option>
-
-<option value="card">
-Card Payment
-</option>
 
 </select>
 
 </div>
 
-<!-- UPI -->
 
-<div id="upiBox">
 
-<div class="qr-box">
+<input type="hidden" name="product_name" id="product_name">
+<input type="hidden" name="quantity" id="quantity">
+<input type="hidden" name="total_price" id="total_price">
+<input type="hidden" name="payment_method" id="payment_method">
 
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=kushitha@paytm&pn=AgriDirect&cu=INR">
-
-<p>
-
-Scan QR using PhonePe / Google Pay / Paytm
-
-</p>
-
-</div>
-
-</div>
-
-<!-- CARD -->
-
-<div id="cardBox">
-
-<div class="input-box">
-
-<label>Card Number</label>
-
-<input type="text"
-placeholder="1234 5678 9012 3456">
-
-</div>
-
-<div class="input-box">
-
-<label>Card Holder Name</label>
-
-<input type="text"
-placeholder="Enter card holder name">
-
-</div>
-
-<div class="input-box">
-
-<label>CVV</label>
-
-<input type="password"
-placeholder="123">
-
-</div>
-
-</div>
-<input type="hidden"
-name="product_name"
-id="product_name">
-
-<input type="hidden"
-name="quantity"
-id="quantity">
-
-<input type="hidden"
-name="total_price"
-id="total_price">
-
-<input type="hidden"
-name="payment_method"
-id="payment_method">
-
-<button type="submit"
-class="place-btn">
-
+<button type="submit" class="place-btn">
 Place Order
-
 </button>
 
 </form>
 
 </div>
 
-<!-- RIGHT -->
-
 <div class="summary">
 
 <h2>Order Summary</h2>
 
 <div class="summary-row">
-
 <span>Subtotal</span>
-
-<span id="subtotal">
-
-₹0
-
-</span>
-
+<span id="subtotal">₹0</span>
 </div>
 
 <div class="summary-row">
-
 <span>Delivery Fee</span>
-
-<span>
-
-₹50
-
-</span>
-
+<span>₹50</span>
 </div>
 
 <div class="total">
-
 <span>Total</span>
-
-<span id="total">
-
-₹0
-
-</span>
-
+<span id="total">₹0</span>
 </div>
 
 </div>
 
 </div>
-
 <script>
 
-// GET CART
-
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
-// CALCULATE TOTAL
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 let subtotal = 0;
 
 cart.forEach(item => {
-
-subtotal += item.price * item.quantity;
-
+    subtotal += Number(item.price) * Number(item.quantity);
 });
 
 let total = subtotal + 50;
 
-// SHOW TOTAL
-
-document.getElementById("subtotal")
-.innerText = "₹" + subtotal;
-
-document.getElementById("total")
-.innerText = "₹" + total;
-
-// PAYMENT METHOD
+document.getElementById("subtotal").innerText = "₹" + subtotal;
+document.getElementById("total").innerText = "₹" + total;
 
 function showPaymentFields(){
 
-let payment =
-document.getElementById("payment").value;
+    let payment =
+    document.getElementById("payment").value;
 
-document.getElementById("upiBox")
-.style.display = "none";
+    document.getElementById("upiBox").style.display = "none";
+    document.getElementById("cardBox").style.display = "none";
 
-document.getElementById("cardBox")
-.style.display = "none";
+    if(payment === "UPI"){
+        document.getElementById("upiBox").style.display = "block";
+    }
 
-if(payment === "upi"){
-
-document.getElementById("upiBox")
-.style.display = "block";
-
+    if(payment === "Card"){
+        document.getElementById("cardBox").style.display = "block";
+    }
 }
 
-if(payment === "card"){
-
-document.getElementById("cardBox")
-.style.display = "block";
-
-}
-
-}
-
-// SAVE ORDER
-
-document
-.getElementById("checkoutForm")
-.addEventListener("submit", function(event){
+document.getElementById("checkoutForm")
+.addEventListener("submit", async function(event){
 
     event.preventDefault();
 
@@ -410,54 +248,164 @@ document
     document.getElementById("payment").value;
 
     if(payment === ""){
-
         alert("Please select payment method");
+        return;
+    }
+
+    if(cart.length === 0){
+        alert("Cart is empty");
+        return;
+    }
+
+    // CASH ON DELIVERY
+
+    if(payment === "Cash On Delivery"){
+
+        document.getElementById("product_name").value =
+        cart.map(item => item.name).join(", ");
+
+        document.getElementById("quantity").value =
+        cart.reduce((sum,item)=>sum+Number(item.quantity),0);
+
+        document.getElementById("total_price").value =
+        total;
+
+        document.getElementById("payment_method").value =
+        "cod";
+
+        let formData =
+        new FormData(this);
+
+        fetch("/save-order",{
+            method:"POST",
+            body:formData
+        })
+        .then(response => response.text())
+        .then(data => {
+
+            localStorage.removeItem("cart");
+
+            alert("Order Placed Successfully 🎉");
+
+            window.location.href =
+            "/my-orders";
+
+        });
 
         return;
     }
 
-    document.getElementById("product_name").value =
-    cart[0].name;
+    // RAZORPAY PAYMENT
 
-    document.getElementById("quantity").value =
-    cart[0].quantity;
+    let orderData = new FormData();
 
-    document.getElementById("total_price").value =
-    total;
+    orderData.append(
+        "amount",
+        total
+    );
 
-    document.getElementById("payment_method").value =
-    payment;
+    let response =
+    await fetch(
+        "/create-razorpay-order",
+        {
+            method:"POST",
+            body:orderData
+        }
+    );
 
-    let formData =
-    new FormData(this);
+    let data =
+    await response.json();
 
-    fetch("/save-order", {
+    let options = {
 
-        method:"POST",
+        key: data.key,
 
-        body:formData
+        amount: total * 100,
 
-    })
+        currency: "INR",
 
-    .then(response => response.text())
+        name: "Agri Direct",
 
-    .then(data => {
+        description: "Farm Product Order",
 
-        localStorage.removeItem("cart");
+        order_id: data.order_id,
 
-        alert("Order Saved Successfully 🎉");
+        handler: function(response){
 
-        window.location.href =
-        "/order-success.html";
+            document.getElementById("product_name").value =
+            cart.map(item => item.name).join(", ");
 
-    });
+            document.getElementById("quantity").value =
+            cart.reduce((sum,item)=>sum+Number(item.quantity),0);
+
+            document.getElementById("total_price").value =
+            total;
+
+            document.getElementById("payment_method").value =
+            "razorpay";
+
+            let formData =
+            new FormData(
+                document.getElementById("checkoutForm")
+            );
+
+            formData.append(
+                "razorpay_payment_id",
+                response.razorpay_payment_id
+            );
+
+            formData.append(
+                "razorpay_order_id",
+                response.razorpay_order_id
+            );
+
+            fetch("/save-order",{
+                method:"POST",
+                body:formData
+            })
+            .then(res => res.text())
+            .then(result => {
+
+                localStorage.removeItem("cart");
+
+                alert("Payment Successful 🎉");
+
+                window.location.href =
+                "/my-orders";
+
+            });
+
+        },
+
+        prefill:{
+
+            name:
+            document.getElementById("name").value,
+
+            contact:
+            document.getElementById("phone").value
+
+        },
+
+        theme:{
+            color:"#22c55e"
+        }
+
+    };
+
+    let rzp =
+    new Razorpay(options);
+
+    rzp.open();
 
 });
 
-
-
 </script>
 
-</body>
 
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</body>
 </html>

@@ -180,7 +180,7 @@ grid-template-columns:1fr;
 <button type="submit" class="place-btn">
 Place Order
 </button>
-
+ 
 </form>
 
 </div>
@@ -275,6 +275,10 @@ document.getElementById("checkoutForm")
 
         let formData =
         new FormData(this);
+        formData.append(
+    "cart",
+    JSON.stringify(cart)
+);
 
         fetch("/save-order",{
             method:"POST",
@@ -297,12 +301,14 @@ document.getElementById("checkoutForm")
 
     // RAZORPAY PAYMENT
 
-    let orderData = new FormData();
+   // RAZORPAY PAYMENT
 
-    orderData.append(
-        "amount",
-        total
-    );
+let orderData = new FormData();
+
+orderData.append(
+    "amount",
+    total
+);
 
     let response =
     await fetch(
@@ -344,10 +350,15 @@ document.getElementById("checkoutForm")
             document.getElementById("payment_method").value =
             "razorpay";
 
-            let formData =
-            new FormData(
-                document.getElementById("checkoutForm")
-            );
+           let formData =
+new FormData(
+    document.getElementById("checkoutForm")
+);
+
+formData.append(
+    "cart",
+    JSON.stringify(cart)
+);
 
             formData.append(
                 "razorpay_payment_id",

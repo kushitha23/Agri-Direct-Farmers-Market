@@ -1,3 +1,4 @@
+
 import sqlite3
 
 
@@ -10,7 +11,6 @@ def get_db_connection():
 def create_tables():
 
     conn = get_db_connection()
-    
 
     # USERS TABLE
 
@@ -27,7 +27,13 @@ def create_tables():
 
             password TEXT NOT NULL,
 
-            role TEXT NOT NULL
+            role TEXT NOT NULL,
+
+            status TEXT DEFAULT 'Pending',
+
+            is_blocked INTEGER DEFAULT 0,
+
+            verified INTEGER DEFAULT 0
 
         )
     """)
@@ -74,7 +80,36 @@ def create_tables():
             status TEXT DEFAULT 'Paid',
 
             order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                 
+
+        )
+    """)
+
+    # NOTIFICATIONS TABLE
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS notifications (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            title TEXT,
+
+            message TEXT,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        )
+    """)
+
+    # ACTIVITY LOGS TABLE
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS activity_logs (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            action TEXT,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
         )
     """)
@@ -181,3 +216,4 @@ def create_tables():
 
 
 create_tables()
+

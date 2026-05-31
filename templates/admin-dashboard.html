@@ -521,7 +521,7 @@ td{
 
         <i class="fa-solid fa-user-tie"></i>
 
-        <h2 id="totalFarmers">0</h2>
+        <h2>{{ total_farmers }}</h2>
 
         <p>Total Farmers</p>
 
@@ -531,7 +531,7 @@ td{
 
         <i class="fa-solid fa-users"></i>
 
-        <h2 id="totalCustomers">0</h2>
+        <h2>{{ total_buyers }}</h2>
 
         <p>Total Customers</p>
 
@@ -541,7 +541,7 @@ td{
 
         <i class="fa-solid fa-cart-shopping"></i>
 
-        <h2 id="totalOrders">0</h2>
+        <h2>{{ total_orders }}</h2>
 
         <p>Total Orders</p>
 
@@ -551,7 +551,7 @@ td{
 
         <i class="fa-solid fa-box"></i>
 
-        <h2 id="totalProducts">0</h2>
+        <h2>{{ total_products }}</h2>
 
         <p>Total Products</p>
 
@@ -561,7 +561,7 @@ td{
 
         <i class="fa-solid fa-wallet"></i>
 
-        <h2 id="totalRevenue">₹0</h2>
+        <h2>₹{{ total_revenue }}</h2>
 
         <p>Total Revenue</p>
 
@@ -584,19 +584,19 @@ td{
 
     </div>
 
+<div class="action-card"
+onclick="window.location.href='manage-buyers.html'">
+
+    <i class="fa-solid fa-users"></i>
+
+    <h3>Manage Buyers</h3>
+
+    <p>View and manage buyers</p>
+
+</div>
+
     <div class="action-card"
-    onclick="window.location.href='manage-customers.html'">
-
-        <i class="fa-solid fa-users"></i>
-
-        <h3>Manage Customers</h3>
-
-        <p>View and control customer activity</p>
-
-    </div>
-
-    <div class="action-card"
-    onclick="window.location.href='farmer-orders.html'">
+    onclick="window.location.href='manage-orders.html'">
 
         <i class="fa-solid fa-bag-shopping"></i>
 
@@ -653,21 +653,64 @@ onkeyup="searchFarmers()">
 
 <tr>
 
-<th>Farmer</th>
-<th>Farm</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Products</th>
-<th>Orders</th>
-<th>Revenue</th>
-<th>Status</th>
-<th>Actions</th>
+<tr>
+
+    <th>Farmer</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Status</th>
+    <th>Actions</th>
+
+</tr>
 
 </tr>
 
 </thead>
 
 <tbody id="farmerTable">
+
+</tbody>
+<tbody>
+
+{% for farmer in recent_farmers %}
+
+<tr>
+
+    <td>{{ farmer.fullname }}</td>
+
+    <td>{{ farmer.email }}</td>
+
+    <td>{{ farmer.phone }}</td>
+
+    <td>{{ farmer.status }}</td>
+
+    <td>
+
+        {% if farmer.status == 'Pending' %}
+
+        <a href="/approve-farmer/{{ farmer.id }}">
+            <button class="approve-btn">
+                Approve
+            </button>
+        </a>
+
+        <a href="/reject-farmer/{{ farmer.id }}">
+            <button class="reject-btn">
+                Reject
+            </button>
+        </a>
+
+        {% else %}
+
+        <span>{{ farmer.status }}</span>
+
+        {% endif %}
+
+    </td>
+
+</tr>
+
+{% endfor %}
 
 </tbody>
 
@@ -745,75 +788,6 @@ onkeyup="searchFarmers()">
 
 /* FARMERS */
 
-let farmers = [
-
-{
-name:"Ramesh",
-farm:"Green Valley Farm",
-email:"ramesh@gmail.com",
-phone:"+91 9876543210",
-products:45,
-orders:120,
-revenue:85000,
-status:"Pending"
-},
-
-{
-name:"Suresh",
-farm:"Organic Fresh Farm",
-email:"suresh@gmail.com",
-phone:"+91 9876543211",
-products:60,
-orders:210,
-revenue:125000,
-status:"Approved"
-},
-
-{
-name:"Mahesh",
-farm:"Nature Farm",
-email:"mahesh@gmail.com",
-phone:"+91 9876543212",
-products:30,
-orders:80,
-revenue:45000,
-status:"Pending"
-},
-
-{
-name:"Anil",
-farm:"Fresh Roots Farm",
-email:"anil@gmail.com",
-phone:"+91 9876543213",
-products:25,
-orders:70,
-revenue:32000,
-status:"Approved"
-},
-
-{
-name:"Kiran",
-farm:"Golden Harvest Farm",
-email:"kiran@gmail.com",
-phone:"+91 9876543214",
-products:50,
-orders:180,
-revenue:97000,
-status:"Approved"
-},
-
-{
-name:"Vijay",
-farm:"Natural Grow Farm",
-email:"vijay@gmail.com",
-phone:"+91 9876543215",
-products:18,
-orders:40,
-revenue:18000,
-status:"Rejected"
-}
-
-];
 
 let farmerTable =
 document.getElementById(

@@ -311,7 +311,7 @@ td{
 
         <i class="fa-solid fa-tractor"></i>
 
-        <h2 id="totalFarmers">0</h2>
+        <h2 id="totalFarmers">{{ total_farmers }}</h2>
 
         <p>Total Farmers</p>
 
@@ -321,7 +321,7 @@ td{
 
         <i class="fa-solid fa-user-check"></i>
 
-        <h2 id="approvedFarmers">0</h2>
+        <h2 id="approvedFarmers">{{ approved_farmers }}</h2>
 
         <p>Approved Farmers</p>
 
@@ -331,7 +331,7 @@ td{
 
         <i class="fa-solid fa-clock"></i>
 
-        <h2 id="pendingFarmers">0</h2>
+        <h2 id="pendingFarmers">{{ pending_farmers }}</h2>
 
         <p>Pending Approvals</p>
 
@@ -341,7 +341,7 @@ td{
 
         <i class="fa-solid fa-user-xmark"></i>
 
-        <h2 id="rejectedFarmers">0</h2>
+        <h2 id="rejectedFarmers">{{ rejected_farmers }}</h2>
 
         <p>Rejected Farmers</p>
 
@@ -374,15 +374,83 @@ td{
                 <th>Farm Name</th>
                 <th>Email</th>
                 <th>Status</th>
+                
+                <th>Blocked/Unblocked</th>
                 <th>Actions</th>
 
             </tr>
 
         </thead>
 
-        <tbody id="farmersTable">
+      
+<tbody>
 
-        </tbody>
+
+
+
+
+   {% for farmer in farmers %}
+
+<tr>
+
+    <td>{{ farmer.fullname }}</td>
+
+    <td>{{ farmer.phone }}</td>
+
+    <td>{{ farmer.email }}</td>
+
+    <td>{{ farmer.status }}</td>
+
+    <td>
+        {% if farmer.is_blocked == 1 %}
+            Blocked
+        {% else %}
+            Active
+        {% endif %}
+    </td>
+    <td>
+
+        <a href="/approve-farmer/{{ farmer.id }}">
+            <button class="approve-btn">
+                Approve
+            </button>
+        </a>
+
+        <a href="/reject-farmer/{{ farmer.id }}">
+            <button class="reject-btn">
+                Reject
+            </button>
+        </a>
+
+{% if farmer.is_blocked == 0 %}
+
+<a href="/block-user/{{ farmer.id }}">
+    <button class="delete-btn">
+        Block
+    </button>
+</a>
+
+{% else %}
+
+<a href="/unblock-user/{{ farmer.id }}">
+    <button class="approve-btn">
+        Unblock
+    </button>
+</a>
+
+{% endif %}
+
+
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+
 
     </table>
 
@@ -390,160 +458,8 @@ td{
 
 <!-- SCRIPT -->
 
+
 <script>
-
-let farmers = [
-
-{
-    name:"Ramesh",
-    farm:"Green Valley Farm",
-    email:"ramesh@gmail.com",
-    status:"Pending"
-},
-
-{
-    name:"Suresh",
-    farm:"Organic Fresh Farm",
-    email:"suresh@gmail.com",
-    status:"Approved"
-},
-
-{
-    name:"Mahesh",
-    farm:"Nature Farm",
-    email:"mahesh@gmail.com",
-    status:"Rejected"
-}
-
-];
-
-let table =
-document.getElementById(
-"farmersTable"
-);
-
-function loadFarmers(){
-
-    table.innerHTML = "";
-
-    let approved = 0;
-    let pending = 0;
-    let rejected = 0;
-
-    farmers.forEach((farmer,index)=>{
-
-        let statusClass =
-        farmer.status.toLowerCase();
-
-        if(farmer.status === "Approved"){
-            approved++;
-        }
-
-        if(farmer.status === "Pending"){
-            pending++;
-        }
-
-        if(farmer.status === "Rejected"){
-            rejected++;
-        }
-
-        table.innerHTML += `
-
-        <tr>
-
-            <td>${farmer.name}</td>
-
-            <td>${farmer.farm}</td>
-
-            <td>${farmer.email}</td>
-
-            <td>
-
-                <span class="status ${statusClass}">
-
-                    ${farmer.status}
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <button class="approve-btn"
-                onclick="approveFarmer(${index})">
-
-                    Approve
-
-                </button>
-
-                <button class="reject-btn"
-                onclick="rejectFarmer(${index})">
-
-                    Reject
-
-                </button>
-
-                <button class="delete-btn"
-                onclick="deleteFarmer(${index})">
-
-                    Delete
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-    });
-
-    document.getElementById(
-    "totalFarmers"
-    ).innerText = farmers.length;
-
-    document.getElementById(
-    "approvedFarmers"
-    ).innerText = approved;
-
-    document.getElementById(
-    "pendingFarmers"
-    ).innerText = pending;
-
-    document.getElementById(
-    "rejectedFarmers"
-    ).innerText = rejected;
-}
-
-function approveFarmer(index){
-
-    farmers[index].status =
-    "Approved";
-
-    loadFarmers();
-}
-
-function rejectFarmer(index){
-
-    farmers[index].status =
-    "Rejected";
-
-    loadFarmers();
-}
-
-function deleteFarmer(index){
-
-    let confirmDelete =
-    confirm(
-    "Delete this farmer?"
-    );
-
-    if(confirmDelete){
-
-        farmers.splice(index,1);
-
-        loadFarmers();
-    }
-}
 
 function searchFarmers(){
 
@@ -554,7 +470,7 @@ function searchFarmers(){
 
     let rows =
     document.querySelectorAll(
-    "#farmersTable tr"
+    "tbody tr"
     );
 
     rows.forEach(row=>{
@@ -573,12 +489,51 @@ function searchFarmers(){
 
             row.style.display = "none";
         }
+
     });
+
 }
 
-loadFarmers();
+</script>
+
+<script>
+
+function searchFarmers(){
+
+    let input =
+    document.getElementById(
+        "searchInput"
+    ).value.toLowerCase();
+
+    let rows =
+    document.querySelectorAll(
+        "tbody tr"
+    );
+
+    rows.forEach(row => {
+
+        let farmerName =
+        row.children[0]
+        .innerText
+        .toLowerCase();
+
+        if(farmerName.includes(input)){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
 
 </script>
+
+
 
 </body>
 

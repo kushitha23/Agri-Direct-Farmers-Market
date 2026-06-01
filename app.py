@@ -2,6 +2,25 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from db import get_db_connection
 import razorpay
 import json
+MARKET_PRICES = {
+
+    "Organic Tomatoes": 45,
+
+    "Sweet Mangoes": 110,
+
+    "Basmati Rice": 95,
+
+    "Fresh Apples": 150,
+
+    "Fresh Milk": 65,
+
+    "Organic Carrots": 55,
+
+    "Green Chillies": 20,
+
+    "Fresh Vegetables": 40
+
+}
 
 app = Flask(__name__)
 
@@ -325,10 +344,18 @@ def farmerOrders():
 
     orders = conn.execute(
         """
-        SELECT *
-        FROM orders
-        WHERE farmer_id = ?
-        ORDER BY id DESC
+        SELECT
+    orders.*,
+    users.fullname as buyer_name
+
+FROM orders
+
+LEFT JOIN users
+ON orders.buyer_id = users.id
+
+WHERE orders.farmer_id = ?
+
+ORDER BY orders.id DESC
         """,
         (farmer_id,)
     ).fetchall()
@@ -395,8 +422,18 @@ def productDetails(product_id):
 
     product = conn.execute(
         """
-        SELECT * FROM products
-        WHERE id = ?
+        SELECT
+            products.*,
+            users.fullname as farmer_name,
+            users.email as farmer_email,
+            users.phone as farmer_phone
+
+        FROM products
+
+        LEFT JOIN users
+        ON products.farmer_id = users.id
+
+        WHERE products.id = ?
         """,
         (product_id,)
     ).fetchone()
@@ -411,15 +448,18 @@ def productDetails(product_id):
         product=product
     )
 
-
 # ================= FARMER =================
 
 @app.route("/farmer-dashboard.html")
 def farmerDashboard():
 
+    import random
+
     farmer_id = session["user_id"]
 
     conn = get_db_connection()
+
+    # Total Products
 
     total_products = conn.execute(
         """
@@ -430,6 +470,8 @@ def farmerDashboard():
         (farmer_id,)
     ).fetchone()["total"]
 
+    # Total Orders
+
     total_orders = conn.execute(
         """
         SELECT COUNT(*) as total
@@ -438,6 +480,8 @@ def farmerDashboard():
         """,
         (farmer_id,)
     ).fetchone()["total"]
+
+    # Revenue
 
     total_revenue = conn.execute(
         """
@@ -449,6 +493,8 @@ def farmerDashboard():
         (farmer_id,)
     ).fetchone()["revenue"]
 
+    # Pending Deliveries
+
     pending_orders = conn.execute(
         """
         SELECT COUNT(*) as total
@@ -457,7 +503,6 @@ def farmerDashboard():
         AND status IN
         (
             'Paid',
-            'Pending Payment',
             'Accepted',
             'Shipped'
         )
@@ -465,19 +510,149 @@ def farmerDashboard():
         (farmer_id,)
     ).fetchone()["total"]
 
+    # Today's Orders
+
+    today_orders = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM orders
+        WHERE farmer_id = ?
+        AND date(order_date) = date('now')
+        """,
+        (farmer_id,)
+    ).fetchone()["total"]
+
+    # Today's Revenue
+
+    today_revenue = conn.execute(
+        """
+        SELECT COALESCE(SUM(total_price),0) as revenue
+        FROM orders
+        WHERE farmer_id = ?
+        AND status IN ('Delivered','Completed')
+        AND date(order_date) = date('now')
+        """,
+        (farmer_id,)
+    ).fetchone()["revenue"]
+
+    # Best Selling Product
+
+    best_product = conn.execute(
+        """
+        SELECT
+            product_name,
+            COUNT(*) as total_sales
+
+        FROM orders
+
+        WHERE farmer_id = ?
+
+        GROUP BY product_name
+
+        ORDER BY total_sales DESC
+
+        LIMIT 1
+        """,
+        (farmer_id,)
+    ).fetchone()
+
+    # Revenue Growth (Demo)
+
+    growth_percent = 25
+
+    # Smart Farming Tips
+
+    tips = [
+
+        "💧 Water crops early morning to reduce evaporation.",
+
+        "🌱 Use organic compost for healthier soil.",
+
+        "🐞 Encourage beneficial insects for natural pest control.",
+
+        "☀️ Check weather forecasts before irrigation.",
+
+        "🚜 Rotate crops regularly to improve soil fertility."
+
+    ]
+
+    daily_tip = random.choice(tips)
+
     conn.close()
 
     return render_template(
         "farmer-dashboard.html",
+
         total_products=total_products,
         total_orders=total_orders,
         total_revenue=total_revenue,
-        pending_orders=pending_orders
+        pending_orders=pending_orders,
+
+        today_orders=today_orders,
+        today_revenue=today_revenue,
+
+        best_product=best_product,
+        growth_percent=growth_percent,
+
+        daily_tip=daily_tip
     )
+def updateProduct(product_id):
+
+    name = request.form["name"]
+    category = request.form["category"]
+    price = request.form["price"]
+    stock = request.form["stock"]
+
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        UPDATE products
+        SET
+        name=?,
+        category=?,
+        price=?,
+        stock=?
+        WHERE id=?
+        """,
+        (
+            name,
+            category,
+            price,
+            stock,
+            product_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/farmer-products.html")
 @app.route("/update-order-status/<int:order_id>/<status>")
 def updateOrderStatus(order_id, status):
 
     conn = get_db_connection()
+
+    if status == "Rejected":
+
+        order = conn.execute(
+            """
+            SELECT payment_method
+            FROM orders
+            WHERE id = ?
+            """,
+            (order_id,)
+        ).fetchone()
+
+        if order:
+
+            if order["payment_method"].lower() == "razorpay":
+
+                status = "Refund Requested"
+
+            else:
+
+                status = "Rejected"
 
     conn.execute(
         """
@@ -492,7 +667,6 @@ def updateOrderStatus(order_id, status):
     conn.close()
 
     return redirect("/farmer-orders.html")
-
 
 @app.route("/add-product.html", methods=["GET", "POST"])
 def addProduct():
@@ -752,6 +926,7 @@ def trackOrder(order_id):
         "order-tracking.html",
         order=order
     )
+
 @app.route("/check-session")
 def checkSession():
 
@@ -879,7 +1054,45 @@ def adminDashboard():
 )
 
 
+@app.route("/global-marketplace.html")
+def globalMarketplace():
 
+    conn = get_db_connection()
+
+    products = conn.execute(
+        """
+        SELECT *
+        FROM products
+        ORDER BY name
+        """
+    ).fetchall()
+
+    market_data = []
+
+    for product in products:
+
+        market_price = MARKET_PRICES.get(
+            product["name"],
+            product["price"]
+        )
+
+        market_data.append({
+
+            "name": product["name"],
+
+            "your_price": product["price"],
+            "category": product["category"],
+
+            "market_price": market_price
+
+        })
+
+    conn.close()
+
+    return render_template(
+        "global-marketplace.html",
+        products=market_data
+    )
 @app.route("/manage-buyers.html")
 def manageBuyers():
 
@@ -1061,7 +1274,23 @@ def manageOrders():
         total_revenue=total_revenue
     )
 
+@app.route("/admin-delete-product/<int:product_id>")
+def adminDeleteProduct(product_id):
 
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        DELETE FROM products
+        WHERE id = ?
+        """,
+        (product_id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/manage-products.html")
 
 @app.route("/delete-product/<int:product_id>")
 def deleteProduct(product_id):
@@ -1079,16 +1308,28 @@ def deleteProduct(product_id):
     conn.commit()
     conn.close()
 
-    flash(
-        "Product Deleted Successfully!",
-        "success"
+    return redirect("/farmer-products.html")
+
+@app.route("/edit-product/<int:product_id>")
+def editProduct(product_id):
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        """
+        SELECT *
+        FROM products
+        WHERE id = ?
+        """,
+        (product_id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "edit-product.html",
+        product=product
     )
-
-    return redirect(
-        url_for("manageProducts")
-    )
-
-
 @app.route("/manage-products.html")
 def manageProducts():
 
@@ -1131,10 +1372,114 @@ def manageProducts():
 
 @app.route("/reports.html")
 def reports():
-    return render_template("reports.html")
 
+    conn = get_db_connection()
 
+    total_revenue = conn.execute(
+        """
+        SELECT COALESCE(SUM(total_price),0) as revenue
+        FROM orders
+        WHERE status IN ('Delivered','Completed')
+        """
+    ).fetchone()["revenue"]
 
+    total_orders = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM orders
+        """
+    ).fetchone()["total"]
+
+    delivered_orders = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM orders
+        WHERE status IN ('Delivered','Completed')
+        """
+    ).fetchone()["total"]
+
+    total_farmers = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM users
+        WHERE role='farmer'
+        """
+    ).fetchone()["total"]
+    top_products = conn.execute(
+    """
+    SELECT
+        product_name,
+        COUNT(*) as orders_count,
+        COALESCE(SUM(total_price),0) as revenue
+    FROM orders
+    GROUP BY product_name
+    ORDER BY orders_count DESC
+    LIMIT 5
+    """
+).fetchall()
+
+    conn.close()
+
+    return render_template(
+    "reports.html",
+    total_revenue=total_revenue,
+    total_orders=total_orders,
+    delivered_orders=delivered_orders,
+    total_farmers=total_farmers,
+    top_products=top_products
+)
+@app.route("/admin-farmer-details/<int:farmer_id>")
+def adminFarmerDetails(farmer_id):
+
+    conn = get_db_connection()
+
+    farmer = conn.execute(
+        """
+        SELECT *
+        FROM users
+        WHERE id = ?
+        """,
+        (farmer_id,)
+    ).fetchone()
+
+    products = conn.execute(
+        """
+        SELECT *
+        FROM products
+        WHERE farmer_id = ?
+        """,
+        (farmer_id,)
+    ).fetchall()
+
+    total_revenue = conn.execute(
+        """
+        SELECT COALESCE(SUM(total_price),0) as revenue
+        FROM orders
+        WHERE farmer_id = ?
+        AND status IN ('Delivered','Completed')
+        """,
+        (farmer_id,)
+       
+    ).fetchone()["revenue"]
+
+    total_orders = conn.execute(
+        """
+        SELECT COUNT(*) as total
+        FROM orders
+        WHERE farmer_id = ?
+        """,
+        (farmer_id,)
+    ).fetchone()["total"]
+
+    conn.close()
+
+    return render_template(
+        "admin-farmer-details.html",
+        farmer=farmer,
+        products=products,
+        total_revenue=total_revenue,
+        total_orders=total_orders
+    )
 
 from flask import request
 

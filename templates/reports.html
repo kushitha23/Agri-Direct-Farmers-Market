@@ -489,8 +489,7 @@ td{
     <div class="stat-card">
 
         <i class="fa-solid fa-wallet"></i>
-
-        <h2 id="revenueValue">₹0</h2>
+<h2>₹{{ total_revenue }}</h2>
 
         <p>Total Revenue</p>
 
@@ -500,7 +499,7 @@ td{
 
         <i class="fa-solid fa-cart-shopping"></i>
 
-        <h2 id="ordersValue">0</h2>
+        <h2>{{ total_orders }}</h2>
 
         <p>Total Orders</p>
 
@@ -510,7 +509,7 @@ td{
 
         <i class="fa-solid fa-truck"></i>
 
-        <h2 id="deliveredValue">0</h2>
+        <h2>{{ delivered_orders }}</h2>
 
         <p>Delivered Orders</p>
 
@@ -520,7 +519,7 @@ td{
 
         <i class="fa-solid fa-user-group"></i>
 
-        <h2 id="farmersValue">0</h2>
+        <h2>{{ total_farmers }}</h2>
 
         <p>Top Farmers</p>
 
@@ -556,74 +555,37 @@ td{
 
             <tbody>
 
-                <tr>
+                <tbody>
 
-                    <td>Organic Tomatoes</td>
+{% for product in top_products %}
 
-                    <td>Vegetables</td>
+<tr>
 
-                    <td>420</td>
+    <td>{{ product.product_name }}</td>
 
-                    <td>₹52,000</td>
+    <td>Agriculture</td>
 
-                    <td>
+    <td>{{ product.orders_count }}</td>
 
-                        <span class="badge green">
+    <td>₹{{ product.revenue }}</td>
 
-                            High Demand
+    <td>
 
-                        </span>
+        <span class="badge green">
 
-                    </td>
+            Top Seller
 
-                </tr>
+        </span>
 
-                <tr>
+    </td>
 
-                    <td>Fresh Mangoes</td>
+</tr>
 
-                    <td>Fruits</td>
+{% endfor %}
 
-                    <td>320</td>
+</tbody>
 
-                    <td>₹48,000</td>
-
-                    <td>
-
-                        <span class="badge light">
-
-                            Trending
-
-                        </span>
-
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Farm Fresh Milk</td>
-
-                    <td>Dairy</td>
-
-                    <td>280</td>
-
-                    <td>₹30,000</td>
-
-                    <td>
-
-                        <span class="badge dark">
-
-                            Medium Sales
-
-                        </span>
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
+            
         </table>
 
     </div>

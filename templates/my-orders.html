@@ -162,7 +162,22 @@ margin-top:100px;
 
    <div class="status">
 
-    Current Status: [{{ order.status }}]
+{% if order.status == "Refund Requested" %}
+
+    Current Status:
+    [Order Rejected by Farmer]
+
+    <br><br>
+
+    Refund Status:
+    [Refund Processing]
+
+{% else %}
+
+    Current Status:
+    [{{ order.status }}]
+
+{% endif %}
 
 </div>
 

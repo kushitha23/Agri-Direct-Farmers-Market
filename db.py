@@ -42,6 +42,7 @@ def create_tables():
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS products (
+                 farmers_id INTEGER,
 
             id INTEGER PRIMARY KEY AUTOINCREMENT,
 

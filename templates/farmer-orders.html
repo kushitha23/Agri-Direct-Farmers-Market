@@ -358,15 +358,15 @@ body{
 
     <!-- SCRIPT -->
 
-    <script>
+   <script>
 
-    let orders = [
+let orders = [
 
 {% for order in orders %}
 
 {
     id:"{{ order.id }}",
-    customer:"Buyer {{ order.buyer_id }}",
+    customer:"{{ order.buyer_name }}",
     products:"{{ order.product_name }}",
     amount:{{ order.total_price }},
     payment:"{{ order.payment_method }}",
@@ -376,90 +376,122 @@ body{
 {% endfor %}
 
 ];
-    let table =
-    document.getElementById("ordersTable");
 
-    function loadOrders(){
+let table =
+document.getElementById("ordersTable");
 
-        table.innerHTML = "";
+function loadOrders(){
 
-        orders.forEach((order,index) => {
+    table.innerHTML = "";
 
-            let statusClass =
-            order.status.toLowerCase();
+    orders.forEach((order,index) => {
 
-            table.innerHTML += `
+        let statusClass =
+        order.status.toLowerCase().replace(" ","-");
 
-            <tr>
+        let actions = "";
 
-                <td>${order.id}</td>
+        if(
+            order.status === "Refund Requested"
+        ){
 
-                <td>${order.customer}</td>
-
-                <td>${order.products}</td>
-
-                <td>₹${order.amount}</td>
-
-                <td>${order.payment}</td>
-
-                <td>
-
-                    <span class="status ${statusClass}"
-                    id="status${index}">
-
-                        ${order.status}
-
-                    </span>
-
-                </td>
-
-                <td>
-
-                    <button class="action-btn accept"
-                    onclick="window.location.href='/update-order-status/${order.id}/Accepted'")">
-
-                        Accept
-
-                    </button>
-
-                    <button class="action-btn reject"
-                    onclick="window.location.href='/update-order-status/${order.id}/Rejected'")">
-
-                        Reject
-
-                    </button>
-<button class="action-btn ship"
-onclick="window.location.href='/ship-order/${order.id}'">
-
-    Ship
-
-</button>
-
-                    <button class="action-btn deliver"
-                    onclick="window.location.href='/update-order-status/${order.id}/Delivered'")">
-
-                        Deliver
-
-                    </button>
-
-                </td>
-
-            </tr>
-
+            actions =
+            `
+            <span style="
+            color:#f59e0b;
+            font-weight:700;">
+            Refund Processing
+            </span>
             `;
-        });
+        }
 
-        updateStats();
-    }
+        else if(
+            order.status === "Delivered" ||
+            order.status === "Completed"
+        ){
 
-    function updateStatus(index,status){
+            actions =
+            `
+            <span style="
+            color:green;
+            font-weight:700;">
+            Completed
+            </span>
+            `;
+        }
 
-        orders[index].status = status;
+        else{
 
-        loadOrders();
-    }
+            actions =
+            `
+            <button class="action-btn accept"
+            onclick="window.location.href='/update-order-status/${order.id}/Accepted'">
 
-   function updateStats(){
+                Accept
+
+            </button>
+
+            <button class="action-btn reject"
+            onclick="window.location.href='/update-order-status/${order.id}/Rejected'">
+
+                Reject
+
+            </button>
+
+            <button class="action-btn ship"
+            onclick="window.location.href='/ship-order/${order.id}'">
+
+                Ship
+
+            </button>
+
+            <button class="action-btn deliver"
+            onclick="window.location.href='/update-order-status/${order.id}/Delivered'">
+
+                Deliver
+
+            </button>
+            `;
+        }
+
+        table.innerHTML +=
+        `
+        <tr>
+
+            <td>${order.id}</td>
+
+            <td>${order.customer}</td>
+
+            <td>${order.products}</td>
+
+            <td>₹${order.amount}</td>
+
+            <td>${order.payment}</td>
+
+            <td>
+
+                <span class="status ${statusClass}">
+
+                    ${order.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                ${actions}
+
+            </td>
+
+        </tr>
+        `;
+    });
+
+    updateStats();
+}
+
+function updateStats(){
 
     let total = orders.length;
 
@@ -472,6 +504,7 @@ onclick="window.location.href='/ship-order/${order.id}'">
     orders.forEach(order => {
 
         if(
+            order.status === "Paid" ||
             order.status === "Accepted" ||
             order.status === "Shipped"
         ){
@@ -493,9 +526,10 @@ onclick="window.location.href='/ship-order/${order.id}'">
     document.getElementById("deliveredOrders").innerText = delivered;
     document.getElementById("totalRevenue").innerText = "₹" + revenue;
 }
-    loadOrders();
 
-    </script>
+loadOrders();
+
+</script>
 
 </body>
 

@@ -395,6 +395,30 @@ td img{
     </div>
 
 </div>
+<div style="
+background:rgba(255,255,255,0.15);
+padding:25px;
+border-radius:20px;
+color:rgb(109, 217, 104);
+max-width:450px;
+">
+
+    <h3>🌱 Farmer Inspiration</h3>
+
+    <br>
+
+    <p style="
+    font-size:18px;
+    line-height:1.8;
+    font-style:italic;
+    ">
+
+        "The farmer has to be an optimist
+        or he wouldn't still be a farmer."
+
+    </p>
+
+</div>
 
     <div class="top-buttons">
 
@@ -404,7 +428,12 @@ td img{
             Notifications
 
         </button>
+<button class="top-btn"
+onclick="window.location.href='/global-marketplace.html'">
 
+    🌍 Global Marketplace
+
+</button>
         <button class="top-btn logout-btn"
         onclick="logoutUser()">
 
@@ -501,46 +530,93 @@ td img{
 
 </div>
 
-<!-- PRODUCTS -->
+<!-- FARM PERFORMANCE SECTION -->
 
 <div class="products-box">
 
     <div class="products-header">
 
-        <h2>My Products</h2>
-
-        <input type="text"
-        id="searchInput"
-        placeholder="Search products..."
-        onkeyup="searchProducts()">
+        <h2>🚀 Farm Performance Center</h2>
 
     </div>
 
-    <table>
+    <div class="stats">
 
-        <thead>
+        <div class="stat-card">
 
-            <tr>
+            <i class="fa-solid fa-trophy"></i>
 
-                <th>Image</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Edit</th>
-                <th>Delete</th>
+            <h2>
+                {% if best_product %}
+                    {{ best_product.product_name }}
+                {% else %}
+                    No Sales Yet
+                {% endif %}
+            </h2>
 
-            </tr>
+            <p>Best Selling Product</p>
 
-        </thead>
+        </div>
 
-        <tbody id="productTableBody">
+        <div class="stat-card">
 
-        </tbody>
+            <i class="fa-solid fa-sun"></i>
 
-    </table>
+            <h2>{{ today_orders }}</h2>
+
+            <p>Today's Orders</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            <h2>₹{{ today_revenue }}</h2>
+
+            <p>Today's Revenue</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <h2>{{ growth_percent }}%</h2>
+
+            <p>Revenue Growth</p>
+
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <div style="
+        background:linear-gradient(135deg,#22c55e,#16a34a);
+        color:white;
+        padding:30px;
+        border-radius:20px;
+        text-align:center;
+    ">
+
+        <h2>💡 Smart Farming Tip</h2>
+
+        <br>
+
+        <p style="
+            font-size:18px;
+            line-height:1.8;
+        ">
+
+            {{ daily_tip }}
+
+        </p>
+
+    </div>
 
 </div>
+
 
 <!-- SCRIPT -->
 

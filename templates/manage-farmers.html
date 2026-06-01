@@ -241,7 +241,27 @@ td{
 .delete-btn{
     background:#ef4444;
 }
+.view-btn{
 
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.view-btn:hover{
+
+    background:#1d4ed8;
+}
 /* MOBILE */
 
 @media(max-width:1000px){
@@ -377,6 +397,7 @@ td{
                 
                 <th>Blocked/Unblocked</th>
                 <th>Actions</th>
+                <th>Details</th>
 
             </tr>
 
@@ -398,6 +419,19 @@ td{
     <td>{{ farmer.phone }}</td>
 
     <td>{{ farmer.email }}</td>
+   <td>
+
+    <a href="/admin-farmer-details/{{ farmer.id }}">
+
+        <button class="view-btn">
+
+            View Details
+
+        </button>
+
+    </a>
+
+</td>
 
     <td>{{ farmer.status }}</td>
 

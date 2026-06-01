@@ -132,7 +132,26 @@ padding:12px 20px;
 border-radius:12px;
 cursor:pointer;
 }
+.edit-btn{
 
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.delete-btn{
+
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-left:5px;
+}
 @media(max-width:900px){
 
 .stats{
@@ -211,6 +230,9 @@ font-size:30px;
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Status</th>
+                <th>Image</th>
+
+               
 
             </tr>
 
@@ -238,7 +260,25 @@ font-size:30px;
             <td>₹{{ product.price }}</td>
 
             <td>{{ product.stock }}</td>
+<td>
 
+    <a href="/edit-product/{{ product.id }}">
+
+        <button class="edit-btn">
+            Edit
+        </button>
+
+    </a>
+
+    <a href="/delete-product/{{ product.id }}">
+
+        <button class="delete-btn">
+            Delete
+        </button>
+
+    </a>
+
+</td>
             <td>
 
                 {% if product.stock > 0 %}

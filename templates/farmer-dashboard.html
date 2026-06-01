@@ -85,7 +85,35 @@ a{
     font-weight:600;
     cursor:pointer;
 }
+.marketplace-btn{
 
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
+    );
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.marketplace-btn:hover{
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+}
 .notify-btn{
     background:#22c55e;
 }
@@ -428,10 +456,20 @@ max-width:450px;
             Notifications
 
         </button>
-<button class="top-btn"
+        
+<button
+class="top-btn"
+style="
+background:#16a34a;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-weight:600;
+"
 onclick="window.location.href='/global-marketplace.html'">
 
-    🌍 Global Marketplace
+🌍 Global Marketplace
 
 </button>
         <button class="top-btn logout-btn"

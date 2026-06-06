@@ -1,7 +1,11 @@
+import email
+from fileinput import filename
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from db import get_db_connection
 import razorpay
 import json
+import re
 MARKET_PRICES = {
 
     "Organic Tomatoes": 45,
@@ -68,7 +72,7 @@ def login():
 
     if request.method == "POST":
 
-        email = request.form["email"]
+        phone = request.form["phone"]
         password = request.form["password"]
 
         conn = get_db_connection()
@@ -77,9 +81,9 @@ def login():
             """
             SELECT *
             FROM users
-            WHERE email = ? AND password = ?
+            WHERE phone = ? AND password = ?
             """,
-            (email, password)
+            (phone, password)
         ).fetchone()
 
         conn.close()
@@ -122,7 +126,7 @@ def login():
                 )
 
         flash(
-            "Invalid Email or Password!",
+            "Invalid Phone or Password!",
             "error"
         )
 
@@ -137,25 +141,91 @@ def login():
 
 
 
+
+import re
+
 @app.route("/register.html", methods=["GET", "POST"])
 def register():
 
     if request.method == "POST":
 
-        fullname = request.form["fullname"]
-        email = request.form["email"]
-        phone = request.form["phone"]
+        fullname = request.form["fullname"].strip()
+        email = request.form.get("email", "").strip()
+        phone = request.form["phone"].strip()
         password = request.form["password"]
         confirmPassword = request.form["confirmPassword"]
         role = request.form["role"]
+
+        # NAME VALIDATION
+
+        if not re.match(r'^[A-Za-z ]+$', fullname):
+            flash(
+                "Name should contain only letters and spaces!",
+                "error"
+            )
+            return render_template("register.html")
+
+        # PHONE VALIDATION
+
+        if not re.match(r'^[6-9]\d{9}$', phone):
+            flash(
+                "Enter a valid Indian phone number!",
+                "error"
+            )
+            return render_template("register.html")
+
+        # EMAIL REQUIRED FOR BUYERS
+
+        if role == "buyer" and not email:
+            flash(
+                "Email is required for buyers!",
+                "error"
+            )
+            return render_template("register.html")
+
+        # PASSWORD REQUIRED
+
+        if not password:
+            flash(
+                "Password is required!",
+                "error"
+            )
+            return render_template("register.html")
+
+        # CONFIRM PASSWORD REQUIRED
+
+        if not confirmPassword:
+            flash(
+                "Please confirm your password!",
+                "error"
+            )
+            return render_template("register.html")
+
+        # EMAIL VALIDATION
+
+        if email:
+
+            if not re.match(
+                r'^[A-Za-z0-9._%+-]+@(gmail\.com|yahoo\.com)$',
+                email,
+                re.IGNORECASE
+            ):
+                flash(
+                    "Only Gmail or Yahoo email addresses are allowed!",
+                    "error"
+                )
+                return render_template("register.html")
 
         # PASSWORD MATCH CHECK
 
         if password != confirmPassword:
 
-            flash("Passwords do not match!", "error")
+            flash(
+                "Passwords do not match!",
+                "error"
+            )
 
-            return redirect(url_for("register"))
+            return render_template("register.html")
 
         # PASSWORD LENGTH CHECK
 
@@ -166,7 +236,7 @@ def register():
                 "error"
             )
 
-            return redirect(url_for("register"))
+            return render_template("register.html")
 
         # WEAK PASSWORD CHECK
 
@@ -179,32 +249,58 @@ def register():
 
         if password.lower() in weak_passwords:
 
-            flash("Choose a stronger password!", "error")
+            flash(
+                "Choose a stronger password!",
+                "error"
+            )
 
-            return redirect(url_for("register"))
+            return render_template("register.html")
 
         conn = get_db_connection()
 
-        # DUPLICATE CHECK
+        # DUPLICATE PHONE CHECK
 
-        existing_user = conn.execute(
+        existing_phone = conn.execute(
             """
             SELECT * FROM users
-            WHERE email = ? OR phone = ?
+            WHERE phone = ?
             """,
-            (email, phone)
+            (phone,)
         ).fetchone()
 
-        if existing_user:
+        if existing_phone:
 
             flash(
-                "Email or Phone number already exists!",
+                "Phone number already exists!",
                 "error"
             )
 
             conn.close()
 
-            return redirect(url_for("register"))
+            return render_template("register.html")
+
+        # DUPLICATE EMAIL CHECK
+
+        if email:
+
+            existing_email = conn.execute(
+                """
+                SELECT * FROM users
+                WHERE email = ?
+                """,
+                (email,)
+            ).fetchone()
+
+            if existing_email:
+
+                flash(
+                    "Email already exists!",
+                    "error"
+                )
+
+                conn.close()
+
+                return render_template("register.html")
 
         # INSERT USER
 
@@ -212,16 +308,24 @@ def register():
             """
             INSERT INTO users
             (fullname, email, phone, password, role)
-
             VALUES (?, ?, ?, ?, ?)
             """,
-            (fullname, email, phone, password, role)
+            (
+                fullname,
+                email,
+                phone,
+                password,
+                role
+            )
         )
 
         conn.commit()
         conn.close()
 
-        flash("Registration Successful!", "success")
+        flash(
+            "Registration Successful!",
+            "success"
+        )
 
         return redirect(url_for("login"))
 
@@ -667,6 +771,13 @@ def updateOrderStatus(order_id, status):
     conn.close()
 
     return redirect("/farmer-orders.html")
+from flask import send_from_directory
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('.', filename)
+import os
+from werkzeug.utils import secure_filename
 
 @app.route("/add-product.html", methods=["GET", "POST"])
 def addProduct():
@@ -678,7 +789,21 @@ def addProduct():
         price = request.form["price"]
         stock = request.form["stock"]
         description = request.form["description"]
-        image = request.form["image"]
+
+        image = request.files["image"]
+
+        filename = secure_filename(
+            image.filename
+        )
+
+        filename = secure_filename(image.filename)
+
+        import os
+
+        print(os.getcwd())
+
+        image.save(filename)
+        
 
         farmer_id = session.get("user_id")
 
@@ -705,7 +830,7 @@ def addProduct():
                 price,
                 stock,
                 description,
-                image,
+                filename,
                 farmer_id
             )
         )

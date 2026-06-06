@@ -409,10 +409,12 @@
 
                     <label>Full Name</label>
 
-                    <input type="text"
-                    name="fullname"
-                    placeholder="Enter your full name"
-                    required>
+                    <input
+type="text"
+name="fullname"
+value="{{ request.form.get('fullname','') }}"
+placeholder="Enter your full name"
+required>
 
                 </div>
 
@@ -422,10 +424,12 @@
 
                     <label>Email Address</label>
 
-                    <input type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required>
+          <input
+type="email"
+name="email"
+value="{{ request.form.get('email','') }}"
+placeholder="Enter your email address"
+required>
 
                 </div>
 
@@ -435,12 +439,14 @@
 
                     <label>Phone Number</label>
 
-                    <input type="tel"
-                    name="phone"
-                    pattern="[0-9]{10}"
-                    maxlength="10"
-                    placeholder="Enter phone number"
-                    required>
+                  <input
+type="tel"
+name="phone"
+value="{{ request.form.get('phone','') }}"
+pattern="[0-9]{10}"
+maxlength="10"
+placeholder="Enter phone number"
+required>
 
                 </div>
 
@@ -450,76 +456,62 @@
 
                     <label>Select Role</label>
 
-                    <select name="role" required>
+                   <select name="role" required>
 
-                        <option value="">Choose Role</option>
+    <option value="">Choose Role</option>
 
-                        <option value="buyer">Buyer</option>
+    <option value="buyer"
+    {% if request.form.get('role') == 'buyer' %}
+    selected
+    {% endif %}>
+    Buyer
+    </option>
 
-                        <option value="farmer">Farmer</option>
+    <option value="farmer"
+    {% if request.form.get('role') == 'farmer' %}
+    selected
+    {% endif %}>
+    Farmer
+    </option>
 
-                        
-
-                    </select>
+</select>
 
                 </div>
 
                 <!-- PASSWORD -->
 
-                <div class="input-group">
+               <!-- PASSWORD -->
 
-                    <label>Password</label>
+<div class="input-group">
 
-                    <input type="password"
-                    id="password"
-                    name="password"
-                    minlength="6"
-                    placeholder="Create password"
-                    required>
+    <label>Password</label>
 
-                    <i class="fa-solid fa-eye password-toggle"
-                    onclick="togglePassword()"></i>
+    <input type="password"
+    id="password"
+    name="password"
+    minlength="6"
+    placeholder="Create password"
+    required>
 
-                </div>
+    <i class="fa-solid fa-eye password-toggle"
+    onclick="togglePassword()"></i>
 
-                <!-- CONFIRM PASSWORD -->
+</div>
 
-                <div class="input-group">
+<!-- CONFIRM PASSWORD -->
 
-                    <label>Confirm Password</label>
+<div class="input-group">
 
-                    <input type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    minlength="6"
-                    placeholder="Confirm password"
-                    required>
+    <label>Confirm Password</label>
 
-                </div>
+    <input type="password"
+    id="confirmPassword"
+    name="confirmPassword"
+    minlength="6"
+    placeholder="Confirm password"
+    required>
 
-                <!-- BUTTON -->
-
-                <button type="submit" class="register-btn">
-
-                    Register Now
-
-                </button>
-
-            </form>
-
-            <!-- LOGIN -->
-
-            <div class="login-link">
-
-                Already have an account?
-
-                <a href="login.html">
-
-                    Login
-
-                </a>
-
-            </div>
+</div><!-- BUTTON --> <button type="submit" class="register-btn"> Register Now </button> </form> <!-- LOGIN --> <div class="login-link"> Already have an account? <a href="login.html"> Login </a> </div>
 
             <!-- HOME -->
 

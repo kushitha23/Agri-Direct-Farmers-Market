@@ -84,6 +84,15 @@ def create_tables():
 
         )
     """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS buyer_addresses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            fullname TEXT,
+            phone TEXT,
+            address TEXT
+        )
+    """)
 
     # NOTIFICATIONS TABLE
 

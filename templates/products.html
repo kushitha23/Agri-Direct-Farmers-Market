@@ -564,9 +564,11 @@ style="text-decoration:none;color:inherit;">
 <div class="product-card"
 data-name="{{ product.name }} {{ product.category }}">
 
-            <img src="{{ product.image }}"
-            alt="{{ product.name }}">
-
+           {% if "http" in product.image %}
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+{% else %}
+    <img src="data:image/png;base64,{{ product.image }}" alt="{{ product.name }}">
+{% endif %}
             <div class="product-content">
 
                 <span class="category">

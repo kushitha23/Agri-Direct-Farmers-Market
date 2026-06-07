@@ -415,10 +415,29 @@ def products():
 def cart():
     return render_template("cart.html")
 
-
 @app.route("/checkout.html")
 def checkout():
-    return render_template("checkout.html")
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    address = conn.execute(
+        """
+        SELECT *
+        FROM buyer_addresses
+        WHERE user_id = ?
+        """,
+        (session["user_id"],)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "checkout.html",
+        address=address
+    )
 
 
 @app.route("/order-success.html")
@@ -551,7 +570,29 @@ def productDetails(product_id):
         "product-details.html",
         product=product
     )
+@app.route("/profile")
+def profile():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    user = conn.execute(
+        """
+        SELECT *
+        FROM users
+        WHERE id = ?
+        """,
+        (session["user_id"],)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "profile.html",
+        user=user
+    )
 # ================= FARMER =================
 
 @app.route("/farmer-dashboard.html")
@@ -700,6 +741,7 @@ def farmerDashboard():
 
         daily_tip=daily_tip
     )
+@app.route("/update-product/<int:product_id>", methods=["POST"])
 def updateProduct(product_id):
 
     name = request.form["name"]
@@ -731,7 +773,9 @@ def updateProduct(product_id):
     conn.commit()
     conn.close()
 
-    return redirect("/farmer-products.html")
+    return redirect(url_for("farmerProducts"))
+
+     
 @app.route("/update-order-status/<int:order_id>/<status>")
 def updateOrderStatus(order_id, status):
 
@@ -779,6 +823,9 @@ def uploaded_file(filename):
 import os
 from werkzeug.utils import secure_filename
 
+from flask import request, render_template, redirect, url_for, flash, session
+import base64
+
 @app.route("/add-product.html", methods=["GET", "POST"])
 def addProduct():
 
@@ -792,18 +839,9 @@ def addProduct():
 
         image = request.files["image"]
 
-        filename = secure_filename(
-            image.filename
-        )
-
-        filename = secure_filename(image.filename)
-
-        import os
-
-        print(os.getcwd())
-
-        image.save(filename)
-        
+        image_data = base64.b64encode(
+            image.read()
+        ).decode("utf-8")
 
         farmer_id = session.get("user_id")
 
@@ -830,7 +868,7 @@ def addProduct():
                 price,
                 stock,
                 description,
-                filename,
+                image_data,
                 farmer_id
             )
         )
@@ -844,7 +882,7 @@ def addProduct():
         )
 
         return redirect(
-            url_for("products")
+            url_for("farmerProducts")
         )
 
     return render_template(
@@ -959,6 +997,62 @@ def saveOrder():
 
     conn = get_db_connection()
 
+    # SAVE BUYER ADDRESS
+
+    fullname = request.form["name"]
+    phone = request.form["phone"]
+    address = request.form["address"]
+
+    existing_address = conn.execute(
+        """
+        SELECT *
+        FROM buyer_addresses
+        WHERE user_id = ?
+        """,
+        (buyer_id,)
+    ).fetchone()
+
+    if existing_address:
+
+        conn.execute(
+            """
+            UPDATE buyer_addresses
+            SET fullname = ?,
+                phone = ?,
+                address = ?
+            WHERE user_id = ?
+            """,
+            (
+                fullname,
+                phone,
+                address,
+                buyer_id
+            )
+        )
+
+    else:
+
+        conn.execute(
+            """
+            INSERT INTO buyer_addresses
+            (
+                user_id,
+                fullname,
+                phone,
+                address
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                buyer_id,
+                fullname,
+                phone,
+                address
+            )
+        )
+
+    # SAVE ORDERS
+
     for item in cart:
 
         product = conn.execute(
@@ -987,7 +1081,6 @@ def saveOrder():
                 payment_method,
                 status
             )
-
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
             (
@@ -1005,6 +1098,8 @@ def saveOrder():
     conn.close()
 
     return "Order Saved Successfully"
+
+    
 @app.route("/my-orders")
 def myOrders():
 

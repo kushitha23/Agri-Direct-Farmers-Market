@@ -231,11 +231,13 @@ item.price * item.quantity;
 cartContainer.innerHTML += `
 
 <div class="cart-card">
-
-<img src="${item.image}">
+<img src="${
+    item.image.includes('http')
+    ? item.image
+    : 'data:image/png;base64,' + item.image
+}">
 
 <div class="cart-info">
-
 <h2>${item.name}</h2>
 
 <div class="price">

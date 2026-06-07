@@ -244,12 +244,27 @@ font-size:30px;
 
         <tr>
 
-            <td>
+          
 
-                <img
-                    src="{{ product.image }}"
-                    class="product-img"
-                >
+               <td>
+
+{% if "http" in product.image %}
+
+    <img
+        src="{{ product.image }}"
+        class="product-img"
+    >
+
+{% else %}
+
+    <img
+        src="data:image/png;base64,{{ product.image }}"
+        class="product-img"
+    >
+
+{% endif %}
+
+
 
             </td>
 

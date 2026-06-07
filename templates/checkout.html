@@ -143,17 +143,31 @@ grid-template-columns:1fr;
 
 <div class="input-box">
 <label>Full Name</label>
-<input type="text" id="name" name="name" required>
+<input
+type="text"
+id="name"
+name="name"
+value="{{ address.fullname if address else '' }}"
+required>
 </div>
 
 <div class="input-box">
 <label>Phone Number</label>
-<input type="tel" id="phone" name="phone" required>
+<input
+type="tel"
+id="phone"
+name="phone"
+value="{{ address.phone if address else '' }}"
+required>
 </div>
 
 <div class="input-box">
 <label>Delivery Address</label>
-<textarea rows="4" id="address" name="address" required></textarea>
+<textarea
+rows="4"
+id="address"
+name="address"
+required>{{ address.address if address else '' }}</textarea>
 </div>
 
 <div class="input-box">
@@ -164,6 +178,25 @@ grid-template-columns:1fr;
 <option value="">Select Payment Method</option>
 <option value="Cash On Delivery">Cash On Delivery</option>
 <option value="ONLINE PAYMENT">ONLINE PAYMENT</option>
+<option value="QR PAYMENT">QR PAYMENT</option><div id="qrBox" style="display:none; text-align:center; margin-top:20px;">
+
+    <h3>Demo QR Payment</h3>
+
+    <img
+    src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=AgriDirectDemo"
+    width="250">
+
+    <br><br>
+
+    <button
+    type="button"
+    onclick="simulateQRPayment()">
+
+        Simulate Successful Payment
+
+    </button>
+
+</div>
 
 
 </select>
@@ -227,18 +260,12 @@ function showPaymentFields(){
     let payment =
     document.getElementById("payment").value;
 
-    document.getElementById("upiBox").style.display = "none";
-    document.getElementById("cardBox").style.display = "none";
+    document.getElementById("qrBox").style.display = "none";
 
-    if(payment === "UPI"){
-        document.getElementById("upiBox").style.display = "block";
-    }
-
-    if(payment === "Card"){
-        document.getElementById("cardBox").style.display = "block";
+    if(payment === "QR PAYMENT"){
+        document.getElementById("qrBox").style.display = "block";
     }
 }
-
 document.getElementById("checkoutForm")
 .addEventListener("submit", async function(event){
 
@@ -410,6 +437,38 @@ formData.append(
     rzp.open();
 
 });
+function simulateQRPayment(){
+
+    document.getElementById("payment_method").value =
+    "qr";
+
+    let formData =
+    new FormData(
+        document.getElementById("checkoutForm")
+    );
+
+    formData.append(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    fetch("/save-order",{
+        method:"POST",
+        body:formData
+    })
+    .then(res => res.text())
+    .then(data => {
+
+        localStorage.removeItem("cart");
+
+        alert("QR Payment Successful 🎉");
+
+        window.location.href =
+        "/my-orders";
+
+    });
+
+}
 
 </script>
 
@@ -417,6 +476,7 @@ formData.append(
 
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
 </body>
 </html>

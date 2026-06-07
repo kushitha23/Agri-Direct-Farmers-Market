@@ -420,8 +420,12 @@
 
         <div class="product-image">
 
-           <p>{{ product.image }}</p>
-<img src="/{{ product.image }}">
+          {% if "http" in product.image %}
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+{% else %}
+    <img src="data:image/png;base64,{{ product.image }}" alt="{{ product.name }}">
+{% endif %}
+
 
         </div>
 
@@ -482,29 +486,21 @@
 
             <!-- FARMER -->
 
-            <div class="farmer-box">
+        <p>
 
-                <h2>
-                    Farmer Information
-                </h2>
+    👨‍🌾 Farmer Name: {{ product.farmer_name }}
 
-                <p>
+    <br><br>
 
-                    👨‍🌾 Farmer Name: Ramesh Kumar
+    📧 Email: {{ product.farmer_email }}
 
-                    <br><br>
+    <br><br>
 
-                    📍 Location: Hyderabad, Telangana
+    📞 Phone: {{ product.farmer_phone }}
 
-                    <br><br>
+</p>
 
-                    🌾 Experience: 10 Years
-
-                </p>
-
-            </div>
-
-        </div>
+      
 
     </section>
 
@@ -520,7 +516,7 @@
 
             <!-- CARROTS -->
 
-            <a href="carrot-details.html" class="related-card">
+            <a href="{{ url_for('carrotDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a">
 
@@ -540,7 +536,7 @@
 
             <!-- TOMATO -->
 
-            <a href="tomato-details.html" class="related-card">
+            <a href="{{ url_for('tomatoDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337">
 
@@ -560,7 +556,7 @@
 
             <!-- RICE -->
 
-            <a href="rice-details.html" class="related-card">
+            <a href="{{ url_for('riceDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c">
 
@@ -580,7 +576,7 @@
 
             <!-- MANGO -->
 
-            <a href="mango-details.html" class="related-card">
+            <a href="{{ url_for('mangoDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1553279768-865429fa0078">
 
@@ -600,7 +596,7 @@
 
             <!-- APPLES -->
 
-            <a href="apple-details.html" class="related-card">
+            <a href="{{ url_for('appleDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
 
@@ -620,7 +616,7 @@
 
             <!-- MILK -->
 
-            <a href="milk-details.html" class="related-card">
+            <a href="{{ url_for('milkDetails') }}" class="related-card">
 
                 <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800">
 

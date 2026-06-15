@@ -529,19 +529,33 @@ onkeyup="searchProducts()">
 
                 <i class="fa-solid fa-filter"></i>
 
-                <select>
+              <select
+id="categoryFilter"
+onchange="filterProducts()">
 
-                    <option>All</option>
+    <option value="All">All</option>
 
-                    <option>Vegetables</option>
+    <option value="Vegetables">
+        Vegetables
+    </option>
 
-                    <option>Fruits</option>
+    <option value="Fruits">
+        Fruits
+    </option>
 
-                    <option>Grains</option>
+    <option value="Grains">
+        Grains
+    </option>
 
-                    <option>Dairy</option>
+    <option value="Dairy">
+        Dairy
+    </option>
 
-                </select>
+    <option value="Organic">
+        Organic
+    </option>
+
+</select>
 
             </div>
 
@@ -562,7 +576,8 @@ onkeyup="searchProducts()">
 style="text-decoration:none;color:inherit;">
 
 <div class="product-card"
-data-name="{{ product.name }} {{ product.category }}">
+data-name="{{ product.name }} {{ product.category }}"
+data-category="{{ product.category }}">
 
            {% if "http" in product.image %}
     <img src="{{ product.image }}" alt="{{ product.name }}">
@@ -690,7 +705,45 @@ function searchProducts(){
     });
 
 }
+function filterProducts(){
 
+    let selectedCategory =
+    document.getElementById(
+        "categoryFilter"
+    ).value;
+
+    let products =
+    document.querySelectorAll(
+        ".product-card"
+    );
+
+    products.forEach(function(product){
+
+        let category =
+        product.getAttribute(
+            "data-category"
+        );
+
+        if(
+            selectedCategory === "All" ||
+            category === selectedCategory
+        ){
+
+            product.style.display =
+            "block";
+
+        }
+
+        else{
+
+            product.style.display =
+            "none";
+
+        }
+
+    });
+
+}
 </script>
 
 </body>

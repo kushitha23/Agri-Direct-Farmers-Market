@@ -93,7 +93,65 @@ def create_tables():
             address TEXT
         )
     """)
+    conn.execute("""
+CREATE TABLE IF NOT EXISTS wishlist(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    buyer_id INTEGER,
+    product_id INTEGER
+)
+""")
+    
+    conn.execute("""
 
+CREATE TABLE IF NOT EXISTS farmer_payment_details(
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    farmer_id INTEGER UNIQUE,
+
+    upi_id TEXT,
+
+    account_holder TEXT,
+
+    account_number TEXT,
+
+    ifsc_code TEXT
+
+)
+
+""")
+    conn.execute("""
+
+DROP TABLE IF EXISTS addresses;
+
+""")
+
+    conn.execute("""
+
+CREATE TABLE addresses(
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL,
+
+    address_name TEXT NOT NULL,
+
+    address_line1 TEXT NOT NULL,
+
+    address_line2 TEXT,
+
+    city TEXT NOT NULL,
+
+    state TEXT NOT NULL,
+
+    pincode TEXT NOT NULL,
+
+    FOREIGN KEY(user_id)
+    REFERENCES users(id)
+
+);
+
+""")
     # NOTIFICATIONS TABLE
 
     conn.execute("""

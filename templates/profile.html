@@ -295,7 +295,100 @@ body{
         </div>
 
     </div>
+    <div style="margin-top:20px;">
 
+    <a href="/add_address"
+    class="btn home-btn">
+
+        + Add Address
+
+    </a>
+
+</div>{% if addresses %}
+
+<h2 style="
+color:white;
+margin-top:25px;
+margin-bottom:15px;
+text-align:left;
+">
+
+My Addresses
+
+</h2>
+
+{% for address in addresses %}
+
+<div class="info-box">
+
+    <div class="label">
+
+        {{ address.address_name }}
+
+    </div>
+
+    <div class="value"
+    style="
+    font-size:16px;
+    line-height:28px;
+    ">
+
+        {{ address.address_line1 }}
+
+        {% if address.address_line2 %}
+
+        <br>
+
+        {{ address.address_line2 }}
+
+        {% endif %}
+
+        <br>
+
+        {{ address.city }},
+
+        {{ address.state }}
+
+        -
+
+        {{ address.pincode }}
+
+    </div>
+
+    <div style="
+    margin-top:15px;
+
+    display:flex;
+
+    gap:10px;
+    ">
+
+        <a href="/edit_address/{{ address.id }}"
+        class="btn home-btn">
+
+            Edit
+
+        </a>
+
+        <a href="/delete_address/{{ address.id }}"
+
+        class="btn logout-btn"
+
+        onclick="return confirm(
+        'Delete this address?'
+        )">
+
+            Delete
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
     <div class="button-group">
 
         <a href="/index.html" class="btn home-btn">

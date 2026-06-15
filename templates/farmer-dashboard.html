@@ -153,7 +153,86 @@ a{
     font-size:16px;
     opacity:.9;
 }
+.input-box{
 
+    margin-bottom:20px;
+
+}
+.action-card{
+
+width:320px;
+
+background:white;
+
+padding:40px;
+
+border-radius:30px;
+
+text-decoration:none;
+
+text-align:center;
+
+transition:0.3s;
+
+color:#0f172a;
+
+}
+
+.action-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.action-card .icon{
+
+font-size:50px;
+
+margin-bottom:20px;
+
+}
+
+.action-card h3{
+
+font-size:22px;
+
+margin-bottom:10px;
+
+}
+
+.action-card p{
+
+color:#64748b;
+
+}
+
+.input-box label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+.input-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #dbe4ee;
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:15px;
+
+}
 /* STATS */
 
 .stats{
@@ -220,7 +299,39 @@ a{
 
     margin-bottom:30px;
 }
+.input-box{
 
+    margin-bottom:20px;
+
+}
+
+.input-box label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+.input-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #dbe4ee;
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:15px;
+
+}
 .action-card{
 
     background:white;
@@ -457,19 +568,7 @@ max-width:450px;
 
         </button>
         
-<button
-class="top-btn"
-style="
-background:#16a34a;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:10px;
-font-weight:600;
-"
-onclick="window.location.href='/global-marketplace.html'">
 
-🌍 Global Marketplace
 
 </button>
         <button class="top-btn logout-btn"
@@ -540,20 +639,30 @@ onclick="window.location.href='/global-marketplace.html'">
 
         <h3>Add Product</h3>
 
-        <p>Add new products to marketplace</p>
+        <p>
+
+            Add new products to marketplace
+
+        </p>
 
     </div>
 
-   <div class="action-card"
-     onclick="window.location.href='/farmer-products.html'">
 
-    <i class="fa-solid fa-box"></i>
+    <div class="action-card"
+    onclick="window.location.href='/farmer-products.html'">
 
-    <h3>Manage Products</h3>
+        <i class="fa-solid fa-box"></i>
 
-    <p>View your products</p>
+        <h3>Manage Products</h3>
 
-</div>
+        <p>
+
+            View your products
+
+        </p>
+
+    </div>
+
 
     <div class="action-card"
     onclick="window.location.href='farmer-orders.html'">
@@ -562,12 +671,195 @@ onclick="window.location.href='/global-marketplace.html'">
 
         <h3>View Orders</h3>
 
-        <p>Track customer orders</p>
+        <p>
+
+            Track customer orders
+
+        </p>
+
+    </div>
+
+
+    <div class="action-card"
+    onclick="window.location.href='/mandi-prices'">
+
+        <i class="fa-solid fa-store"></i>
+
+        <h3>Mandi Prices</h3>
+
+        <p>
+
+            Andhra Pradesh Market Prices
+
+        </p>
 
     </div>
 
 </div>
+</div>
+{% if payment and request.args.get("edit") != "1" %}
 
+<div class="products-box">
+
+    <div class="products-header">
+
+        <h2>💳 Saved Payment Details</h2>
+
+    </div>
+
+    <p>
+
+        <b>UPI ID :</b>
+
+        {{ payment.upi_id }}
+
+    </p>
+
+    <br>
+
+    <p>
+
+        <b>Account Holder :</b>
+
+        {{ payment.account_holder }}
+
+    </p>
+
+    <br>
+
+    <p>
+
+        <b>Account Number :</b>
+
+        ********{{ payment.account_number[-4:] }}
+
+    </p>
+
+    <br>
+
+    <p>
+
+        <b>IFSC Code :</b>
+
+        {{ payment.ifsc_code }}
+
+    </p>
+
+    <br>
+
+    <button
+
+class="top-btn"
+
+onclick="window.location.href='/farmer-dashboard.html?edit=1'"
+
+
+        style="background:#74b2f9;">
+
+Change Details
+
+</button>
+
+</div>
+
+{% else %}
+
+<div class="products-box">
+
+    <div class="products-header">
+
+        <h2>💳 Payment Details</h2>
+
+    </div>
+
+    <form
+    method="POST"
+
+    action="/save-payment-details">
+
+        <div class="input-box">
+
+            <label>UPI ID</label>
+
+            <input
+            type="text"
+
+            name="upi_id"
+
+            placeholder="example@oksbi"
+
+            required>
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Account Holder Name</label>
+
+            <input
+            type="text"
+
+            name="account_holder"
+
+            placeholder="Enter Account Holder Name"
+
+            pattern="[A-Za-z ]+"
+
+            required>
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Bank Account Number</label>
+
+            <input
+            type="text"
+
+            name="account_number"
+
+            placeholder="Enter Account Number"
+
+            pattern="[0-9]{9,18}"
+
+            required>
+
+        </div>
+
+        <div class="input-box">
+
+            <label>IFSC Code</label>
+
+            <input
+            type="text"
+
+            name="ifsc_code"
+
+            placeholder="SBIN0001234"
+
+            pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
+
+            style="text-transform:uppercase"
+
+            required>
+
+        </div>
+
+        <button
+
+        class="top-btn"
+
+        style="background:#22c55e;">
+
+            Save Details
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endif %}
 <!-- FARM PERFORMANCE SECTION -->
 
 <div class="products-box">
@@ -577,6 +869,8 @@ onclick="window.location.href='/global-marketplace.html'">
         <h2>🚀 Farm Performance Center</h2>
 
     </div>
+    
+
 
     <div class="stats">
 
@@ -802,7 +1096,9 @@ function searchProducts(){
 function showNotifications(){
 
     alert(
-    "📦 5 New Orders\n🚚 15 Pending Deliveries"
+    `📦 {{ new_orders }} New Orders
+
+🚚 {{ pending_deliveries }} Pending Deliveries`
     );
 }
 

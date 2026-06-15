@@ -162,13 +162,43 @@ required>
 </div>
 
 <div class="input-box">
-<label>Delivery Address</label>
-<textarea
-rows="4"
-id="address"
-name="address"
-required>{{ address.address if address else '' }}</textarea>
+
+    <label>Delivery Address</label>
+
+    <select
+    id="address_id"
+    name="address_id"
+    required>
+
+        <option value="">
+
+            Select Address
+
+        </option>
+
+        {% for address in addresses %}
+
+        <option
+        value="{{ address.id }}">
+
+            🏠 {{ address.address_name }}
+
+            (
+
+            {{ address.city }},
+
+            {{ address.state }}
+
+            )
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
 </div>
+
 
 <div class="input-box">
 <label>Payment Method</label>

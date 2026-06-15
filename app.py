@@ -60,6 +60,7 @@ def home():
     return render_template("register.html")
 
 
+
 @app.route("/index.html")
 def index():
     return render_template("index.html")
@@ -103,27 +104,36 @@ def login():
                     url_for("login")
                 )
 
-            session["user_id"] = user["id"]
-            session["role"] = user["role"]
-            session["name"] = user["fullname"]
+            # GENERATE OTP
 
-            if user["role"] == "buyer":
+            import random
 
-                return redirect(
-                    url_for("index")
-                )
+            otp = str(
+                random.randint(100000, 999999)
+            )
 
-            elif user["role"] == "farmer":
+            # STORE OTP IN SESSION
 
-                return redirect(
-                    url_for("farmerDashboard")
-                )
+            session["otp"] = otp
 
-            elif user["role"] == "admin":
+            # STORE USER DETAILS TEMPORARILY
 
-                return redirect(
-                    url_for("adminDashboard")
-                )
+            session["temp_user_id"] = user["id"]
+
+            session["temp_role"] = user["role"]
+
+            session["temp_name"] = user["fullname"]
+
+            print("OTP:", otp)
+
+            flash(
+                f"Your OTP is {otp}",
+                "success"
+            )
+
+            return redirect(
+                url_for("verify_otp")
+            )
 
         flash(
             "Invalid Phone or Password!",
@@ -137,8 +147,69 @@ def login():
     return render_template(
         "login.html"
     )
+@app.route("/verify_otp", methods=["GET", "POST"])
+def verify_otp():
 
+    if request.method == "POST":
 
+        entered_otp = request.form["otp"]
+
+        # Check OTP
+
+        if entered_otp == session.get("otp"):
+
+            # OTP correct
+
+            session["user_id"] = session["temp_user_id"]
+
+            session["role"] = session["temp_role"]
+
+            session["name"] = session["temp_name"]
+
+            # Remove temporary data
+
+            session.pop("otp", None)
+
+            session.pop("temp_user_id", None)
+
+            session.pop("temp_role", None)
+
+            session.pop("temp_name", None)
+
+            # Redirect based on role
+
+            if session["role"] == "buyer":
+
+                return redirect(
+                    url_for("index")
+                )
+
+            elif session["role"] == "farmer":
+
+                return redirect(
+                    url_for("farmerDashboard")
+                )
+
+            elif session["role"] == "admin":
+
+                return redirect(
+                    url_for("adminDashboard")
+                )
+
+        else:
+
+            flash(
+                "Invalid OTP!",
+                "error"
+            )
+
+            return redirect(
+                url_for("verify_otp")
+            )
+
+    return render_template(
+        "verify_otp.html"
+    )
 
 
 
@@ -419,26 +490,40 @@ def cart():
 def checkout():
 
     if "user_id" not in session:
-        return redirect(url_for("login"))
+
+        return redirect(
+            url_for("login")
+        )
 
     conn = get_db_connection()
 
-    address = conn.execute(
+    addresses = conn.execute(
         """
         SELECT *
-        FROM buyer_addresses
+        FROM addresses
+
         WHERE user_id = ?
+
+        ORDER BY id DESC
         """,
-        (session["user_id"],)
-    ).fetchone()
+
+        (
+
+            session["user_id"],
+
+        )
+
+    ).fetchall()
 
     conn.close()
 
     return render_template(
-        "checkout.html",
-        address=address
-    )
 
+        "checkout.html",
+
+        addresses=addresses
+
+    )
 
 @app.route("/order-success.html")
 def orderSuccess():
@@ -574,7 +659,10 @@ def productDetails(product_id):
 def profile():
 
     if "user_id" not in session:
-        return redirect(url_for("login"))
+
+        return redirect(
+            url_for("login")
+        )
 
     conn = get_db_connection()
 
@@ -587,13 +675,361 @@ def profile():
         (session["user_id"],)
     ).fetchone()
 
+    addresses = conn.execute(
+        """
+        SELECT *
+        FROM addresses
+        WHERE user_id = ?
+        ORDER BY id DESC
+        """,
+        (session["user_id"],)
+    ).fetchall()
+
     conn.close()
 
     return render_template(
+
         "profile.html",
-        user=user
+
+        user=user,
+
+        addresses=addresses
+
+    )
+@app.route("/add_address", methods=["GET", "POST"])
+def add_address():
+
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+
+    conn = get_db_connection()
+
+    # Check address count
+
+    count = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM addresses
+        WHERE user_id = ?
+        """,
+        (session["user_id"],)
+    ).fetchone()[0]
+
+    if request.method == "POST":
+
+        if count >= 5:
+
+            flash(
+                "You can add a maximum of 5 addresses.",
+                "error"
+            )
+
+            conn.close()
+
+            return redirect(
+                url_for("profile")
+            )
+
+        address_name = request.form["address_name"]
+
+        address_line1 = request.form["address_line1"]
+
+        address_line2 = request.form["address_line2"]
+
+        city = request.form["city"]
+
+        state = request.form["state"]
+
+        pincode = request.form["pincode"]
+
+        conn.execute(
+            """
+            INSERT INTO addresses(
+
+                user_id,
+
+                address_name,
+
+                address_line1,
+
+                address_line2,
+
+                city,
+
+                state,
+
+                pincode
+
+            )
+
+            VALUES(?,?,?,?,?,?,?)
+            """,
+
+            (
+
+                session["user_id"],
+
+                address_name,
+
+                address_line1,
+
+                address_line2,
+
+                city,
+
+                state,
+
+                pincode
+
+            )
+
+        )
+
+        conn.commit()
+
+        conn.close()
+
+        flash(
+            "Address added successfully!",
+            "success"
+        )
+
+        return redirect(
+            url_for("profile")
+        )
+
+    conn.close()
+
+    return render_template(
+        "add_address.html"
+    )
+@app.route("/delete_address/<int:id>")
+def delete_address(id):
+
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+
+    conn = get_db_connection()
+
+    conn.execute(
+        """
+        DELETE FROM addresses
+
+        WHERE id = ?
+
+        AND user_id = ?
+        """,
+
+        (
+
+            id,
+
+            session["user_id"]
+
+        )
+
+    )
+
+    conn.commit()
+
+    conn.close()
+
+    flash(
+
+        "Address deleted successfully!",
+
+        "success"
+
+    )
+
+    return redirect(
+
+        url_for("profile")
+
+    )
+@app.route("/edit_address/<int:id>", methods=["GET", "POST"])
+def edit_address(id):
+
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+
+    conn = get_db_connection()
+
+    address = conn.execute(
+        """
+        SELECT *
+        FROM addresses
+
+        WHERE id = ?
+
+        AND user_id = ?
+        """,
+
+        (
+
+            id,
+
+            session["user_id"]
+
+        )
+
+    ).fetchone()
+
+    if not address:
+
+        conn.close()
+
+        flash(
+            "Address not found!",
+            "error"
+        )
+
+        return redirect(
+            url_for("profile")
+        )
+
+    if request.method == "POST":
+
+        conn.execute(
+            """
+
+            UPDATE addresses
+
+            SET
+
+            address_name = ?,
+
+            address_line1 = ?,
+
+            address_line2 = ?,
+
+            city = ?,
+
+            state = ?,
+
+            pincode = ?
+
+            WHERE id = ?
+
+            AND user_id = ?
+
+            """,
+
+            (
+
+                request.form["address_name"],
+
+                request.form["address_line1"],
+
+                request.form["address_line2"],
+
+                request.form["city"],
+
+                request.form["state"],
+
+                request.form["pincode"],
+
+                id,
+
+                session["user_id"]
+
+            )
+
+        )
+
+        conn.commit()
+
+        conn.close()
+
+        flash(
+            "Address updated successfully!",
+            "success"
+        )
+
+        return redirect(
+            url_for("profile")
+        )
+
+    conn.close()
+
+    return render_template(
+        "edit_address.html",
+
+        address=address
+
     )
 # ================= FARMER =================
+@app.route("/mandi-prices")
+def mandiPrices():
+
+    mandi_prices = [
+
+        {
+
+            "commodity":"Tomato",
+
+            "market":"Madanapalle",
+
+            "district":"Annamayya",
+
+            "price":"₹1500"
+
+        },
+
+        {
+
+            "commodity":"Mango",
+
+            "market":"Chittoor",
+
+            "district":"Chittoor",
+
+            "price":"₹3000"
+
+        },
+
+        {
+
+            "commodity":"Onion",
+
+            "market":"Tirupati",
+
+            "district":"Tirupati",
+
+            "price":"₹2200"
+
+        },
+
+        {
+
+            "commodity":"Groundnut",
+
+            "market":"Anantapur",
+
+            "district":"Anantapur",
+
+            "price":"₹5500"
+
+        }
+
+    ]
+
+    return render_template(
+
+        "mandi-prices.html",
+
+        mandi_prices=mandi_prices
+
+    )
 
 @app.route("/farmer-dashboard.html")
 def farmerDashboard():
@@ -612,8 +1048,11 @@ def farmerDashboard():
         FROM products
         WHERE farmer_id = ?
         """,
+
         (farmer_id,)
+
     ).fetchone()["total"]
+
 
     # Total Orders
 
@@ -623,69 +1062,123 @@ def farmerDashboard():
         FROM orders
         WHERE farmer_id = ?
         """,
+
         (farmer_id,)
+
     ).fetchone()["total"]
 
-    # Revenue
+
+    # Total Revenue
 
     total_revenue = conn.execute(
         """
-        SELECT COALESCE(SUM(total_price),0) as revenue
+        SELECT COALESCE(
+            SUM(total_price),
+            0
+        ) as revenue
+
         FROM orders
+
         WHERE farmer_id = ?
-        AND status IN ('Delivered','Completed')
+
+        AND status IN
+        (
+
+            'Delivered',
+
+            'Completed'
+
+        )
         """,
+
         (farmer_id,)
+
     ).fetchone()["revenue"]
 
-    # Pending Deliveries
+
+    # Pending Orders
 
     pending_orders = conn.execute(
         """
         SELECT COUNT(*) as total
+
         FROM orders
+
         WHERE farmer_id = ?
+
         AND status IN
         (
+
             'Paid',
+
             'Accepted',
+
             'Shipped'
+
         )
         """,
+
         (farmer_id,)
+
     ).fetchone()["total"]
+
 
     # Today's Orders
 
     today_orders = conn.execute(
         """
         SELECT COUNT(*) as total
+
         FROM orders
+
         WHERE farmer_id = ?
-        AND date(order_date) = date('now')
+
+        AND date(order_date)=date('now')
         """,
+
         (farmer_id,)
+
     ).fetchone()["total"]
+
 
     # Today's Revenue
 
     today_revenue = conn.execute(
         """
-        SELECT COALESCE(SUM(total_price),0) as revenue
+        SELECT COALESCE(
+            SUM(total_price),
+            0
+        ) as revenue
+
         FROM orders
+
         WHERE farmer_id = ?
-        AND status IN ('Delivered','Completed')
-        AND date(order_date) = date('now')
+
+        AND status IN
+        (
+
+            'Delivered',
+
+            'Completed'
+
+        )
+
+        AND date(order_date)=date('now')
         """,
+
         (farmer_id,)
+
     ).fetchone()["revenue"]
+
 
     # Best Selling Product
 
     best_product = conn.execute(
         """
         SELECT
+
             product_name,
+
             COUNT(*) as total_sales
 
         FROM orders
@@ -698,14 +1191,94 @@ def farmerDashboard():
 
         LIMIT 1
         """,
+
         (farmer_id,)
+
     ).fetchone()
 
-    # Revenue Growth (Demo)
+
+    # Payment Details
+
+    payment = conn.execute(
+        """
+
+        SELECT *
+
+        FROM farmer_payment_details
+
+        WHERE farmer_id = ?
+
+        """,
+
+        (
+
+            farmer_id,
+
+        )
+
+    ).fetchone()
+
+
+    # Notifications
+
+    new_orders = conn.execute(
+        """
+
+        SELECT COUNT(*) as total
+
+        FROM orders
+
+        WHERE farmer_id = ?
+
+        AND status='Paid'
+
+        """,
+
+        (
+
+            farmer_id,
+
+        )
+
+    ).fetchone()["total"]
+
+
+    pending_deliveries = conn.execute(
+        """
+
+        SELECT COUNT(*) as total
+
+        FROM orders
+
+        WHERE farmer_id = ?
+
+        AND status IN
+
+        (
+
+            'Accepted',
+
+            'Shipped'
+
+        )
+
+        """,
+
+        (
+
+            farmer_id,
+
+        )
+
+    ).fetchone()["total"]
+
+
+    # Revenue Growth
 
     growth_percent = 25
 
-    # Smart Farming Tips
+
+    # Farming Tips
 
     tips = [
 
@@ -723,23 +1296,38 @@ def farmerDashboard():
 
     daily_tip = random.choice(tips)
 
+
     conn.close()
 
+
     return render_template(
+
         "farmer-dashboard.html",
 
         total_products=total_products,
+
         total_orders=total_orders,
+
         total_revenue=total_revenue,
+
         pending_orders=pending_orders,
 
         today_orders=today_orders,
+
         today_revenue=today_revenue,
 
         best_product=best_product,
+
         growth_percent=growth_percent,
 
-        daily_tip=daily_tip
+        daily_tip=daily_tip,
+
+        payment=payment,
+
+        new_orders=new_orders,
+
+        pending_deliveries=pending_deliveries
+
     )
 @app.route("/update-product/<int:product_id>", methods=["POST"])
 def updateProduct(product_id):
@@ -984,121 +1572,240 @@ def saveOrder():
 
     buyer_id = session.get("user_id")
 
+    if not buyer_id:
+
+        return "Please Login"
+
     payment_method = request.form["payment_method"]
 
     if payment_method == "cod":
+
         status = "Pending Payment"
+
     else:
+
         status = "Paid"
 
     cart = json.loads(
+
         request.form["cart"]
+
     )
 
     conn = get_db_connection()
 
-    # SAVE BUYER ADDRESS
-
-    fullname = request.form["name"]
-    phone = request.form["phone"]
-    address = request.form["address"]
-
-    existing_address = conn.execute(
-        """
-        SELECT *
-        FROM buyer_addresses
-        WHERE user_id = ?
-        """,
-        (buyer_id,)
-    ).fetchone()
-
-    if existing_address:
+    for item in cart:
 
         conn.execute(
+
             """
-            UPDATE buyer_addresses
-            SET fullname = ?,
-                phone = ?,
-                address = ?
-            WHERE user_id = ?
-            """,
+
+            INSERT INTO orders
+
             (
-                fullname,
-                phone,
-                address,
-                buyer_id
+
+                buyer_id,
+
+                product_name,
+
+                quantity,
+
+                total_price,
+
+                payment_method,
+
+                status
+
             )
+
+            VALUES
+
+            (
+
+                ?,
+
+                ?,
+
+                ?,
+
+                ?,
+
+                ?,
+
+                ?
+
+            )
+
+            """,
+
+            (
+
+                buyer_id,
+
+                item["name"],
+
+                item["quantity"],
+
+                float(item["price"]) * int(item["quantity"]),
+
+                payment_method,
+
+                status
+
+            )
+
+        )
+
+    conn.commit()
+
+    conn.close()
+
+    return "Order Saved Successfully"
+@app.route(
+    "/save-payment-details",
+
+    methods=["POST"]
+)
+
+def save_payment_details():
+
+    farmer_id = session["user_id"]
+
+    upi_id = request.form["upi_id"]
+
+    account_holder = request.form["account_holder"]
+
+    account_number = request.form["account_number"]
+
+    ifsc_code = request.form["ifsc_code"]
+
+    conn = get_db_connection()
+
+    existing = conn.execute(
+
+        """
+
+        SELECT *
+
+        FROM farmer_payment_details
+
+        WHERE farmer_id = ?
+
+        """,
+
+        (
+
+            farmer_id,
+
+        )
+
+    ).fetchone()
+
+    if existing:
+
+        conn.execute(
+
+            """
+
+            UPDATE farmer_payment_details
+
+            SET
+
+            upi_id=?,
+
+            account_holder=?,
+
+            account_number=?,
+
+            ifsc_code=?
+
+            WHERE farmer_id=?
+
+            """,
+
+            (
+
+                upi_id,
+
+                account_holder,
+
+                account_number,
+
+                ifsc_code,
+
+                farmer_id
+
+            )
+
         )
 
     else:
 
         conn.execute(
+
             """
-            INSERT INTO buyer_addresses
+
+            INSERT INTO
+
+            farmer_payment_details
+
             (
-                user_id,
-                fullname,
-                phone,
-                address
-            )
-            VALUES (?, ?, ?, ?)
-            """,
-            (
-                buyer_id,
-                fullname,
-                phone,
-                address
-            )
-        )
 
-    # SAVE ORDERS
-
-    for item in cart:
-
-        product = conn.execute(
-            """
-            SELECT farmer_id
-            FROM products
-            WHERE name = ?
-            """,
-            (item["name"],)
-        ).fetchone()
-
-        farmer_id = None
-
-        if product:
-            farmer_id = product["farmer_id"]
-
-        conn.execute(
-            """
-            INSERT INTO orders
-            (
-                buyer_id,
                 farmer_id,
-                product_name,
-                quantity,
-                total_price,
-                payment_method,
-                status
+
+                upi_id,
+
+                account_holder,
+
+                account_number,
+
+                ifsc_code
+
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            """,
+
+            VALUES
+
             (
-                buyer_id,
-                farmer_id,
-                item["name"],
-                item["quantity"],
-                float(item["price"]) * int(item["quantity"]),
-                payment_method,
-                status
+
+                ?, ?, ?, ?, ?
+
             )
+
+            """,
+
+            (
+
+                farmer_id,
+
+                upi_id,
+
+                account_holder,
+
+                account_number,
+
+                ifsc_code
+
+            )
+
         )
 
     conn.commit()
+
     conn.close()
 
-    return "Order Saved Successfully"
+    flash(
 
+        "Payment details saved successfully!",
+
+        "success"
+
+    )
+
+    return redirect(
+
+        url_for("farmerDashboard")
+
+    )
     
 @app.route("/my-orders")
 def myOrders():
